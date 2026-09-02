@@ -1,0 +1,18 @@
+{
+  "name": "cs31-minesweeper-2026",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Linting setup for student Minesweeper labs",
+  "scripts": {
+    "lint:js": "eslint .",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint": "npm run lint:js && npm run lint:css"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "eslint": "^9.19.0",
+    "globals": "^15.14.0",
+    "stylelint": "^16.14.1",
+    "stylelint-config-standard": "^36.0.1"
+  }
+}
