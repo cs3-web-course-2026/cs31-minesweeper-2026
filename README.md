@@ -75,7 +75,7 @@ Every pull request is checked automatically before it can be merged:
 
 - **Lint** (GitHub Actions) — ESLint on your changed `.js` files and Stylelint on your changed
   `.css` files. Only files you actually touched are linted.
-- **AI code review** (CodeRabbit + a Claude/Codex review agent) — checks your PR against the
+- **AI code review** (CodeRabbit) — checks your PR against the
   conventions in `.github/copilot-instructions.md`: naming, structure, accessibility, folder
   rules, and lab-specific requirements. Reviews are friendly but direct about anything that
   blocks a merge.
