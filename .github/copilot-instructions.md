@@ -403,12 +403,12 @@ main workflow.
 
 This means your GitHub account has not been granted access yet. To get access:
 
-1. Find the Google Sheets table for your group:
-   **[Course roster](https://docs.google.com/spreadsheets/d/1Up05qqrfg1q-oXC5eijNRJ7oyswjdmDAWxUUk_MsBIg/edit?gid=0#gid=0)**
-   — each group has a dedicated page (tab).
-2. Add your **GitHub username (nickname)** to your row in the table.
-3. Wait for the teacher to grant access — you will receive a GitHub invitation by email.
-4. Accept the invitation and then clone the repository directly (no fork needed).
+1. Open a new issue in
+   **[team-access](https://github.com/cs3-web-course-2026/team-access/issues/new/choose)**
+   using the **"Запит у команду"** form and select the **`cs-31`** team.
+2. Wait for the request to be reviewed and approved — once approved you are added to the
+   `cs-31` team automatically (no separate invitation to accept).
+3. Clone the repository directly (no fork needed).
 
 ### Reviewer checks for forked PRs
 
@@ -419,11 +419,11 @@ following guidance:
 > It looks like this PR was opened from a fork. In this course we work directly in the shared
 > repository, so fork-based PRs cannot be merged. Here's what to do:
 >
-> 1. Make sure your GitHub username is listed in the
->    [course roster spreadsheet](https://docs.google.com/spreadsheets/d/1Up05qqrfg1q-oXC5eijNRJ7oyswjdmDAWxUUk_MsBIg/edit?gid=0#gid=0)
->    on your group's page.
-> 2. Once the teacher grants access and you accept the invitation, clone the main repo,
->    recreate your branch there, and open a new PR from that branch.
+> 1. Request access by opening an issue in
+>    [team-access](https://github.com/cs3-web-course-2026/team-access/issues/new/choose)
+>    (use the "Запит у команду" form, team `cs-31`).
+> 2. Once the request is approved, clone the main repo, recreate your branch there, and open
+>    a new PR from that branch.
 >
 > No need to redo your work — just copy your files into the new branch. Feel free to ask if
 > you need help!
