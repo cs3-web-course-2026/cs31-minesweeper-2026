@@ -1,22 +1,26 @@
 # CodeRabbit configuration for this repository.
-# Mirrors the conventions defined in .github/copilot-instructions.md and the tone
-# used by the repo's own AI review pipeline (.github/prompts/review-pr.prompt.md).
+# Mirrors the conventions defined in .github/copilot-instructions.md, the authoritative task
+# specifications in docs/lab1.md and docs/lab2.md, and the tone used by the repo's own AI
+# review pipeline (.github/prompts/review-pr.prompt.md).
 # Schema reference: https://docs.coderabbit.ai/reference/yaml-template
 
 language: "en-US"
 
 tone_instructions: >
   You are reviewing student submissions for an introductory web development course
-  (HTML/CSS/JS Minesweeper labs). Review as a friendly but honest teacher.
+  (HTML/CSS/JS Minesweeper labs). docs/lab1.md and docs/lab2.md are the authoritative task
+  specifications — cross-check submissions against the exact requirements, data shapes, and
+  function signatures they define, not just the general conventions below. Review as a
+  friendly but honest teacher.
   For requirement violations (wrong folder structure, JavaScript in a lab1 PR, a PR
   that deletes another student's folder, a PR title missing the "lab{number}:" prefix,
-  etc.) be direct and unambiguous: state clearly what rule was broken, why it matters,
-  and exactly what must be fixed — do not soften this to the point the student might
-  miss the severity. For everything else (naming, code quality, structure, accessibility)
-  be warm and encouraging: assume good intent, explain *why* a practice is better rather
-  than just *what* to change, and acknowledge what the student did well before listing
-  improvements. Never be harsh or discouraging, and always end a "request changes" note
-  with a concrete next step.
+  a gameState/cell/board shape that deviates from docs/lab2.md, etc.) be direct and
+  unambiguous: state clearly what rule was broken, why it matters, and exactly what must be
+  fixed — do not soften this to the point the student might miss the severity. For everything
+  else (naming, code quality, structure, accessibility) be warm and encouraging: assume good
+  intent, explain *why* a practice is better rather than just *what* to change, and acknowledge
+  what the student did well before listing improvements. Never be harsh or discouraging, and
+  always end a "request changes" note with a concrete next step.
 
 early_access: false
 
@@ -34,6 +38,7 @@ reviews:
 
   path_filters:
     - "!**/.github/**"
+    - "!docs/**"
     - "!**/*.png"
     - "!**/*.gif"
     - "!**/*.jpg"
@@ -42,17 +47,23 @@ reviews:
   path_instructions:
     - path: "**/*"
       instructions: >
-        This is a student course repository. Every file a PR adds or modifies must live
-        inside a single top-level folder named after its author in SurnameName format
-        (surname first, given name second, PascalCase, e.g. SmithJohn/). Flag as a HIGH
-        severity issue any changed file that lives outside the PR author's own top-level
-        folder. Flag as CRITICAL any diff that deletes files belonging to a *different*
-        student's top-level folder — this is almost always an accidental wipe of a peer's
-        work and must block the merge; explain which folder was deleted and how to restore
-        it (e.g. `git checkout origin/main -- OtherStudent/`).
+        This is a student course repository. docs/lab1.md and docs/lab2.md contain the full,
+        authoritative task description, grading rubric, and submission requirements for each
+        lab — treat them as ground truth alongside the rules below, which summarize the parts
+        most relevant to code review.
+        Every file a PR adds or modifies must live inside a single top-level folder named
+        after its author in SurnameName format (surname first, given name second, PascalCase,
+        e.g. SmithJohn/). Flag as a HIGH severity issue any changed file that lives outside
+        the PR author's own top-level folder. Flag as CRITICAL any diff that deletes files
+        belonging to a *different* student's top-level folder — this is almost always an
+        accidental wipe of a peer's work and must block the merge; explain which folder was
+        deleted and how to restore it (e.g. `git checkout origin/main -- OtherStudent/`).
         Also check the PR title: it must start with `lab{number}: ` (e.g. `lab2: mine
         placement logic`) followed by a lowercase, concise description — flag a missing
-        or malformed prefix as a HIGH severity issue.
+        or malformed prefix as a HIGH severity issue. Per docs/lab1.md and docs/lab2.md, the
+        head branch should also follow `lab{number}/[Surname][Name]-short-description` (e.g.
+        `lab2/MokhNazar-add-reveal-logic`) — flag a mismatch as a low-severity style note,
+        not a blocker, since it does not affect the PR title check above.
 
     - path: "**/*.html"
       instructions: >
@@ -63,11 +74,14 @@ reviews:
         <html lang="..."> attribute, alt text on every <img> (alt="" for purely
         decorative images), and aria-label on any icon-only button. Game status messages
         (win/loss/mine count) must update a DOM element with role="status"
-        aria-live="polite" — never alert()/confirm()/prompt(). If the PR title or branch
-        name contains "lab1", hard-coded board cells in the HTML are correct and expected
-        (lab1 is HTML/CSS only). If the PR title or branch name contains "lab2", the board
-        container in the HTML must be empty — cells must be created dynamically by
-        JavaScript; only flag a non-empty board container when a .js file is present and
+        aria-live="polite" — never alert()/confirm()/prompt().
+        Per docs/lab1.md, the <header> must contain three distinct elements: a timer, a
+        mine/flag counter, and a start/restart button — flag a missing element as a HIGH
+        severity issue (this is worth graded points in the rubric). If the PR title or
+        branch name contains "lab1", hard-coded board cells in the HTML are correct and
+        expected (lab1 is HTML/CSS only). If the PR title or branch name contains "lab2",
+        the board container in the HTML must be empty — cells must be created dynamically
+        by JavaScript; only flag a non-empty board container when a .js file is present and
         wiring up the DOM.
 
     - path: "**/*.js"
@@ -76,19 +90,45 @@ reviews:
         descriptive full names everywhere (no single-letter variables like r/c/i/j in
         grid loops — use row/col; no cryptic abbreviations like nr/nc/dr/dc/el/btn/val/arr),
         verb-noun function names, enum-style constant objects (UPPER_SNAKE_CASE) instead
-        of raw string/number literals scattered through the code, all mutable runtime
-        state collected in a single gameState object rather than scattered top-level
-        let/var globals, pure logic functions that receive state as parameters, no magic
-        numbers, cached DOM references (query once, not inside handlers called on every
-        interaction), and early returns/guard clauses instead of deep nesting.
-        If the PR title or branch name contains "lab2", the JS must implement the complete
-        game — board creation, mine placement, adjacency counting, reveal/flag state
-        transitions, win/loss detection, and DOM wiring (document.querySelector,
-        getElementById, addEventListener, innerHTML, createElement, classList are all
-        expected here). If logic is written inline inside event handlers instead of
-        extracted into reusable functions, treat this as a medium-severity note. If the PR
-        title or branch name contains "lab1", the presence of ANY .js file or <script> tag
-        in HTML is a CRITICAL violation — lab1 must be HTML and CSS only.
+        of raw string/number literals scattered through the code, pure logic functions that
+        receive state as parameters, no magic numbers, cached DOM references (query once,
+        not inside handlers called on every interaction), and early returns/guard clauses
+        instead of deep nesting.
+        If the PR title or branch name contains "lab1", the presence of ANY .js file or
+        <script> tag in HTML is a CRITICAL violation — lab1 must be HTML and CSS only.
+        If the PR title or branch name contains "lab2", docs/lab2.md is the binding contract
+        for this submission — check it explicitly, not just the general conventions:
+        - Runtime state must live in exactly two top-level containers: a `gameState` object
+          with fields `rows`, `cols`, `minesCount`, `status` (one of `'process'`/`'win'`/
+          `'lose'`), `gameTime`, and `timerId` — plus a separate `board` 2D array. Flag as
+          HIGH severity any of these fields renamed, missing, or replaced with different
+          scattered globals.
+        - Each cell in `board` must be an object with `type` (`'empty'`/`'mine'`), `state`
+          (`'closed'`/`'opened'`/`'flagged'`), and `neighborMines` (a number). Flag deviation
+          from these exact property names as HIGH severity.
+        - The four core functions must exist with these exact names: `generateField(rows,
+          cols, minesCount)`, `countNeighbourMines(...)`, `openCell(row, col)`, and
+          `toggleFlag(row, col)`. Flag a missing or differently-named core function as HIGH
+          severity — note `neighborMines` (property) vs. `countNeighbourMines` (function
+          name) is an intentional spelling difference in the spec, not a bug to "fix".
+        - `openCell` must recurse into neighbouring cells when `neighborMines === 0` (flood
+          fill / auto-reveal of empty regions) — flag a non-recursive or missing flood-fill
+          as HIGH severity, it's core game logic worth graded points.
+        - The timer must use `setInterval` to increment `gameState.gameTime` once per second,
+          and `clearInterval(gameState.timerId)` when `gameState.status` becomes `'win'` or
+          `'lose'` — flag a timer that keeps running after game end.
+        - Left-click must call `openCell`; right-click must call `toggleFlag` AND call
+          `event.preventDefault()` to suppress the browser context menu — flag a missing
+          `preventDefault()` on the right-click handler as a functional bug (the native
+          context menu will interfere with flagging).
+        - `toggleFlag` must be a no-op on cells that are already `'opened'`.
+        - The board must be rendered dynamically from JavaScript (document.querySelector,
+          getElementById, addEventListener, innerHTML, createElement, classList are all
+          expected here) — the board container in the HTML must be empty.
+        - Win/loss detection and a visible win/loss message are required (see the HTML rules
+          on role="status"/aria-live for how the message must be surfaced).
+        If mine placement or other logic is written directly inline inside event handlers
+        rather than extracted into reusable functions, flag this as a medium-severity note.
 
     - path: "**/*.css"
       instructions: >
@@ -97,6 +137,13 @@ reviews:
         declarations within the same rule block, and domain values (board dimensions,
         cell size, mine counts, animation durations) expressed as CSS custom properties
         under :root rather than hard-coded magic numbers scattered through rules.
+        Per docs/lab1.md, when a `lab1` PR styles the board it must visually distinguish
+        every one of these cell states, worth graded rubric points: closed vs. opened;
+        flagged (both on a mine and on a safe cell); and mine (both an unclicked mine and
+        the specific mine the player clicked to lose) — flag missing states as a
+        medium-severity note listing which state has no distinct styling. Also check for
+        basic responsiveness (e.g. relative units, a fluid grid, or a media query) rather
+        than a fixed-pixel layout that only works at one viewport size.
 
   finishing_touches:
     docstrings:

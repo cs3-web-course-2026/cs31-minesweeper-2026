@@ -30,7 +30,16 @@ single-letter names or cryptic abbreviations.
 ### Function naming
 
 - Use verb-noun pairs that clearly describe what the function does.
-- Examples: `revealCell`, `countAdjacentMines`, `toggleFlag`, `checkWinCondition`, `renderBoard`.
+- Examples: `checkWinCondition`, `renderBoard`, `startTimer`.
+
+The lab2 task specification (`docs/lab2.md`) requires these four core functions to use exactly
+these names and signatures — note `neighborMines` (the cell property, no "u") vs.
+`countNeighbourMines` (the function, with "u") is intentional, matching the spec verbatim:
+
+- `generateField(rows, cols, minesCount)` — builds the board and places mines.
+- `countNeighbourMines(...)` — counts mines adjacent to every cell, writing to `neighborMines`.
+- `openCell(row, col)` — reveals a cell, recursing into neighbours when `neighborMines === 0`.
+- `toggleFlag(row, col)` — sets/unsets a flag on a closed cell.
 
 ### General rules
 
@@ -47,23 +56,26 @@ of values exists. Define these objects at the top of the relevant module.
 
 ### Pattern
 
+The lab2 task specification (`docs/lab2.md`) mandates the underlying string values below for
+`cell.type`, `cell.state`, and `gameState.status` — wrap them in enum-style constant objects,
+but do not rename the values themselves:
+
 ```js
+const CELL_TYPE = {
+  EMPTY: 'empty',
+  MINE: 'mine',
+};
+
 const CELL_STATE = {
-  OPEN: 'open',
   CLOSED: 'closed',
+  OPENED: 'opened',
   FLAGGED: 'flagged',
 };
 
 const GAME_STATUS = {
-  IDLE: 'idle',
-  PLAYING: 'playing',
-  WON: 'won',
-  LOST: 'lost',
-};
-
-const CELL_CONTENT = {
-  MINE: 'mine',
-  EMPTY: 'empty',
+  PROCESS: 'process',
+  WIN: 'win',
+  LOSE: 'lose',
 };
 ```
 
@@ -72,11 +84,11 @@ const CELL_CONTENT = {
 ```js
 // Good
 cell.state = CELL_STATE.CLOSED;
-game.status = GAME_STATUS.PLAYING;
+gameState.status = GAME_STATUS.PROCESS;
 
 // Bad — never use raw literals scattered through the code
 cell.state = 'closed';
-game.status = 'playing';
+gameState.status = 'process';
 ```
 
 ### Rules
@@ -342,8 +354,10 @@ durations) belong in CSS custom properties at the top of the file:
 
 ## State Management
 
-All mutable runtime state must live in a single object — never as scattered top-level
-`let` or `var` declarations.
+All mutable runtime state must live in one of two well-defined containers — never as scattered
+top-level `let` or `var` declarations. The lab2 task specification (`docs/lab2.md`) defines
+these two containers explicitly: a `gameState` object for global parameters, and a separate
+`board` 2D array for per-cell data.
 
 ### Pattern
 
@@ -352,36 +366,37 @@ const gameState = {
   rows: 9,
   cols: 9,
   minesCount: 10,
-  flagsPlaced: 0,
-  status: GAME_STATUS.IDLE,
-  board: [],
+  status: GAME_STATUS.PROCESS,
+  gameTime: 0,
   timerId: null,
-  elapsedSeconds: 0,
 };
+
+let board = []; // 2D array of { type, state, neighborMines } cell objects
 ```
 
 ### Rules
 
-- Declare one `gameState` object that holds all runtime fields.
-- Reset the game by reassigning the properties of `gameState` (or replacing the object), not
-  by redeclaring new variables.
-- Do not use module-level `let`/`var` globals as a substitute for structured state (e.g.
-  `let isGameRunning = false` scattered next to `let mineCount = 10` is a violation).
+- `gameState` holds exactly the fields above — no ad hoc extra top-level `let`/`var` globals
+  alongside it (e.g. `let isGameRunning = false` next to `gameState` is a violation).
+- `board` is the only other top-level mutable container, holding the 2D grid of cell objects
+  (each with `type`, `state`, `neighborMines`).
+- Reset the game by reassigning the properties of `gameState` and rebuilding `board`, not by
+  redeclaring new variables.
 - Pure logic functions receive the state (or slices of it) as parameters — they do not read
-  from `gameState` directly.
+  from `gameState` or `board` directly.
 
 ### Example
 
 ```js
-// Good — all state in one place, reset is explicit
+// Good — state lives in gameState + board, reset is explicit
 function resetGame() {
-  gameState.flagsPlaced = 0;
-  gameState.status = GAME_STATUS.IDLE;
-  gameState.board = [];
-  gameState.elapsedSeconds = 0;
+  gameState.status = GAME_STATUS.PROCESS;
+  gameState.gameTime = 0;
 
   clearInterval(gameState.timerId);
   gameState.timerId = null;
+
+  board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
 }
 
 // Bad — globals scattered across the module
