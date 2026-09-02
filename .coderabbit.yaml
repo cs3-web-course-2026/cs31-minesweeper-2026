@@ -1,0 +1,112 @@
+# CodeRabbit configuration for this repository.
+# Mirrors the conventions defined in .github/copilot-instructions.md and the tone
+# used by the repo's own AI review pipeline (.github/prompts/review-pr.prompt.md).
+# Schema reference: https://docs.coderabbit.ai/reference/yaml-template
+
+language: "en-US"
+
+tone_instructions: >
+  You are reviewing student submissions for an introductory web development course
+  (HTML/CSS/JS Minesweeper labs). Review as a friendly but honest teacher.
+  For requirement violations (wrong folder structure, JavaScript in a lab1 PR, a PR
+  that deletes another student's folder, a PR title missing the "lab{number}:" prefix,
+  etc.) be direct and unambiguous: state clearly what rule was broken, why it matters,
+  and exactly what must be fixed — do not soften this to the point the student might
+  miss the severity. For everything else (naming, code quality, structure, accessibility)
+  be warm and encouraging: assume good intent, explain *why* a practice is better rather
+  than just *what* to change, and acknowledge what the student did well before listing
+  improvements. Never be harsh or discouraging, and always end a "request changes" note
+  with a concrete next step.
+
+early_access: false
+
+reviews:
+  profile: "chill"
+  request_changes_workflow: true
+  high_level_summary: true
+  poem: false
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - "main"
+
+  path_filters:
+    - "!**/.github/**"
+    - "!**/*.png"
+    - "!**/*.gif"
+    - "!**/*.jpg"
+    - "!**/*.jpeg"
+
+  path_instructions:
+    - path: "**/*"
+      instructions: >
+        This is a student course repository. Every file a PR adds or modifies must live
+        inside a single top-level folder named after its author in SurnameName format
+        (surname first, given name second, PascalCase, e.g. SmithJohn/). Flag as a HIGH
+        severity issue any changed file that lives outside the PR author's own top-level
+        folder. Flag as CRITICAL any diff that deletes files belonging to a *different*
+        student's top-level folder — this is almost always an accidental wipe of a peer's
+        work and must block the merge; explain which folder was deleted and how to restore
+        it (e.g. `git checkout origin/main -- OtherStudent/`).
+        Also check the PR title: it must start with `lab{number}: ` (e.g. `lab2: mine
+        placement logic`) followed by a lowercase, concise description — flag a missing
+        or malformed prefix as a HIGH severity issue.
+
+    - path: "**/*.html"
+      instructions: >
+        Follow the HTML conventions from .github/copilot-instructions.md: semantic
+        landmark elements (<header> for the status bar/controls, <main> for the board),
+        <button type="button"> for every interactive control (never <div>, <span>, or
+        <input type="button">), a meaningful <title> (never "Document"), an
+        <html lang="..."> attribute, alt text on every <img> (alt="" for purely
+        decorative images), and aria-label on any icon-only button. Game status messages
+        (win/loss/mine count) must update a DOM element with role="status"
+        aria-live="polite" — never alert()/confirm()/prompt(). If the PR title or branch
+        name contains "lab1", hard-coded board cells in the HTML are correct and expected
+        (lab1 is HTML/CSS only). If the PR title or branch name contains "lab2", the board
+        container in the HTML must be empty — cells must be created dynamically by
+        JavaScript; only flag a non-empty board container when a .js file is present and
+        wiring up the DOM.
+
+    - path: "**/*.js"
+      instructions: >
+        Follow the JavaScript conventions from .github/copilot-instructions.md:
+        descriptive full names everywhere (no single-letter variables like r/c/i/j in
+        grid loops — use row/col; no cryptic abbreviations like nr/nc/dr/dc/el/btn/val/arr),
+        verb-noun function names, enum-style constant objects (UPPER_SNAKE_CASE) instead
+        of raw string/number literals scattered through the code, all mutable runtime
+        state collected in a single gameState object rather than scattered top-level
+        let/var globals, pure logic functions that receive state as parameters, no magic
+        numbers, cached DOM references (query once, not inside handlers called on every
+        interaction), and early returns/guard clauses instead of deep nesting.
+        If the PR title or branch name contains "lab2", the JS must implement the complete
+        game — board creation, mine placement, adjacency counting, reveal/flag state
+        transitions, win/loss detection, and DOM wiring (document.querySelector,
+        getElementById, addEventListener, innerHTML, createElement, classList are all
+        expected here). If logic is written inline inside event handlers instead of
+        extracted into reusable functions, treat this as a medium-severity note. If the PR
+        title or branch name contains "lab1", the presence of ANY .js file or <script> tag
+        in HTML is a CRITICAL violation — lab1 must be HTML and CSS only.
+
+    - path: "**/*.css"
+      instructions: >
+        Follow the CSS conventions from .github/copilot-instructions.md: no extreme
+        percentage font sizes (use rem or a CSS custom property), no duplicate property
+        declarations within the same rule block, and domain values (board dimensions,
+        cell size, mine counts, animation durations) expressed as CSS custom properties
+        under :root rather than hard-coded magic numbers scattered through rules.
+
+  finishing_touches:
+    docstrings:
+      enabled: false
+
+  suggested_reviewers: false
+
+chat:
+  auto_reply: true
+
+knowledge_base:
+  learnings:
+    scope: "auto"

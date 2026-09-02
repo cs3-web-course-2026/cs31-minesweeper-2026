@@ -202,9 +202,9 @@ Every page must use landmark elements to define its regions:
 - Give the page a meaningful `<title>` — never leave it as "Document".
 - **lab1 only:** The board container in HTML **may contain hard-coded cell elements** — lab1
   is HTML & CSS only, so static markup is expected and correct.
-- **lab3 / lab2-3:** The board container in HTML must be **empty** — cells are created
-  dynamically by JavaScript. Flag a non-empty board container only when a `.js` file is
-  present and wiring up the DOM.
+- **lab2:** The board container in HTML must be **empty** — cells are created dynamically by
+  JavaScript. Flag a non-empty board container only when a `.js` file is present and wiring
+  up the DOM.
 
 ---
 
@@ -472,8 +472,7 @@ lab{number}: <short description>
 
 ```
 lab1: initial board rendering
-lab2: mine placement logic
-lab3: reveal and flag interactions
+lab2: mine placement, reveal and flag interactions
 ```
 
 ### Rules
@@ -501,26 +500,16 @@ When reviewing a pull request, verify all of the following before approving:
    - If any JavaScript is found, this is a **critical** violation — request changes with a
      comment explaining that lab1 must be completed using HTML and CSS only, and that all
      `.js` files and `<script>` tags must be removed before the PR can be merged.
-5. **lab2 — Pure JavaScript logic (no DOM).** If the PR title **or** the head branch name
-   contains `lab2`, check that the `.js` file contains only game logic — board creation, mine
-   placement, adjacency counting, reveal/flag state transitions, win/loss detection —
-   implemented as pure functions operating on plain data structures.
-   - The JavaScript must **not** contain DOM API calls such as `document.querySelector`,
-     `document.getElementById`, `addEventListener`, `innerHTML`, `createElement`,
-     `classList`, etc.
-   - No `.html` file should be added or modified beyond what already existed in lab1.
-   - **If DOM interactions are present:** this is not a blocking violation — the student may
-     have combined lab2 and lab3. Leave a medium-severity comment noting the deviation and
-     ask the student to rename the PR title to `lab2-3: <description>`. Do **not** request
-     changes solely because of DOM interactions if the logic itself is correct.
-6. **lab3 — Full DOM integration (Minesweeper complete).** If the PR title **or** the head
-   branch name contains `lab3` or `lab2-3`, verify that the submission wires together the
-   pure logic from lab2 and the HTML structure from lab1 to produce a playable game.
-   - The board must be rendered dynamically from JavaScript (not hard-coded in HTML).
+5. **lab2 — Full DOM integration (Minesweeper complete).** If the PR title **or** the head
+   branch name contains `lab2`, verify that the submission implements the complete game:
+   board creation, mine placement, adjacency counting, reveal/flag state transitions, win/loss
+   detection, and DOM wiring, all in the `.js` file.
+   - The board must be rendered dynamically from JavaScript (not hard-coded in HTML) — the
+     board container in the HTML must be empty.
    - Left-click must reveal a cell; right-click (or equivalent) must toggle a flag.
    - The game must detect and display a win or loss state.
    - A mine count / remaining flags indicator must be updated in the UI.
-   - If lab2 logic is duplicated inline (e.g. mine placement written directly inside event
-     handlers) rather than extracted into reusable functions, flag this as a medium-severity
-     issue and suggest extracting it.
+   - If mine placement or other logic is written directly inline inside event handlers rather
+     than extracted into reusable functions, flag this as a medium-severity issue and suggest
+     extracting it.
    - Any JavaScript found in lab1 files (carry-over) is still a **high**-severity issue.
