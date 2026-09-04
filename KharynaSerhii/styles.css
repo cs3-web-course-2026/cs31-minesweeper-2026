@@ -1,0 +1,297 @@
+:root {
+  --board-columns: 9;
+  --cell-size: clamp(2rem, 8.5vw, 3.25rem);
+  --page-background: #f5f7ff;
+  --surface: #fff;
+  --ink: #19253e;
+  --muted-ink: #65718a;
+  --accent: #5069e8;
+  --accent-dark: #344cc5;
+  --closed-cell: #7890ff;
+  --closed-cell-shadow: #526bdc;
+  --opened-cell: #edf0f8;
+  --mine: #27334e;
+  --danger: #f45467;
+  --cell-font-size: 1.25rem;
+  --border-radius: 1.25rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 20rem;
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  font-family: Nunito, Arial, sans-serif;
+  background:
+    radial-gradient(circle at 15% 15%, #dce3ff 0, transparent 29rem),
+    radial-gradient(circle at 85% 85%, #d8f3ed 0, transparent 25rem),
+    var(--page-background);
+}
+
+button {
+  font: inherit;
+}
+
+.game {
+  width: min(100% - 2rem, 42rem);
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+
+.game-header {
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(135deg, #334ac0, #657cff);
+  box-shadow: 0 1.25rem 3.75rem rgb(54 77 157 / 18%);
+}
+
+.game-eyebrow {
+  margin: 0;
+  color: #dce3ff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0.25rem 0 1.5rem;
+  font-size: clamp(2.25rem, 8vw, 3.5rem);
+  line-height: 1;
+}
+
+.game-controls {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.indicator {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.4rem;
+  align-items: center;
+  text-align: left;
+}
+
+.indicator-icon {
+  grid-row: span 2;
+  color: #f5c34c;
+  font-size: 1.65rem;
+}
+
+.indicator:last-child {
+  text-align: right;
+}
+
+.indicator:last-child .indicator-icon {
+  color: #bdf0e4;
+}
+
+.indicator-value {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.indicator-label {
+  color: #dce3ff;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.restart-button {
+  display: grid;
+  gap: 0.1rem;
+  place-items: center;
+  min-width: 5.5rem;
+  min-height: 4.25rem;
+  border: 0;
+  border-radius: 0.9rem;
+  color: var(--ink);
+  font-size: 1.6rem;
+  cursor: pointer;
+  background: #fff;
+  box-shadow: 0 0.25rem 0 #d8def9;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.restart-button:hover {
+  transform: translateY(-0.15rem);
+  box-shadow: 0 0.4rem 0 #d8def9;
+}
+
+.restart-button:active {
+  transform: translateY(0.15rem);
+  box-shadow: 0 0.1rem 0 #d8def9;
+}
+
+.restart-button-text {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.board-section {
+  padding: clamp(1.25rem, 5vw, 2.5rem);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  background: var(--surface);
+  box-shadow: 0 1.25rem 3.75rem rgb(54 77 157 / 18%);
+}
+
+.board-section-hint,
+.game-message {
+  margin: 0;
+  color: var(--muted-ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.board-section-hint {
+  margin-bottom: 1.25rem;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), var(--cell-size));
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 0.35rem;
+  border-radius: 0.85rem;
+  background: #cfd6e8;
+}
+
+.cell {
+  display: grid;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  padding: 0;
+  border: 0;
+  border-radius: 0.35rem;
+  place-items: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: var(--cell-font-size);
+  font-weight: 700;
+}
+
+.cell-closed {
+  color: #fff;
+  cursor: pointer;
+  background: var(--closed-cell);
+  box-shadow: inset 0 -0.2rem 0 var(--closed-cell-shadow);
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.cell-closed:hover {
+  background: #8ca0ff;
+  transform: translateY(-0.1rem);
+}
+
+.cell-opened {
+  color: var(--ink);
+  background: var(--opened-cell);
+}
+
+.cell-number-1 {
+  color: #2e78d6;
+}
+
+.cell-number-2 {
+  color: #2d9d65;
+}
+
+.cell-number-3 {
+  color: #dc5e56;
+}
+
+.cell-number-4 {
+  color: #7658c6;
+}
+
+.cell-flag {
+  color: #fff4ca;
+  font-size: 1.6rem;
+}
+
+.cell-flag-on-mine {
+  text-shadow: 0 0.1rem 0 var(--closed-cell-shadow);
+}
+
+.cell-mine {
+  color: #fff;
+  background: var(--mine);
+}
+
+.cell-mine-hit {
+  color: #fff;
+  background: var(--danger);
+  box-shadow: inset 0 0 0 0.15rem #ff9ca7;
+}
+
+.cell-flag-without-mine {
+  position: relative;
+}
+
+.cell-flag-without-mine::after {
+  position: absolute;
+  width: 125%;
+  height: 0.16rem;
+  border-radius: 999px;
+  content: "";
+  background: var(--danger);
+  transform: rotate(-45deg);
+}
+
+.cell:focus-visible,
+.restart-button:focus-visible {
+  outline: 0.2rem solid #f5c34c;
+  outline-offset: 0.2rem;
+}
+
+.game-message {
+  margin-top: 1.25rem;
+}
+
+@media (width <= 28rem) {
+  :root {
+    --cell-size: clamp(1.5rem, 8vw, 3.25rem);
+  }
+
+  .game {
+    width: min(100% - 1rem, 42rem);
+    padding: 1rem 0;
+  }
+
+  .game-header,
+  .board-section {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .game-controls {
+    gap: 0.5rem;
+  }
+
+  .indicator-label {
+    font-size: 0.6rem;
+  }
+
+  .restart-button {
+    min-width: 4.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell-closed,
+  .restart-button {
+    transition: none;
+  }
+}
