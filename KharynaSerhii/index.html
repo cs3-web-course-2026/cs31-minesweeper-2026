@@ -1,142 +1,140 @@
-<!doctype html>
+```html
+<!DOCTYPE html>
 <html lang="uk">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Статичний інтерфейс гри Сапер для лабораторної роботи з HTML та CSS."
-    />
-    <title>Сапер — Kharyna Serhii</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&family=Nunito:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="game" aria-labelledby="game-title">
-      <header class="game__header">
-        <p class="game__eyebrow">Класична головоломка</p>
-        <h1 id="game-title">Сапер</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="game">
+        <header class="game-header">
+            <p class="game-eyebrow">Classic puzzle game</p>
+            <h1>Minesweeper</h1>
 
-        <div class="game__controls" aria-label="Панель керування грою">
-          <div class="indicator" aria-label="Залишилося прапорців: 6">
-            <span class="indicator__icon" aria-hidden="true">⚑</span>
-            <span class="indicator__value">006</span>
-            <span class="indicator__label">прапорців</span>
-          </div>
+            <div class="game-controls">
+                <div class="indicator">
+                    <span class="indicator-icon" aria-hidden="true">🚩</span>
+                    <span class="indicator-value">010</span>
+                    <span class="indicator-label">Flags</span>
+                </div>
 
-          <button class="restart-button" type="button" aria-label="Почати нову гру">
-            <span aria-hidden="true">🙂</span>
-            <span class="restart-button__text">Нова гра</span>
-          </button>
+                <button class="restart-button" type="button" aria-label="Start a new game">
+                    <span aria-hidden="true">🙂</span>
+                    <span class="restart-button-text">New game</span>
+                </button>
 
-          <div class="indicator" aria-label="Час гри: 42 секунди">
-            <span class="indicator__icon" aria-hidden="true">◷</span>
-            <span class="indicator__value">042</span>
-            <span class="indicator__label">секунд</span>
-          </div>
-        </div>
-      </header>
+                <div class="indicator">
+                    <span class="indicator-icon" aria-hidden="true">⏱</span>
+                    <span class="indicator-value">000</span>
+                    <span class="indicator-label">Time</span>
+                </div>
+            </div>
+        </header>
 
-      <section class="board-section" aria-label="Ігрове поле Сапера">
-        <p class="board-section__hint">Ліва кнопка — відкрити · Права — поставити прапорець</p>
-        <div class="board" role="grid" aria-label="Ігрове поле 9 на 9 клітинок">
-          <button class="cell cell--opened cell--number-1" type="button" role="gridcell" aria-label="Рядок 1, стовпець 1, відкрита, одна міна поруч">1</button>
-          <button class="cell cell--opened" type="button" role="gridcell" aria-label="Рядок 1, стовпець 2, відкрита, порожня"></button>
-          <button class="cell cell--opened cell--number-2" type="button" role="gridcell" aria-label="Рядок 1, стовпець 3, відкрита, дві міни поруч">2</button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 1, стовпець 4, закрита"></button>
-          <button class="cell cell--closed cell--flag cell--flag-on-mine" type="button" role="gridcell" aria-label="Рядок 1, стовпець 5, міна позначена прапорцем">⚑</button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 1, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 1, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 1, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 1, стовпець 9, закрита"></button>
+        <section class="board-section" aria-label="Minesweeper game board">
+            <p class="board-section-hint">
+                Find all mines without stepping on them.
+            </p>
 
-          <button class="cell cell--opened" type="button" role="gridcell" aria-label="Рядок 2, стовпець 1, відкрита, порожня"></button>
-          <button class="cell cell--opened cell--number-1" type="button" role="gridcell" aria-label="Рядок 2, стовпець 2, відкрита, одна міна поруч">1</button>
-          <button class="cell cell--opened cell--number-3" type="button" role="gridcell" aria-label="Рядок 2, стовпець 3, відкрита, три міни поруч">3</button>
-          <button class="cell cell--closed cell--flag cell--flag-without-mine" type="button" role="gridcell" aria-label="Рядок 2, стовпець 4, порожня клітинка неправильно позначена прапорцем">⚑</button>
-          <button class="cell cell--mine" type="button" role="gridcell" aria-label="Рядок 2, стовпець 5, міна">✹</button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 2, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 2, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 2, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 2, стовпець 9, закрита"></button>
+            <div class="board">
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-opened cell-number-1" type="button" aria-label="One mine nearby">1</button>
+                <button class="cell cell-opened cell-number-2" type="button" aria-label="Two mines nearby">2</button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
 
-          <button class="cell cell--opened" type="button" role="gridcell" aria-label="Рядок 3, стовпець 1, відкрита, порожня"></button>
-          <button class="cell cell--opened cell--number-1" type="button" role="gridcell" aria-label="Рядок 3, стовпець 2, відкрита, одна міна поруч">1</button>
-          <button class="cell cell--opened cell--number-2" type="button" role="gridcell" aria-label="Рядок 3, стовпець 3, відкрита, дві міни поруч">2</button>
-          <button class="cell cell--opened cell--number-4" type="button" role="gridcell" aria-label="Рядок 3, стовпець 4, відкрита, чотири міни поруч">4</button>
-          <button class="cell cell--mine cell--mine-hit" type="button" role="gridcell" aria-label="Рядок 3, стовпець 5, підірвана міна">✹</button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 3, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 3, стовпець 7, закрита"></button>
-          <button class="cell cell--closed cell--flag" type="button" role="gridcell" aria-label="Рядок 3, стовпець 8, позначена прапорцем">⚑</button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 3, стовпець 9, закрита"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-opened cell-number-1" type="button" aria-label="One mine nearby">1</button>
+                <button class="cell cell-opened cell-number-3" type="button" aria-label="Three mines nearby">3</button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
 
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 1, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 2, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 3, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 4, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 5, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 4, стовпець 9, закрита"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-flag" type="button" aria-label="Flagged cell">🚩</button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-opened cell-number-1" type="button" aria-label="One mine nearby">1</button>
+                <button class="cell cell-opened cell-number-3" type="button" aria-label="Three mines nearby">3</button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
 
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 1, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 2, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 3, закрита"></button>
-          <button class="cell cell--closed cell--flag" type="button" role="gridcell" aria-label="Рядок 5, стовпець 4, позначена прапорцем">⚑</button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 5, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 5, стовпець 9, закрита"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-opened cell-number-1" type="button" aria-label="One mine nearby">1</button>
+                <button class="cell cell-mine-hit" type="button" aria-label="Mine hit">💣</button>
+                <button class="cell cell-opened" type="button" aria-label="Empty cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-flag" type="button" aria-label="Flagged cell">🚩</button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
 
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 1, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 2, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 3, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 4, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 5, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 6, стовпець 9, закрита"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-opened cell-number-2" type="button" aria-label="Two mines nearby">2</button>
+                <button class="cell cell-opened cell-number-3" type="button" aria-label="Three mines nearby">3</button>
+                <button class="cell cell-opened" type="button" aria-label="Empty cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
 
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 1, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 2, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 3, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 4, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 5, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 7, стовпець 9, закрита"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-mine" type="button" aria-label="Mine">💣</button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
 
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 1, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 2, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 3, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 4, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 5, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 8, стовпець 9, закрита"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
 
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 1, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 2, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 3, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 4, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 5, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 6, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 7, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 8, закрита"></button>
-          <button class="cell cell--closed" type="button" role="gridcell" aria-label="Рядок 9, стовпець 9, закрита"></button>
-        </div>
-        <p class="game-message" role="status" aria-live="polite">Гра триває. Знайдіть усі міни!</p>
-      </section>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+                <button class="cell cell-closed" type="button" aria-label="Closed cell"></button>
+            </div>
+
+            <p class="game-message">
+                Static preview of the game states.
+            </p>
+        </section>
     </main>
-  </body>
+</body>
 </html>
+```
