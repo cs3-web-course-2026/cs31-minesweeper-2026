@@ -262,6 +262,10 @@ h1 {
 }
 
 @media (width <= 28rem) {
+  :root {
+    --cell-size: clamp(1.5rem, 8vw, 3.25rem);
+  }
+
   .game {
     width: min(100% - 1rem, 42rem);
     padding: 1rem 0;
