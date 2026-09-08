@@ -1,0 +1,343 @@
+:root {
+  /* Brand Accent */
+  --accent-primary: #4f46e5;
+  --accent-primary-hover: #4338ca;
+  --accent-glow: rgb(79 70 229 / 25%);
+
+  /* Surfaces & Canvas */
+  --bg-page: #0f172a;
+  --surface-header: #1e293b;
+  --surface-card: #1e293b;
+  --board-bg: #0f172a;
+  --border-subtle: #334155;
+  --border-strong: #475569;
+
+  /* Cells */
+  --cell-closed-bg: #334155;
+  --cell-closed-hover: #3b4d66;
+  --cell-closed-border: #475569;
+  --cell-opened-bg: #141d2f;
+  --cell-opened-border: #1e293b;
+
+  /* Typography */
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-accent: #818cf8;
+
+  /* Game States */
+  --danger-bg: rgb(239 68 68 / 15%);
+  --danger-border: #ef4444;
+  --danger-solid: #ef4444;
+
+  /* Numbers */
+  --n-1: #60a5fa;
+  --n-2: #34d399;
+  --n-3: #f87171;
+  --n-4: #a78bfa;
+  --n-5: #fb923c;
+  --n-6: #2dd4bf;
+  --n-7: #e2e8f0;
+  --n-8: #94a3b8;
+
+  /* Sizing & Geometry */
+  --board-columns: 9;
+  --cell-size: clamp(2.25rem, 8.5vw, 2.75rem);
+  --cell-gap: 6px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  /* Transitions & Animations */
+  --transition: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-pulse-duration: 0.3s;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, Inter, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Top Header  */
+
+.game-header {
+  background-color: var(--surface-header);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1rem 1.5rem;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 25%);
+}
+
+.controls {
+  max-width: 540px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+/* Restart Button */
+.control.restart {
+  appearance: none;
+  background: var(--accent-primary);
+  border: 1px solid rgb(255 255 255 / 15%);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.85rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+.control.restart:hover {
+  background-color: var(--accent-primary-hover);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+.control.restart:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.control.restart:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Status Chips */
+.status {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.counter,
+.timer {
+  background: #0f172a;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.count,
+.time {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  color: var(--text-accent);
+}
+
+/* Main Layout */
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.board-container {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: 0 20px 40px -15px rgb(0 0 0 / 50%), 0 0 0 1px rgb(255 255 255 / 5%);
+}
+
+#game-message {
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  margin: 0 0 1.25rem;
+}
+
+/* Grid Canvas */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), var(--cell-size));
+  grid-template-rows: repeat(var(--board-columns), var(--cell-size));
+  gap: var(--cell-gap);
+  background-color: var(--board-bg);
+  padding: var(--cell-gap);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Cell Design */
+
+.cell {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  border-radius: var(--radius-sm);
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--transition);
+}
+
+.cell:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  z-index: 2;
+}
+
+/* 1. Closed State */
+.cell.closed {
+  background-color: var(--cell-closed-bg);
+  border: 1px solid var(--cell-closed-border);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 25%);
+}
+
+.cell.closed:hover {
+  background-color: var(--cell-closed-hover);
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 35%);
+}
+
+.cell.closed:active {
+  transform: translateY(0);
+}
+
+/* 2. Opened State */
+.cell.opened {
+  background-color: var(--cell-opened-bg);
+  border: 1px solid var(--cell-opened-border);
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 30%);
+  cursor: default;
+}
+
+/* 3. Number Classes */
+.cell.opened.number-1 { color: var(--n-1); }
+.cell.opened.number-2 { color: var(--n-2); }
+.cell.opened.number-3 { color: var(--n-3); }
+.cell.opened.number-4 { color: var(--n-4); }
+.cell.opened.number-5 { color: var(--n-5); }
+.cell.opened.number-6 { color: var(--n-6); }
+.cell.opened.number-7 { color: var(--n-7); }
+.cell.opened.number-8 { color: var(--n-8); }
+
+/* 4. Flagged Safe Cell */
+.cell.closed.flagged::after {
+  content: "🚩";
+  font-size: 1.05rem;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 30%));
+}
+
+/* 4b. Flagged Mine */
+.cell.closed.flagged.mine {
+  border-color: #34d399;
+}
+
+.cell.closed.flagged.mine::after {
+  content: "🚩";
+  font-size: 1.05rem;
+  filter: drop-shadow(0 0 6px rgb(52 211 153 / 50%));
+}
+
+/* 4c. Closed Hidden Mine */
+.cell.closed.mine {
+  border-color: #64748b;
+}
+
+.cell.closed.mine::before {
+  content: "💣";
+  position: absolute;
+  font-size: 0.85rem;
+  opacity: 0.35;
+}
+
+/* 5. Wrong Flag */
+.cell.wrong-flag {
+  background-color: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+}
+
+.cell.wrong-flag::after {
+  content: "❌";
+  font-size: 0.95rem;
+  filter: drop-shadow(0 0 6px rgb(239 68 68 / 40%));
+}
+
+/* 6. Opened Mine */
+.cell.opened.mine {
+  background-color: #1a2234;
+  border: 1px solid var(--border-subtle);
+  font-size: 1.15rem;
+}
+
+/* 7. Exploded Mine */
+.cell.opened.mine.exploded {
+  background-color: var(--danger-solid);
+  border-color: var(--danger-solid);
+  color: #fff;
+  box-shadow: 0 0 16px rgb(239 68 68 / 70%);
+  animation: pulse-danger var(--animation-pulse-duration) ease-out;
+}
+
+@keyframes pulse-danger {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@media (width <= 640px) {
+  :root {
+    --cell-gap: 4px;
+    --cell-size: clamp(1.85rem, 8.5vw, 2.3rem);
+  }
+
+  .game-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .controls {
+    gap: 0.75rem;
+  }
+
+  .board-container {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+}
