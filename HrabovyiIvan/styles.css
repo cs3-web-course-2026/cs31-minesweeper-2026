@@ -12,7 +12,7 @@
   --danger: #e5484d;
   --text-light: #eef2f7;
 
-  /* Board size */
+  /* Board size css */
   --board-size: 5;
   --gap: 4px;
 }
