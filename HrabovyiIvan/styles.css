@@ -1,0 +1,251 @@
+:root {
+  /* Color palette */
+  --bg: #1e2530;
+  --panel: #2b3442;
+  --panel-dark: #232b37;
+  --cell-closed: #8fa3bf;
+  --cell-closed-light: #b4c5dd;
+  --cell-closed-dark: #64778f;
+  --cell-open: #dde5ee;
+  --cell-open-border: #c3cedb;
+  --accent: #ffd166;
+  --danger: #e5484d;
+  --text-light: #eef2f7;
+
+  /* Board size */
+  --board-size: 5;
+  --gap: 4px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Screen-reader-only heading, visually hidden */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: radial-gradient(circle at 50% 20%, #2a3547, var(--bg));
+  font-family: "Segoe UI", system-ui, sans-serif;
+  color: var(--text-light);
+}
+
+/* ==================== Game container ==================== */
+
+.game {
+  width: min(92vw, 420px);
+  background: var(--panel);
+  border-radius: 16px;
+  padding: clamp(12px, 3vw, 20px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ==================== Header ==================== */
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--panel-dark);
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: clamp(12px, 3vw, 18px);
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 72px;
+  background: #141a22;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.counter-icon {
+  font-size: 1rem;
+}
+
+.counter-value {
+  font-size: clamp(1rem, 4vw, 1.25rem);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 1px;
+}
+
+.start-btn {
+  font-size: clamp(1.4rem, 6vw, 1.8rem);
+  line-height: 1;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(180deg, var(--cell-closed-light), var(--cell-closed));
+  box-shadow: 0 3px 0 var(--cell-closed-dark);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.start-btn:hover {
+  filter: brightness(1.05);
+}
+
+.start-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--cell-closed-dark);
+}
+
+/* ==================== Game board ==================== */
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-size), 1fr);
+  gap: var(--gap);
+  background: var(--panel-dark);
+  border-radius: 12px;
+  padding: var(--gap);
+}
+
+/* ==================== Cell: base state ==================== */
+
+.cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  padding: 0;
+  font-family: inherit;
+  font-size: clamp(1rem, 5vw, 1.5rem);
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* --- Closed cell --- */
+/* A raised, "convex" tile */
+.cell:not(.open) {
+  background: linear-gradient(145deg, var(--cell-closed-light), var(--cell-closed));
+  box-shadow:
+    inset 2px 2px 3px rgba(255, 255, 255, 0.45),
+    inset -2px -2px 3px rgba(0, 0, 0, 0.3);
+  transition: filter 0.1s ease;
+}
+
+.cell:not(.open):hover {
+  filter: brightness(1.08);
+}
+
+.cell:not(.open):active {
+  box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Open cell --- */
+/* Flat, "pressed in" */
+.cell.open {
+  background: var(--cell-open);
+  box-shadow: inset 0 0 0 1px var(--cell-open-border);
+  cursor: default;
+}
+
+/* Number colors */
+.cell.n1 { color: #1d6fd6; }
+.cell.n2 { color: #1e8a3c; }
+.cell.n3 { color: #d63a3a; }
+.cell.n4 { color: #14349c; }
+.cell.n5 { color: #8a2f22; }
+.cell.n6 { color: #1f8f8f; }
+.cell.n7 { color: #222222; }
+.cell.n8 { color: #6b6b6b; }
+
+/* ==================== Flagged cell ==================== */
+
+/* Flag (closed cell with a mark) — looks the same while the game
+   is in progress; revealed as correct only if it was on a mine */
+.cell.flagged::before {
+  content: "🚩";
+  font-size: 0.85em;
+}
+
+/* Wrong flag (no mine underneath) — shown after game over:
+   a crossed-out mine */
+.cell.flagged.wrong {
+  position: relative;
+  background: linear-gradient(145deg, #e8c2c2, #d49a9a);
+}
+
+.cell.flagged.wrong::before {
+  content: "💣";
+}
+
+.cell.flagged.wrong::after {
+  content: "";
+  position: absolute;
+  width: 70%;
+  height: 3px;
+  background: var(--danger);
+  transform: rotate(-45deg);
+  border-radius: 2px;
+}
+
+/* ==================== Mine cell ==================== */
+
+/* Regular revealed mine (all mines shown on loss) */
+.cell.mine::before {
+  content: "💣";
+  font-size: 0.85em;
+}
+
+/* Mine the user clicked on — exploded */
+.cell.mine.exploded {
+  background: radial-gradient(circle, #ff8a80 0%, var(--danger) 70%);
+  box-shadow: inset 0 0 0 2px #b93035;
+  animation: explode 0.35s ease-out;
+}
+
+.cell.mine.exploded::before {
+  content: "💥";
+}
+
+@keyframes explode {
+  0%   { transform: scale(0.6); }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* ==================== Responsiveness ==================== */
+
+@media (max-width: 360px) {
+  .game-header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .counter {
+    min-width: 60px;
+    padding: 4px 8px;
+  }
+}
+
+@media (min-width: 720px) {
+  .game {
+    width: 440px;
+  }
+}
