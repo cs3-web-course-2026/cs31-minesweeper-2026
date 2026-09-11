@@ -62,10 +62,11 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: min(92vw, 420px);
+  margin: 0 auto clamp(12px, 3vw, 18px);
   background: var(--panel-dark);
   border-radius: 12px;
   padding: 10px 14px;
-  margin-bottom: clamp(12px, 3vw, 18px);
 }
 
 .counter {
@@ -243,7 +244,8 @@ body {
 }
 
 @media (width >= 720px) {
-  .game {
+  .game,
+  .game-header {
     width: 440px;
   }
 }
