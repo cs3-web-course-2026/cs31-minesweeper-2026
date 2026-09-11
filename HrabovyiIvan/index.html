@@ -8,31 +8,31 @@
 </head>
 <body>
 
+  <!-- ==================== Game header ==================== -->
+  <header class="game-header">
+
+    <!-- Flag counter -->
+    <div class="counter" id="flag-counter" role="status" aria-label="Залишилось прапорців: 5">
+      <span class="counter-icon" aria-hidden="true">🚩</span>
+      <span class="counter-value">05</span>
+    </div>
+
+    <!-- Start button (new game) -->
+    <button class="start-btn" id="start-btn" type="button" aria-label="Нова гра">
+      <span aria-hidden="true">⏯</span>
+    </button>
+
+    <!-- Timer -->
+    <div class="counter" id="timer" aria-label="Час гри: 0 секунд">
+      <span class="counter-icon" aria-hidden="true">⏱</span>
+      <span class="counter-value">000</span>
+    </div>
+
+  </header>
+
   <main class="game">
 
     <h1 class="visually-hidden">Сапер 5x5</h1>
-
-    <!-- ==================== Game header ==================== -->
-    <header class="game-header">
-
-      <!-- Flag counter -->
-      <div class="counter" id="flag-counter" role="status" aria-label="Залишилось прапорців: 5">
-        <span class="counter-icon" aria-hidden="true">🚩</span>
-        <span class="counter-value">05</span>
-      </div>
-
-      <!-- Start button (new game) -->
-      <button class="start-btn" id="start-btn" type="button" aria-label="Нова гра">
-        <span aria-hidden="true">⏯</span>
-      </button>
-
-      <!-- Timer -->
-      <div class="counter" id="timer" aria-label="Час гри: 0 секунд">
-        <span class="counter-icon" aria-hidden="true">⏱</span>
-        <span class="counter-value">000</span>
-      </div>
-
-    </header>
 
     <!-- ==================== 5x5 game board ==================== -->
     <!-- The cells below demonstrate all possible states -->
