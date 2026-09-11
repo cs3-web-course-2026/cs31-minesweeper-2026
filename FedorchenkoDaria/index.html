@@ -77,94 +77,340 @@
       </header>
 
       <section class="board" aria-label="ігрове поле">
-        <div class="board__row">
-          <button class="cell" data-state="open" type="button"></button>
-          <button class="cell" data-state="open" data-count="1" type="button">
+        <div class="board-row">
+          <button
+            class="cell"
+            data-state="open"
+            type="button"
+            aria-label="Рядок 1, стовпчик 1, порожня відкрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="open"
+            data-count="1"
+            type="button"
+            aria-label="Рядок 1, стовпчик 2, відкрита, 1 міна поряд"
+          >
             1
           </button>
-          <button class="cell" data-state="open" data-count="2" type="button">
+          <button
+            class="cell"
+            data-state="open"
+            data-count="2"
+            type="button"
+            aria-label="Рядок 1, стовпчик 3, відкрита, 2 міни поряд"
+          >
             2
           </button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="open" data-count="3" type="button">
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 1, стовпчик 4, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 1, стовпчик 5, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="open"
+            data-count="3"
+            type="button"
+            aria-label="Рядок 1, стовпчик 6, відкрита, 3 міни поряд"
+          >
             3
           </button>
-          <button class="cell" data-state="open" data-count="4" type="button">
+          <button
+            class="cell"
+            data-state="open"
+            data-count="4"
+            type="button"
+            aria-label="Рядок 1, стовпчик 7, відкрита, 4 міни поряд"
+          >
             4
           </button>
-          <button class="cell" data-state="closed" type="button"></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 1, стовпчик 8, закрита клітинка"
+          ></button>
         </div>
 
-        <div class="board__row">
-          <button class="cell" data-state="open" data-count="1" type="button">
+        <div class="board-row">
+          <button
+            class="cell"
+            data-state="open"
+            data-count="1"
+            type="button"
+            aria-label="Рядок 2, стовпчик 1, відкрита, 1 міна поряд"
+          >
             1
           </button>
-          <button class="cell" data-state="flag" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="open" data-count="1" type="button">
+          <button
+            class="cell"
+            data-state="flag-safe"
+            type="button"
+            aria-label="Рядок 2, стовпчик 2, прапорець на безпечній клітинці"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 2, стовпчик 3, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 2, стовпчик 4, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 2, стовпчик 5, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 2, стовпчик 6, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="open"
+            data-count="1"
+            type="button"
+            aria-label="Рядок 2, стовпчик 7, відкрита, 1 міна поряд"
+          >
             1
           </button>
-          <button class="cell" data-state="open" type="button"></button>
+          <button
+            class="cell"
+            data-state="open"
+            type="button"
+            aria-label="Рядок 2, стовпчик 8, порожня відкрита клітинка"
+          ></button>
         </div>
 
-        <div class="board__row">
-          <button class="cell" data-state="open" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
+        <div class="board-row">
+          <button
+            class="cell"
+            data-state="open"
+            type="button"
+            aria-label="Рядок 3, стовпчик 1, порожня відкрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 3, стовпчик 2, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 3, стовпчик 3, закрита клітинка"
+          ></button>
           <button
             class="cell"
             data-state="mine-exploded"
             type="button"
+            aria-label="Рядок 3, стовпчик 4, вибухнула міна"
           ></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="open" type="button"></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 3, стовпчик 5, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 3, стовпчик 6, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 3, стовпчик 7, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="open"
+            type="button"
+            aria-label="Рядок 3, стовпчик 8, порожня відкрита клітинка"
+          ></button>
         </div>
 
-        <div class="board__row">
-          <button class="cell" data-state="open" data-count="2" type="button">
+        <div class="board-row">
+          <button
+            class="cell"
+            data-state="open"
+            data-count="2"
+            type="button"
+            aria-label="Рядок 4, стовпчик 1, відкрита, 2 міни поряд"
+          >
             2
           </button>
-          <button class="cell" data-state="flag" type="button"></button>
-          <button class="cell" data-state="mine" type="button"></button>
-          <button class="cell" data-state="mine" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="open" data-count="1" type="button">
+          <button
+            class="cell"
+            data-state="flag-mine"
+            type="button"
+            aria-label="Рядок 4, стовпчик 2, прапорець на міні"
+          ></button>
+          <button
+            class="cell"
+            data-state="mine"
+            type="button"
+            aria-label="Рядок 4, стовпчик 3, міна"
+          ></button>
+          <button
+            class="cell"
+            data-state="mine"
+            type="button"
+            aria-label="Рядок 4, стовпчик 4, міна"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 4, стовпчик 5, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 4, стовпчик 6, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 4, стовпчик 7, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="open"
+            data-count="1"
+            type="button"
+            aria-label="Рядок 4, стовпчик 8, відкрита, 1 міна поряд"
+          >
             1
           </button>
         </div>
 
-        <div class="board__row">
-          <button class="cell" data-state="open" type="button"></button>
-          <button class="cell" data-state="open" data-count="1" type="button">
+        <div class="board-row">
+          <button
+            class="cell"
+            data-state="open"
+            type="button"
+            aria-label="Рядок 5, стовпчик 1, порожня відкрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="open"
+            data-count="1"
+            type="button"
+            aria-label="Рядок 5, стовпчик 2, відкрита, 1 міна поряд"
+          >
             1
           </button>
-          <button class="cell" data-state="flag" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
+          <button
+            class="cell"
+            data-state="flag-mine"
+            type="button"
+            aria-label="Рядок 5, стовпчик 3, прапорець на міні"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 5, стовпчик 4, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 5, стовпчик 5, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 5, стовпчик 6, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 5, стовпчик 7, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 5, стовпчик 8, закрита клітинка"
+          ></button>
         </div>
 
-        <div class="board__row">
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="open" data-count="3" type="button">
+        <div class="board-row">
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 6, стовпчик 1, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 6, стовпчик 2, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 6, стовпчик 3, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 6, стовпчик 4, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="open"
+            data-count="3"
+            type="button"
+            aria-label="Рядок 6, стовпчик 5, відкрита, 3 міни поряд"
+          >
             3
           </button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
-          <button class="cell" data-state="closed" type="button"></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 6, стовпчик 6, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 6, стовпчик 7, закрита клітинка"
+          ></button>
+          <button
+            class="cell"
+            data-state="closed"
+            type="button"
+            aria-label="Рядок 6, стовпчик 8, закрита клітинка"
+          ></button>
         </div>
       </section>
     </main>

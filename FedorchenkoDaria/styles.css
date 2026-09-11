@@ -158,7 +158,8 @@ body {
 }
 
 .cell[data-state="closed"],
-.cell[data-state="flag"] {
+.cell[data-state="flag-safe"],
+.cell[data-state="flag-mine"] {
   background: var(--blue-soft);
   box-shadow:
     inset 2px 2px 0 color-mix(in srgb, var(--cream) 18%, transparent),
@@ -167,13 +168,15 @@ body {
 }
 
 .cell[data-state="closed"]:hover,
-.cell[data-state="flag"]:hover {
+.cell[data-state="flag-safe"]:hover,
+.cell[data-state="flag-mine"]:hover {
   filter: brightness(1.15);
   transform: translateY(-1px);
 }
 
 .cell[data-state="closed"]:active,
-.cell[data-state="flag"]:active {
+.cell[data-state="flag-safe"]:active,
+.cell[data-state="flag-mine"]:active {
   transform: translateY(0) scale(0.95);
 }
 
@@ -218,7 +221,8 @@ body {
   color: color-mix(in srgb, var(--navy) 70%, var(--pink));
 }
 
-.cell[data-state="flag"]::before,
+.cell[data-state="flag-safe"]::before,
+.cell[data-state="flag-mine"]::before,
 .cell[data-state="mine"]::before,
 .cell[data-state="mine-exploded"]::before {
   content: "";
@@ -227,7 +231,8 @@ body {
   background-position: center;
 }
 
-.cell[data-state="flag"]::before {
+.cell[data-state="flag-safe"]::before,
+.cell[data-state="flag-mine"]::before {
   width: 55%;
   height: 55%;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c51f5d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528'/%3E%3C/svg%3E");
