@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гра "Сапер"</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Хедер гри -->
+        <header class="game-header">
+            <div class="counter-display" id="flag-count">010</div>
+            <button class="restart-btn" id="restart-btn" title="Нова гра">▶️</button>
+            <div class="counter-display" id="timer">000</div>
+        </header>
+
+        <!-- Ігрове поле (100 клітинок для сітки 10х10) -->
+        <main class="board" id="board">
+            <!-- Демонстрація різних станів для перевірки верстки -->
+            <button class="cell"></button>
+            <button class="cell revealed" data-count="1">1</button>
+            <button class="cell revealed" data-count="2">2</button>
+            <button class="cell flagged"></button>
+            <button class="cell mine-exploded"></button>
+            <button class="cell mine"></button>
+            <button class="cell flagged wrong-flag"></button>
+            <button class="cell revealed" data-count="3">3</button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+
+            <!-- Решта закритих клітинок для заповнення сітки (всього 100 шт) -->
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+            <button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button><button class="cell"></button>
+        </main>
+    </div>
+</body>
+</html>
