@@ -24,9 +24,9 @@ body {
 .game-container {
     background-color: #c0c0c0;
     border: 3px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;
+    border-color: #fff #808080 #808080 #fff;
     padding: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgb(0 0 0 / 20%);
     max-width: 100%;
 }
 
@@ -36,21 +36,21 @@ body {
     align-items: center;
     background-color: #c0c0c0;
     border: 3px solid;
-    border-color: #808080 #ffffff #ffffff #808080;
+    border-color: #808080 #fff #fff #808080;
     padding: 8px 12px;
     margin-bottom: 15px;
 }
 
 /* Електронне табло (Таймер та Лічильник прапорців) */
 .counter-display {
-    background-color: #000000;
-    color: #ff0000;
+    background-color: #000;
+    color: #f00;
     font-family: 'Courier New', Courier, monospace;
     font-size: 26px;
     font-weight: bold;
     padding: 2px 6px;
     border: 2px solid;
-    border-color: #808080 #ffffff #ffffff #808080;
+    border-color: #808080 #fff #fff #808080;
     min-width: 65px;
     text-align: center;
     letter-spacing: 1.5px;
@@ -63,7 +63,7 @@ body {
     font-size: 22px;
     background-color: #c0c0c0;
     border: 3px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;
+    border-color: #fff #808080 #808080 #fff;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -72,7 +72,7 @@ body {
 }
 
 .restart-btn:active {
-    border-color: #808080 #ffffff #ffffff #808080;
+    border-color: #808080 #fff #fff #808080;
     padding: 2px 0 0 2px;
 }
 
@@ -85,7 +85,7 @@ body {
     grid-template-rows: repeat(10, 35px);
     gap: 0;
     border: 3px solid;
-    border-color: #808080 #ffffff #ffffff #808080;
+    border-color: #808080 #fff #fff #808080;
     background-color: #7b7b7b;
 }
 
@@ -99,7 +99,7 @@ body {
     height: 35px;
     background-color: #c0c0c0;
     border: 3px solid;
-    border-color: #ffffff #808080 #808080 #ffffff;
+    border-color: #fff #808080 #808080 #fff;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,7 +108,7 @@ body {
     cursor: pointer;
 }
 
-.cell:active:not(.revealed):not(.flagged) {
+.cell:active:not(.revealed, .flagged) {
     border-width: 1px;
     border-color: #7b7b7b;
 }
@@ -121,13 +121,13 @@ body {
 }
 
 /* Кольори для кількості мін довкола відкритої клітинки */
-.cell[data-count="1"] { color: #0000ff; }
+.cell[data-count="1"] { color: #00f; }
 .cell[data-count="2"] { color: #008000; }
-.cell[data-count="3"] { color: #ff0000; }
+.cell[data-count="3"] { color: #f00; }
 .cell[data-count="4"] { color: #000080; }
 .cell[data-count="5"] { color: #800000; }
 .cell[data-count="6"] { color: #008080; }
-.cell[data-count="7"] { color: #000000; }
+.cell[data-count="7"] { color: #000; }
 .cell[data-count="8"] { color: #808080; }
 
 /* Клітинка з прапорцем */
@@ -160,7 +160,7 @@ body {
 
 /* Міна, на яку наступив користувач (причина програшу) */
 .cell.mine-exploded {
-    background-color: #ff0000;
+    background-color: #f00;
     border: 1px solid #7b7b7b;
 }
 
@@ -172,7 +172,7 @@ body {
 /* ==================================================
    5. АДАПТИВНІСТЬ ДЛЯ МОБІЛЬНИХ ПРИСТРОЇВ
    ================================================== */
-@media (max-width: 420px) {
+@media (width <= 420px) {
     .board {
         grid-template-columns: repeat(10, 30px);
         grid-template-rows: repeat(10, 30px);
