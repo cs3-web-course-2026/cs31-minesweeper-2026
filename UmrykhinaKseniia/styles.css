@@ -1,0 +1,158 @@
+:root {
+    --cell-size: 2.5rem;
+    --board-columns: 5;
+    --font-size-text: 1.1rem;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffe4cc;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+header {
+    background-color: #ff7a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    width: 260px;
+}
+
+header button {
+    width: 38px;
+    height: 38px;
+    font-size: var(--font-size-text);
+    border: none;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #ffe4cc;
+}
+
+#mine-counter,
+#timer {
+    background-color: #5a2e0c;
+    color: #ffb066;
+    font-family: 'Courier New', monospace;
+    font-size: var(--font-size-text);
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+
+
+main {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #ffb066;
+}
+
+#board {
+    display: grid;
+    grid-template-columns: repeat(var(--board-columns), var(--cell-size));
+    grid-gap: 3px;
+    background-color: #ffb066;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: var(--font-size-text);
+}
+
+
+.closed {
+    background-color: #ff7a1a;
+    border: 2px solid #c2530a;
+    cursor: pointer;
+}
+
+.closed:hover {
+    background-color: #ffb066;
+}
+
+.opened {
+    background-color: #fff8f2;
+    border: 1px solid #ffb066;
+    color: #5a2e0c;
+}
+
+.num1 {
+    color: green;
+}
+
+.num2 {
+    color: blue;
+}
+
+.num3 {
+    color: red;
+}
+
+.flagged {
+    background-color: #ff7a1a;
+    border: 2px solid #c2530a;
+    cursor: pointer;
+}
+
+.flagged::after {
+    content: "🚩";
+}
+
+.flagged-mine {
+    background-color: #4caf50;
+    border: 2px solid #2e7d32;
+}
+
+.mine {
+    background-color: #fff8f2;
+    border: 1px solid #ffb066;
+}
+
+.mine::after {
+    content: "💣";
+}
+
+.boom {
+    background-color: #d84315;
+}
+
+.boom::after {
+    content: "💥";
+}
+
+
+#game-message {
+    margin-top: 10px;
+    font-size: var(--font-size-text);
+    color: #5a2e0c;
+}
+
+
+@media (width <= 480px) {
+    :root {
+        --cell-size: 2rem;
+        --font-size-text: 0.9rem;
+    }
+}
