@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffe4cc;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.game {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #ffb066;
+}
+
+.game-header {
+    background-color: #ff7a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.counter {
+    background-color: #5a2e0c;
+    color: #ffb066;
+    font-family: 'Courier New';
+    font-size: 20px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+
+.timer {
+    background-color: #5a2e0c;
+    color: #ffb066;
+    font-family: 'Courier New';
+    font-size: 20px;
+    font-weight: bold;
+    padding: 3px 10px;
+    border-radius: 5px;
+}
+
+.restart-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+    border: none;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+}
+
+.restart-btn:hover {
+    background-color: #ffe4cc;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(5, 42px);
+    grid-gap: 3px;
+    background-color: #ffb066;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.cell {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.closed {
+    background-color: #ff7a1a;
+    border: 2px solid #c2530a;
+    cursor: pointer;
+}
+
+.closed:hover {
+    background-color: #ffb066;
+}
+
+.opened {
+    background-color: #fff8f2;
+    border: 1px solid #ffb066;
+    color: #5a2e0c;
+}
+
+.num1 {
+    color: green;
+}
+
+.num2 {
+    color: blue;
+}
+
+.num3 {
+    color: red;
+}
+
+.flagged {
+    background-color: #ff7a1a;
+    border: 2px solid #c2530a;
+    cursor: pointer;
+}
+
+.flagged::after {
+    content: "🚩";
+}
+
+.mine {
+    background-color: #fff8f2;
+    border: 1px solid #ffb066;
+}
+
+.mine::after {
+    content: "💣";
+}
+
+.boom {
+    background-color: #d84315;
+}
+
+.boom::after {
+    content: "💥";
+}
+
+@media (max-width: 480px) {
+    .board {
+        grid-template-columns: repeat(5, 32px);
+    }
+
+    .cell {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+    }
+}
