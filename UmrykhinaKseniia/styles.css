@@ -47,7 +47,7 @@ header button:hover {
 #timer {
     background-color: #5a2e0c;
     color: #ffb066;
-    font-family: 'Courier New';
+    font-family: 'Courier New', monospace;
     font-size: var(--font-size-text);
     font-weight: bold;
     padding: 3px 10px;
@@ -150,7 +150,7 @@ main {
 }
 
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
     :root {
         --cell-size: 2rem;
         --font-size-text: 0.9rem;
