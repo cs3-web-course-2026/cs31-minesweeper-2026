@@ -1,0 +1,288 @@
+:root {
+  --cell-size: 36px;
+  --cell-gap: 3px;
+  --board-cols: 9;
+
+  --color-bg: #000;
+  --color-panel: #262626;
+  --color-border-light: #fff;
+  --color-border-dark: #fff;
+
+  --color-cell-closed: #3f5266;
+  --color-cell-closed-hover: #4a6076;
+  --color-cell-open: #09ff00;
+  --color-cell-mine: #ff1900;
+  --color-cell-mine-exploded: #4c0901;
+  --color-cell-flag-wrong: #4c0901;
+
+  --color-text: #eef2f6;
+  --color-accent: #f1c40f;
+  --color-accent2: #09ff00;
+
+  --num-1: #4aa3ff;
+  --num-2: #4caf50;
+  --num-3: #4000ff;
+  --num-4: #9b59b6;
+  --num-5: #e67e22;
+  --num-6: #1abc9c;
+  --num-7: #ecf0f1;
+  --num-8: #95a5a6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 16px;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: var(--color-panel);
+  border: 2px solid var(--color-border-light);
+  border-radius: 10px;
+}
+
+.counter {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  padding: 6px 10px;
+  background: #0f1720;
+  border: 2px solid var(--color-border-dark);
+  border-radius: 6px;
+}
+
+.counter-icon {
+  font-size: 1rem;
+}
+
+.counter-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--color-accent2);
+}
+
+.restart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 48px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  background: var(--color-cell-closed);
+  border: 2px solid var(--color-border-light);
+  border-radius: 10px;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.restart-btn:hover {
+  background: var(--color-cell-closed-hover);
+}
+
+.restart-btn:active {
+  transform: scale(0.94);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-cols), var(--cell-size));
+  gap: var(--cell-gap);
+  justify-content: center;
+  padding: 12px;
+  background: var(--color-panel);
+  border: 2px solid var(--color-border-light);
+  border-radius: 10px;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  border-radius: 4px;
+}
+
+.cell-closed {
+  background: var(--color-cell-closed);
+  border: 2px solid;
+  border-color: #6d84a0 #202b38 #202b38 #6d84a0;
+}
+
+.cell-closed:hover {
+  background: var(--color-cell-closed-hover);
+}
+
+.cell-closed:active {
+  transform: translateY(1px);
+}
+
+.cell-open {
+  cursor: default;
+  background: var(--color-cell-open);
+  border: 1px solid var(--color-border-light);
+}
+
+.cell-open[data-count="1"] {
+  color: var(--num-1);
+}
+
+.cell-open[data-count="2"] {
+  color: var(--num-2);
+}
+
+.cell-open[data-count="3"] {
+  color: var(--num-3);
+}
+
+.cell-open[data-count="4"] {
+  color: var(--num-4);
+}
+
+.cell-open[data-count="5"] {
+  color: var(--num-5);
+}
+
+.cell-open[data-count="6"] {
+  color: var(--num-6);
+}
+
+.cell-open[data-count="7"] {
+  color: var(--num-7);
+}
+
+.cell-open[data-count="8"] {
+  color: var(--num-8);
+}
+
+.cell-flagged {
+  background: var(--color-cell-closed);
+}
+
+.cell-flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.cell-flagged-wrong {
+  position: relative;
+  background: var(--color-cell-flag-wrong);
+  box-shadow: 0 0 0 2px var(--color-accent) inset;
+}
+
+.cell-flag-wrong {
+  z-index: 2;
+  font-size: 1rem;
+}
+
+.cell-mine {
+  background: var(--color-cell-mine);
+  border: 1px solid var(--color-border-light);
+}
+
+.cell-mine-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.cell-mine.cell-exploded {
+  background: var(--color-cell-mine-exploded);
+  box-shadow: 0 0 0 2px var(--color-accent) inset;
+}
+
+.legend {
+  padding: 14px 16px;
+  background: var(--color-panel);
+  border: 2px solid var(--color-border-light);
+  border-radius: 10px;
+}
+
+.legend-title {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.legend-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.legend-item .cell {
+  flex-shrink: 0;
+  cursor: default;
+}
+
+@media (width <= 420px) {
+  :root {
+    --cell-size: 30px;
+    --cell-gap: 2px;
+  }
+
+  .game-header {
+    padding: 8px 10px;
+  }
+
+  .counter {
+    min-width: 60px;
+    padding: 5px 8px;
+  }
+
+  .restart-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+
+  .legend-list {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (width <= 340px) {
+  :root {
+    --cell-size: 26px;
+  }
+}
