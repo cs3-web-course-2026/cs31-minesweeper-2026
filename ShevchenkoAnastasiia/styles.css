@@ -1,0 +1,197 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --board-cols: 8;
+  --board-rows: 4;
+  --cell-size: 40px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c0c0c0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.game {
+  background-color: #d9d9d9;
+  border: 4px solid #8f8f8f;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 95vw;
+}
+
+.game-title {
+  text-align: center;
+  margin: 0 0 12px;
+  font-size: 22px;
+  color: #333;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #bdbdbd;
+  border: 2px solid #8f8f8f;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #1c1c1c;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.counter-icon {
+  font-size: 16px;
+}
+
+.counter-value {
+  color: #ff3b30;
+  font-family: "Courier New", monospace;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.start-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  border-radius: 6px;
+  border: 2px solid #8f8f8f;
+  background-color: #d9d9d9;
+  cursor: pointer;
+}
+
+.start-btn:hover {
+  background-color: #e8e8e8;
+}
+
+.start-btn:active {
+  transform: translateY(1px);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-cols), var(--cell-size));
+  grid-template-rows: repeat(var(--board-rows), var(--cell-size));
+  gap: 2px;
+  background-color: #8f8f8f;
+  padding: 4px;
+  border-radius: 4px;
+  margin: 0 auto;
+  width: fit-content;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.cell.closed {
+  background-color: #b9b9b9;
+  border-top: 3px solid #efefef;
+  border-left: 3px solid #efefef;
+  border-bottom: 3px solid #7a7a7a;
+  border-right: 3px solid #7a7a7a;
+  cursor: pointer;
+}
+
+.cell.closed:hover {
+  background-color: #c6c6c6;
+}
+
+.cell.open {
+  background-color: #d9d9d9;
+  border: 1px solid #a8a8a8;
+}
+
+.cell.open[data-value="1"] { color: #00f; }
+.cell.open[data-value="2"] { color: #008000; }
+.cell.open[data-value="3"] { color: #f00; }
+.cell.open[data-value="4"] { color: #000080; }
+
+.cell.flagged-mine,
+.cell.flagged-safe {
+  background-color: #b9b9b9;
+  border-top: 3px solid #efefef;
+  border-left: 3px solid #efefef;
+  border-bottom: 3px solid #7a7a7a;
+  border-right: 3px solid #7a7a7a;
+  cursor: pointer;
+}
+
+.cell.flagged-mine::before,
+.cell.flagged-safe::before {
+  content: "🚩";
+  font-size: 16px;
+}
+
+.cell.flagged-mine {
+  background-color: #f4b6b6;
+}
+
+.cell.flagged-safe {
+  background-color: #b9b9b9;
+}
+
+.cell.mine {
+  background-color: #d9d9d9;
+  border: 1px solid #a8a8a8;
+}
+
+.cell.mine::before {
+  content: "💣";
+  font-size: 16px;
+}
+
+.cell.mine-clicked {
+  background-color: #ff3b30;
+  border: 1px solid #a8a8a8;
+}
+
+.cell.mine-clicked::before {
+  content: "💣";
+  font-size: 16px;
+}
+
+@media (width <= 480px) {
+  :root {
+    --cell-size: 30px;
+  }
+
+  .board {
+    grid-template-columns: repeat(var(--board-cols), var(--cell-size));
+    grid-template-rows: repeat(var(--board-rows), var(--cell-size));
+  }
+
+  .cell {
+    font-size: 13px;
+  }
+
+  .game-title {
+    font-size: 18px;
+  }
+
+  .counter-value {
+    font-size: 16px;
+  }
+}
