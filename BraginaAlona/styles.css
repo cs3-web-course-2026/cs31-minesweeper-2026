@@ -153,8 +153,7 @@ h1 {
   filter: brightness(1.03);
 }
 
-.new-game:focus-visible,
-.cell:focus-visible {
+.new-game:focus-visible {
   outline: 3px solid rgb(145 106 213 / 38%);
   outline-offset: 2px;
 }
@@ -231,6 +230,11 @@ h1 {
   transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease;
 }
 
+.cell:focus-visible {
+  outline: 3px solid rgb(145 106 213 / 38%);
+  outline-offset: 2px;
+}
+
 .cell-closed,
 .cell-flag,
 .cell-flag-mine {
@@ -241,11 +245,34 @@ h1 {
     0 3px 7px rgb(107 78 153 / 8%);
 }
 
-.cell-closed:hover,
-.cell-flag:hover,
-.cell-flag-mine:hover {
-  transform: translateY(-1px);
-  background: linear-gradient(145deg, #f4efff, var(--cell-closed-hover));
+.cell-flag,
+.cell-flag-mine {
+  color: #805dcc;
+  font-size: clamp(16px, 2.3vw, 22px);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 50%);
+}
+
+.cell-flag-mine {
+  color: #6f50b7;
+  background: linear-gradient(145deg, #f0e8ff, #d9cbf4);
+}
+
+.cell-mine,
+.cell-mine-hit {
+  color: #714da9;
+  background: #f2eafd;
+  border-color: #d4c1ef;
+  font-size: clamp(16px, 2.3vw, 22px);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 50%);
+}
+
+.cell-mine-hit {
+  color: #fff;
+  background: linear-gradient(145deg, #bd94ea, #9b71d1);
+  border-color: #9668ca;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 22%),
+    0 7px 16px rgb(122 84 174 / 22%);
 }
 
 .cell-open {
@@ -267,39 +294,11 @@ h1 {
   color: #c66b93;
 }
 
-.cell-flag,
-.cell-flag-mine {
-  color: #805dcc;
-  font-size: clamp(16px, 2.3vw, 22px);
-}
-
-.cell-flag-mine {
-  color: #6f50b7;
-  background: linear-gradient(145deg, #f0e8ff, #d9cbf4);
-}
-
-.cell-mine,
-.cell-mine-hit {
-  color: #714da9;
-  background: #f2eafd;
-  border-color: #d4c1ef;
-  font-size: clamp(16px, 2.3vw, 22px);
-}
-
-.cell-mine-hit {
-  color: #fff;
-  background: linear-gradient(145deg, #bd94ea, #9b71d1);
-  border-color: #9668ca;
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 22%),
-    0 7px 16px rgb(122 84 174 / 22%);
-}
-
-.cell-mine,
-.cell-mine-hit,
-.cell-flag,
-.cell-flag-mine {
-  text-shadow: 0 1px 0 rgb(255 255 255 / 50%);
+.cell-closed:hover,
+.cell-flag:hover,
+.cell-flag-mine:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(145deg, #f4efff, var(--cell-closed-hover));
 }
 
 .legend {
