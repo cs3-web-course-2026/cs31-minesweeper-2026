@@ -103,8 +103,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    outline: none;
     transition: transform 0.05s ease;
+}
+
+.reset-btn:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
 }
 
 .reset-btn:hover {
