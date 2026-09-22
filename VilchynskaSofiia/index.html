@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game">
+      <div class="inner-border">
+        <header class="panel">
+          <div
+            class="counter"
+            id="mines-counter"
+            role="status"
+            aria-live="polite"
+          >
+            <span class="counter-icon" aria-hidden="true">🚩</span>
+            <span class="counter-value">010</span>
+          </div>
+
+          <button
+            type="button"
+            class="restart-btn"
+            id="restart-btn"
+            aria-label="Нова гра"
+          >
+            🙂
+          </button>
+
+          <div class="counter" id="timer" role="timer">
+            <span class="counter-icon" aria-hidden="true">⏱</span>
+            <span class="counter-value">00:00</span>
+          </div>
+        </header>
+
+        <main class="board" id="board">
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n1">1</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n2">2</button>
+          <button type="button" class="cell mine wrong-flag"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell flagged"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n3">3</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+
+          <button type="button" class="cell opened"></button>
+          <button type="button" class="cell opened n1">1</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell mine"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n4">4</button>
+          <button type="button" class="cell closed"></button>
+
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell flagged"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n2">2</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+
+          <button type="button" class="cell opened n5">5</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell mine exploded"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell flagged"></button>
+          <button type="button" class="cell closed"></button>
+
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n6">6</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n1">1</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell mine"></button>
+
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell flagged"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n7">7</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+
+          <button type="button" class="cell mine"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened n8">8</button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell opened"></button>
+          <button type="button" class="cell closed"></button>
+
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+          <button type="button" class="cell closed"></button>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
