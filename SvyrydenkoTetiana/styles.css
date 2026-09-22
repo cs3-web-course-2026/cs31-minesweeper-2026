@@ -7,7 +7,7 @@
     --border-dark: #090d16;
     --cell-closed: #475569;
     --cell-open: #0f172a;
-    --accent-glow: rgba(56, 189, 248, 0.2);
+    --accent-glow: rgb(56 189 248 / 20%);
 }
 
 * {
@@ -17,7 +17,7 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, sans-serif;
     background-color: var(--bg-main);
     background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
     min-height: 100vh;
@@ -30,7 +30,7 @@ body {
     padding: 24px;
     background: var(--panel-bg);
     border-radius: 16px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 50%), 
                 0 0 15px var(--accent-glow);
     border: 1px solid var(--border-light);
 }
@@ -57,7 +57,7 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 80%);
 }
 
 .control-btn {
@@ -72,7 +72,7 @@ body {
     align-items: center;
     font-size: 1.25rem;
     transition: transform 0.1s ease, background-color 0.2s;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 30%);
 }
 
 .control-btn:hover {
@@ -112,7 +112,7 @@ body {
 
 .cell.is-closed {
     background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-    box-shadow: 0 4px 0 #1e293b, 0 5px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 0 #1e293b, 0 5px 4px rgb(0 0 0 / 30%);
 }
 
 .cell.is-closed:hover {
@@ -126,7 +126,7 @@ body {
 
 .cell.is-open {
     background: var(--cell-open);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.6);
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 60%);
     cursor: default;
 }
 
