@@ -19,14 +19,14 @@
   --color-accent: #f1c40f;
   --color-accent2: #09ff00;
 
-  --num-1: #4aa3ff;
-  --num-2: #4caf50;
+  --num-1: #00c;
+  --num-2: #005a00;
   --num-3: #4000ff;
-  --num-4: #9b59b6;
-  --num-5: #e67e22;
-  --num-6: #1abc9c;
-  --num-7: #ecf0f1;
-  --num-8: #95a5a6;
+  --num-4: #4b0082;
+  --num-5: #8b0000;
+  --num-6: #006060;
+  --num-7: #000;
+  --num-8: #404040;
 }
 
 * {
@@ -271,9 +271,9 @@ body {
   }
 
   .restart-btn {
-    width: 40px;
+    width: 110px;
     height: 40px;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .legend-list {
