@@ -10,9 +10,9 @@
     <main class="tnkb-game">
 
         <header class="tnkb-game-header">
-            <div class="tnkb-counter" aria-label="Кількість прапорців">010</div>
+            <div class="tnkb-counter" aria-label="Кількість прапорців" role="status" aria-live="polite">010</div>
             
-            <button class="tnkb-btn-start" aria-label="Почати нову гру">
+            <button type="button" class="tnkb-btn-start" aria-label="Почати нову гру">
                 <img src="user-image.jpg" alt="Аватар користувача" class="tnkb-btn-start-img">
             </button>
             
@@ -20,58 +20,61 @@
         </header>
 
         <section class="tnkb-game-board">
-            <button class="tnkb-cell"></button>
-            <button class="tnkb-cell"></button>
-            <button class="tnkb-cell tnkb-cell-flag">
+            <button type="button" class="tnkb-cell" aria-label="Рядок 1, стовпець 1, закрито"></button>
+            <button type="button" class="tnkb-cell" aria-label="Рядок 1, стовпець 2, закрито"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-flag" aria-label="Рядок 1, стовпець 3, встановлено прапорець">
                 <img class="tnkb-icon" src="custom-flag.png" alt="Прапорець">
             </button>
-            <button class="tnkb-cell"></button>
-            <button class="tnkb-cell"></button>
-            <button class="tnkb-cell tnkb-cell-flag">
+            <button type="button" class="tnkb-cell" aria-label="Рядок 1, стовпець 4, закрито"></button>
+            <button type="button" class="tnkb-cell" aria-label="Рядок 1, стовпець 5, закрито"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-flag" aria-label="Рядок 1, стовпець 6, встановлено прапорець">
                 <img class="tnkb-icon" src="custom-flag.png" alt="Прапорець">
             </button>
-            <button class="tnkb-cell"></button>
-            <button class="tnkb-cell"></button>
+            <button type="button" class="tnkb-cell" aria-label="Рядок 1, стовпець 7, закрито"></button>
+            <button type="button" class="tnkb-cell" aria-label="Рядок 1, стовпець 8, закрито"></button>
 
-            <button class="tnkb-cell tnkb-cell-open"></button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="1">1</button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="2">2</button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="1">1</button>
-            <button class="tnkb-cell tnkb-cell-open"></button>
-            <button class="tnkb-cell tnkb-cell-open"></button>
-            <button class="tnkb-cell tnkb-cell-open"></button>
-            <button class="tnkb-cell tnkb-cell-open"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 2, стовпець 1, відкрито, порожньо"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="1" aria-label="Рядок 2, стовпець 2, відкрито, цифра 1">1</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="2" aria-label="Рядок 2, стовпець 3, відкрито, цифра 2">2</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="1" aria-label="Рядок 2, стовпець 4, відкрито, цифра 1">1</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 2, стовпець 5, відкрито, порожньо"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 2, стовпець 6, відкрито, порожньо"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 2, стовпець 7, відкрито, порожньо"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 2, стовпець 8, відкрито, порожньо"></button>
 
-            <button class="tnkb-cell tnkb-cell-open"></button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="1">1</button>
-            <button class="tnkb-cell tnkb-cell-open tnkb-cell-mine">
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 3, стовпець 1, відкрито, порожньо"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="1" aria-label="Рядок 3, стовпець 2, відкрито, цифра 1">1</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open tnkb-cell-mine" aria-label="Рядок 3, стовпець 3, відкрито, міна">
                 <img class="tnkb-icon" src="evil-minion.png" alt="Злий міньйон">
             </button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="2">2</button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="1">1</button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="3">3</button>
-            <button class="tnkb-cell tnkb-cell-flag tnkb-cell-false-flag">
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="2" aria-label="Рядок 3, стовпець 4, відкрито, цифра 2">2</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="1" aria-label="Рядок 3, стовпець 5, відкрито, цифра 1">1</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="3" aria-label="Рядок 3, стовпець 6, відкрито, цифра 3">3</button>
+            <button type="button" class="tnkb-cell tnkb-cell-flag tnkb-cell-false-flag" aria-label="Рядок 3, стовпець 7, хибний прапорець">
                 <img class="tnkb-icon" src="custom-flag.png" alt="Прапорець">
             </button>
-            <button class="tnkb-cell"></button>
+            <button type="button" class="tnkb-cell" aria-label="Рядок 3, стовпець 8, закрито"></button>
 
-            <button class="tnkb-cell tnkb-cell-open"></button>
-            <button class="tnkb-cell tnkb-cell-open"></button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="1">1</button>
-            <button class="tnkb-cell tnkb-cell-open tnkb-cell-exploded">
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 4, стовпець 1, відкрито, порожньо"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" aria-label="Рядок 4, стовпець 2, відкрито, порожньо"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="1" aria-label="Рядок 4, стовпець 3, відкрито, цифра 1">1</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open tnkb-cell-exploded" aria-label="Рядок 4, стовпець 4, вибух міни">
                 <img class="tnkb-icon" src="evil-minion.png" alt="Злий міньйон">
             </button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="2">2</button>
-            <button class="tnkb-cell tnkb-cell-open tnkb-cell-mine">
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="2" aria-label="Рядок 4, стовпець 5, відкрито, цифра 2">2</button>
+            <button type="button" class="tnkb-cell tnkb-cell-open tnkb-cell-mine" aria-label="Рядок 4, стовпець 6, відкрито, міна">
                 <img class="tnkb-icon" src="evil-minion.png" alt="Злий міньйон">
             </button>
-            <button class="tnkb-cell tnkb-cell-open" data-num="2">2</button>
-            <button class="tnkb-cell"></button>
+            <button type="button" class="tnkb-cell tnkb-cell-open" data-num="2" aria-label="Рядок 4, стовпець 7, відкрито, цифра 2">2</button>
+            <button type="button" class="tnkb-cell" aria-label="Рядок 4, стовпець 8, закрито"></button>
             
-            <button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button>
-            <button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button>
-            <button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button>
-            <button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button><button class="tnkb-cell"></button>
+            <button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 1, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 2, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 3, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 4, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 5, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 6, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 7, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 5, стовпець 8, закрито"></button>
+            
+            <button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 1, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 2, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 3, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 4, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 5, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 6, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 7, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 6, стовпець 8, закрито"></button>
+            
+            <button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 1, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 2, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 3, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 4, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 5, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 6, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 7, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 7, стовпець 8, закрито"></button>
+            
+            <button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 1, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 2, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 3, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 4, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 5, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 6, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 7, закрито"></button><button type="button" class="tnkb-cell" aria-label="Рядок 8, стовпець 8, закрито"></button>
         </section>
     </main>
 </body>

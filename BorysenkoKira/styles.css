@@ -7,6 +7,9 @@
     --color-exploded: #9c27b0;
     --color-border: #fbc02d;
     --color-text: #37474f;
+    
+    --board-size: 8;
+    --animation-duration: 0.1s;
 }
 
 * {
@@ -22,6 +25,7 @@
     align-items: center;
     min-height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 10px;
 }
 
 .tnkb-game {
@@ -33,6 +37,8 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
+    max-width: 400px;
 }
 
 .tnkb-game-header {
@@ -66,7 +72,7 @@
     overflow: hidden;
     background-color: #fff;
     padding: 0;
-    transition: transform 0.1s ease;
+    transition: transform var(--animation-duration) ease;
 }
 
 .tnkb-btn-start:active {
@@ -81,12 +87,13 @@
 
 .tnkb-game-board {
     display: grid;
-    grid-template-columns: repeat(8, 40px);
-    grid-template-rows: repeat(8, 40px);
+    grid-template-columns: repeat(var(--board-size), 1fr);
+    grid-template-rows: repeat(var(--board-size), 1fr);
+    aspect-ratio: 1 / 1; /* Зберігає поле квадратним при зміні розміру екрана */
     background-color: var(--color-border);
     border: 3px solid var(--color-denim-blue);
     border-radius: 8px;
-    gap: 2px; /* Відстань між клітинками */
+    gap: 2px;
     overflow: hidden;
 }
 
@@ -105,7 +112,7 @@
     color: var(--color-text);
 }
 
-.tnkb-cell:hover {
+.tnkb-cell:not(.tnkb-cell-open, .tnkb-cell-exploded):hover {
     background-color: #fff59d;
 }
 
