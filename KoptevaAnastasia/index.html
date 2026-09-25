@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper-Kopteva Anastasia</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game">
+    <header class="game-header">
+      <div class="counter counter-flags" title="Number of flags" role="status" aria-live="polite">
+        <span class="counter-icon" aria-hidden="true">🏳️</span>
+        <span class="counter-value" id="flags-count">000</span>
+      </div>
+
+      <button class="restart-btn" id="restart-btn" type="button" aria-label="New game">
+        <span class="restart-btn-face">START</span>
+      </button>
+
+      <div class="counter counter-timer" title="Game time">
+        <span class="counter-value" id="timer">00:00</span>
+      </div>
+    </header>
+
+    <section class="board" id="board" aria-label="9 x 9">
+      <button class="cell cell-closed" type="button" data-row="0" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="0" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="1" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="2" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="3" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="4" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="5" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="6" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="7" data-col="8" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="0" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="1" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="2" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="3" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="4" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="5" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="6" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="7" aria-label="Cell"></button>
+      <button class="cell cell-closed" type="button" data-row="8" data-col="8" aria-label="Cell"></button>
+    </section>
+
+    <section class="legend" aria-label="Cell state legend">
+      <h2 class="legend-title">Cells</h2>
+      <ul class="legend-list">
+        <li class="legend-item">
+          <button class="cell cell-closed" type="button" tabindex="-1" aria-hidden="true"></button>
+          <span>Closed</span>
+        </li>
+        <li class="legend-item">
+          <button class="cell cell-open" type="button" tabindex="-1" aria-hidden="true"></button>
+          <span>Open</span>
+        </li>
+        <li class="legend-item">
+          <button class="cell cell-open" type="button" data-count="3" tabindex="-1" aria-hidden="true">3</button>
+          <span>Open with a number</span>
+        </li>
+        <li class="legend-item">
+          <button class="cell cell-closed cell-flagged" type="button" tabindex="-1" aria-hidden="true">
+            <span class="cell-flag" aria-hidden="true">🏳️</span>
+          </button>
+          <span>Flag on mine</span>
+        </li>
+        <li class="legend-item">
+          <button class="cell cell-closed cell-flagged-wrong" type="button" tabindex="-1" aria-hidden="true">
+            <span class="cell-flag-wrong" aria-hidden="true">🏴</span>
+          </button>
+          <span>Flag without mine</span>
+        </li>
+        <li class="legend-item">
+          <button class="cell cell-mine" type="button" tabindex="-1" aria-hidden="true">
+            <span class="cell-mine-icon" aria-hidden="true">💣</span>
+          </button>
+          <span>Mine</span>
+        </li>
+        <li class="legend-item">
+          <button class="cell cell-mine cell-exploded" type="button" tabindex="-1" aria-hidden="true">
+            <span class="cell-mine-icon" aria-hidden="true">🔥</span>
+          </button>
+          <span>Clicked mine</span>
+        </li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
