@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+  <div class="sheet">
+    <header>
+      <h1>Minesweeper<span>9 × 9 grid · 10 mines</span></h1>
+      <div class="controls">
+        <span class="badge" id="timer"><span class="badge-icon">⏱</span>Time: 033</span>
+        <span class="badge" id="flags-counter"><span class="badge-icon">⚑</span>Flags: 4 / 10</span>
+        <span class="mode-toggle" aria-label="Dig and flag mode">
+          <span class="mode-toggle-option" aria-hidden="true">&#9935;</span>
+          <span class="mode-toggle-option" aria-hidden="true">&#128681;</span>
+        </span>
+        <button type="button" id="restart">Restart</button>
+      </div>
+    </header>
+    <main>
+      <div class="board">
+        <div class="cell open empty" role="img" aria-label="Row 1, column 1, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 1, column 2, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 1, column 2, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 1, column 4, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 1, column 5, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 1, column 6, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 1, column 7, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 1, column 8, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 1, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 2, column 1, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 2, column 2, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 2, column 3, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 2, column 4, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell flagged-mine" role="img" aria-label="Row 2, column 5, flagged-mine">
+          <span class="cover"></span>
+          <span class="content">⚑</span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 2, column 6, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 2, column 7, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 2, column 8, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 2, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 3, column 1, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 3, column 2, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 3, column 3, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 3, column 4, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 3, column 5, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 3, column 6, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 3, column 7, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell wrong-flag" role="img" aria-label="Row 3, column 8, wrong-flag">
+          <span class="cover"></span>
+          <span class="content">⚑</span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 3, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell mine" role="img" aria-label="Row 4, column 1, mine">
+          <span class="cover"></span>
+          <span class="content">✹</span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 4, column 2, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 4, column 3, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 4, column 4, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 4, column 5, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open count-2" role="img" aria-label="Row 4, column 6, open">
+          <span class="cover"></span>
+          <span class="content" data-count="2">2</span>
+        </div>
+        <div class="cell open count-3" role="img" aria-label="Row 4, column 7, open">
+          <span class="cover"></span>
+          <span class="content" data-count="3">3</span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 4, column 8, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 4, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 5, column 1, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open count-1" role="img" aria-label="Row 5, column 2, open">
+          <span class="cover"></span>
+          <span class="content" data-count="1">1</span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 5, column 3, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 5, column 4, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 5, column 5, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open count-2" role="img" aria-label="Row 5, column 6, open">
+          <span class="cover"></span>
+          <span class="content" data-count="2">2</span>
+        </div>
+        <div class="cell flagged" role="img" aria-label="Row 5, column 7, flagged">
+          <span class="cover"></span>
+          <span class="content">⚑</span>
+        </div>
+        <div class="cell open count-3" role="img" aria-label="Row 5, column 8, open">
+          <span class="cover"></span>
+          <span class="content" data-count="3">3</span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 5, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 6, column 1, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 6, column 2, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 6, column 3, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 6, column 4, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 6, column 5, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 6, column 6, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 6, column 7, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 6, column 8, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 6, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 7, column 1, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 7, column 2, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 7, column 3, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 7, column 4, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 7, column 5, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 7, column 6, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 7, column 7, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 7, column 8, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 7, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 8, column 1, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 8, column 2, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 8, column 3, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 8, column 4, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 8, column 5, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 8, column 6, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 8, column 7, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 8, column 8, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 8, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 9, column 1, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 9, column 2, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 9, column 3, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 9, column 4, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell open empty" role="img" aria-label="Row 9, column 5, open">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+        <div class="cell wrong-flag" role="img" aria-label="Row 9, column 6, wrong-flag">
+          <span class="cover"></span>
+          <span class="content">⚑</span>
+        </div>
+        <div class="cell triggered-mine" role="img" aria-label="Row 9, column 7, triggered-mine">
+          <span class="cover"></span>
+          <span class="content">✹</span>
+        </div>
+        <div class="cell mine" role="img" aria-label="Row 9, column 8, mine">
+          <span class="cover"></span>
+          <span class="content">✹</span>
+        </div>
+        <div class="cell closed" role="img" aria-label="Row 9, column 9, closed">
+          <span class="cover"></span>
+          <span class="content"></span>
+        </div>
+      </div>
+      <p id="game-message" role="status" aria-live="polite">
+        Game over: you opened a mine.
+      </p>
+    </main>
+  </div>
+  </body>
+</html>
