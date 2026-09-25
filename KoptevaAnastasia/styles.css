@@ -2,6 +2,8 @@
   --cell-size: 36px;
   --cell-gap: 3px;
   --board-cols: 9;
+  --transition-bg: 0.15s ease;
+  --transition-transform: 0.1s ease;
 
   --color-bg: #000;
   --color-panel: #262626;
@@ -97,7 +99,7 @@ body {
   background: var(--color-cell-closed);
   border: 2px solid var(--color-border-light);
   border-radius: 10px;
-  transition: background 0.15s ease, transform 0.1s ease;
+  transition: background var(--transition-bg), transform var(--transition-transform);
 }
 
 .restart-btn:hover {
