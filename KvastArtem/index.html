@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game" aria-label="Minesweeper game">
+      <header class="game-header">
+        <div class="status-panel">
+          <span class="status-label">Time</span>
+          <time class="timer" datetime="PT0M">00:00</time>
+        </div>
+
+        <button class="restart-button" type="button" aria-label="Start or restart game">
+          😃
+        </button>
+
+        <div class="status-panel">
+          <span class="status-label">Flags</span>
+          <span class="flag-counter">02</span>
+        </div>
+      </header>
+
+      <section class="board" aria-label="Minesweeper board">
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell flag flagged-mine" aria-label="Flagged cell with a mine"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell mine" aria-label="Mine"></div>
+        <div class="cell opened number-three" aria-label="Opened cell, three neighbouring mines">3</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell flag" aria-label="Flagged cell"></div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell exploded" aria-label="Exploded mine"></div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell opened number-three" aria-label="Opened cell, three neighbouring mines">3</div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell mine" aria-label="Mine"></div>
+        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell closed" aria-label="Closed cell"></div>
+        <div class="cell opened" aria-label="Opened empty cell"></div>
+      </section>
+
+      <p class="game-message" role="status" aria-live="polite">Find all the mines!</p>
+    </main>
+  </body>
+</html>
