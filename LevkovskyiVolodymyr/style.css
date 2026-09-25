@@ -1,0 +1,167 @@
+:root {
+    --cell-size: 100px;
+    --transition-duration: 0.3s;
+    --loss-animation-duration: 1s;
+}
+
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    width: 100%;
+    max-width: 626px;
+}
+
+.scores-container{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.start-btn{
+    padding: 10px;
+    width: 150px;
+    border-radius: 5px;
+    outline: none;
+    background-color: #f5c34c;
+    border: 1px solid #000;
+}
+
+.start-btn:hover{
+    cursor: pointer;
+    background-color: #ce9306;
+    transition: var(--transition-duration);
+}
+
+.stop-btn{
+    padding: 10px;
+    width: 150px;
+    border-radius: 5px;
+    outline: none;
+    background-color: #e50d0d;
+    border: 1px solid #000;
+    color: #fff;
+}
+
+.stop-btn:hover{
+    cursor: pointer;
+    background-color: #620606;
+    transition: var(--transition-duration);
+}
+
+.btn-container{
+    display: flex;
+    gap: 10px;
+}
+
+
+body{
+    background-color: rgb(23 31 51);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.game {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.board {
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.raw, .column{
+   border: 1px solid #fff;
+   width: var(--cell-size);
+   height: var(--cell-size);
+   color: #fff;
+   text-align: center;
+   vertical-align: middle;
+   font-size: 28px;
+   font-weight: bold;
+   user-select: none;
+}
+
+.closed{
+    background-color: #3b4d66;
+}
+
+.game-active .closed:hover{
+    cursor: pointer;
+    background-color: #273142;
+    transition: var(--transition-duration);
+}
+
+.bombed{
+    background-color: #d70a1b;
+}
+
+
+.opened{
+    background-color: #2d9d65;
+}
+
+
+.countdown, .flags-count, .game-status{
+    font-size: 18px;
+    padding: 10px;
+    color: #000;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.game-status:empty {
+    display: none;
+}
+
+.flagged {
+    background-color: #f39c12;
+    color: #fff;
+}
+
+.flagged.wrong {
+    background-color: #8e44ad;
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.first-exploded{
+    background-color: #d70a1b;
+    animation: pulsate var(--loss-animation-duration) infinite ease-in-out;
+}
+
+@media (width <= 640px) {
+    :root {
+        --cell-size: min(14vw, 55px);
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .raw, .column {
+        font-size: 18px;
+    }
+}
