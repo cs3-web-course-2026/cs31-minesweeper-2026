@@ -1,10 +1,15 @@
 :root {
+  --board-columns: 10;
+  --board-max-width: 700px;
+  --cell-aspect-ratio: 1;
+  --transition-control: 160ms;
+  --transition-cell: 140ms;
   --page-bg: #f7f2ff;
   --page-bg-deep: #eee5ff;
   --surface: rgb(255 255 255 / 88%);
   --surface-solid: #fff;
   --text: #302a3d;
-  --muted: #81758f;
+  --muted: #655974;
   --primary: #9d7bea;
   --primary-dark: #7758c4;
   --primary-soft: #eee6ff;
@@ -141,10 +146,10 @@ h1 {
   font-weight: 750;
   border: 0;
   border-radius: var(--radius-md);
-  background: linear-gradient(145deg, #a88ae9, #8968cf);
+  background: linear-gradient(145deg, #7553c2, #5e3da8);
   box-shadow: 0 10px 22px rgb(137 104 207 / 28%);
   cursor: pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+  transition: transform var(--transition-control) ease, box-shadow var(--transition-control) ease, filter var(--transition-control) ease;
 }
 
 .new-game:hover {
@@ -203,9 +208,9 @@ h1 {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--board-columns), minmax(0, 1fr));
   gap: 6px;
-  width: min(100%, 700px);
+  width: min(100%, var(--board-max-width));
   margin: 0 auto;
   padding: 12px;
   background: #ded4f2;
@@ -217,7 +222,7 @@ h1 {
 }
 
 .cell {
-  aspect-ratio: 1;
+  aspect-ratio: var(--cell-aspect-ratio);
   display: grid;
   place-items: center;
   padding: 0;
@@ -227,7 +232,7 @@ h1 {
   font-weight: 850;
   line-height: 1;
   cursor: pointer;
-  transition: transform 140ms ease, background-color 140ms ease, border-color 140ms ease;
+  transition: transform var(--transition-cell) ease, background-color var(--transition-cell) ease, border-color var(--transition-cell) ease;
 }
 
 .cell:focus-visible {
