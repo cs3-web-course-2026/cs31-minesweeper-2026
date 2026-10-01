@@ -1,34 +1,78 @@
-const gameState = { rows: 10, cols: 10, minesCount: 15, status: 'process', gameTime: 0, timerId: null, flagsUsed: 0, explodedCell: null };
+const CONFIG = {
+    ROWS: 10,
+    COLS: 10,
+    MINES_COUNT: 15,
+    TIMER_INTERVAL: 1000
+};
+
+const GAME_STATUS = {
+    PROCESS: 'process',
+    WIN: 'win',
+    LOSE: 'lose'
+};
+
+const CELL_TYPE = {
+    EMPTY: 'empty',
+    MINE: 'mine'
+};
+
+const CELL_STATE = {
+    CLOSED: 'closed',
+    OPENED: 'opened',
+    FLAGGED: 'flagged'
+};
+
+const gameState = { 
+    rows: CONFIG.ROWS, 
+    cols: CONFIG.COLS, 
+    minesCount: CONFIG.MINES_COUNT, 
+    status: GAME_STATUS.PROCESS, 
+    gameTime: 0, 
+    timerId: null, 
+    flagsUsed: 0, 
+    explodedCell: null 
+};
+
 let board = [];
 
 function generateField(rows, cols, minesCount) {
     board = [];
-    for (let r = 0; r < rows; r++) {
-        const row = [];
-        for (let c = 0; c < cols; c++) row.push({ type: 'empty', state: 'closed', neighborMines: 0 });
-        board.push(row);
+    for (let row = 0; row < rows; row++) {
+        const currentRow = [];
+        for (let col = 0; col < cols; col++) {
+            currentRow.push({ type: CELL_TYPE.EMPTY, state: CELL_STATE.CLOSED, neighborMines: 0 });
+        }
+        board.push(currentRow);
     }
     let placedMines = 0;
     while (placedMines < minesCount) {
-        const r = Math.floor(Math.random() * rows);
-        const c = Math.floor(Math.random() * cols);
-        if (board[r][c].type !== 'mine') { board[r][c].type = 'mine'; placedMines++; }
+        const row = Math.floor(Math.random() * rows);
+        const col = Math.floor(Math.random() * cols);
+        if (board[row][col].type !== CELL_TYPE.MINE) { 
+            board[row][col].type = CELL_TYPE.MINE; 
+            placedMines++; 
+        }
     }
 }
 
 function countNeighbourMines() {
     const directions = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            if (board[r][c].type === 'mine') continue;
+    for (let row = 0; row < gameState.rows; row++) {
+        for (let col = 0; col < gameState.cols; col++) {
+            if (board[row][col].type === CELL_TYPE.MINE) continue;
             let minesAround = 0;
-            for (const [dr, dc] of directions) {
-                const nr = r + dr, nc = c + dc;
-                if (nr >= 0 && nr < gameState.rows && nc >= 0 && nc < gameState.cols && board[nr][nc].type === 'mine') {
+            for (const [rowOffset, colOffset] of directions) {
+                const neighborRow = row + rowOffset;
+                const neighborCol = col + colOffset;
+                if (
+                    neighborRow >= 0 && neighborRow < gameState.rows && 
+                    neighborCol >= 0 && neighborCol < gameState.cols && 
+                    board[neighborRow][neighborCol].type === CELL_TYPE.MINE
+                ) {
                     minesAround++;
                 }
             }
-            board[r][c].neighborMines = minesAround;
+            board[row][col].neighborMines = minesAround;
         }
     }
 }
@@ -38,15 +82,15 @@ function updateStatusMessage(message) {
     if (statusElement) statusElement.textContent = message;
 }
 
-function openCell(r, c) {
-    if (r < 0 || r >= gameState.rows || c < 0 || c >= gameState.cols) return;
-    const cell = board[r][c];
-    if (cell.state === 'opened' || cell.state === 'flagged' || gameState.status !== 'process') return;
-    cell.state = 'opened';
+function openCell(row, col) {
+    if (row < 0 || row >= gameState.rows || col < 0 || col >= gameState.cols) return;
+    const cell = board[row][col];
+    if (cell.state === CELL_STATE.OPENED || cell.state === CELL_STATE.FLAGGED || gameState.status !== GAME_STATUS.PROCESS) return;
+    cell.state = CELL_STATE.OPENED;
     
-    if (cell.type === 'mine') {
-        gameState.status = 'lose';
-        gameState.explodedCell = { r, c }; // Запам'ятовуємо координати клікнутої міни
+    if (cell.type === CELL_TYPE.MINE) {
+        gameState.status = GAME_STATUS.LOSE;
+        gameState.explodedCell = { row, col };
         stopTimer();
         updateStatusMessage('Поразка! Ви натрапили на міну.');
         return;
@@ -54,39 +98,54 @@ function openCell(r, c) {
     
     if (cell.neighborMines === 0) {
         const directions = [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]];
-        for (const [dr, dc] of directions) openCell(r + dr, c + dc);
+        for (const [rowOffset, colOffset] of directions) {
+            openCell(row + rowOffset, col + colOffset);
+        }
     }
 }
 
-function toggleFlag(r, c) {
-    const cell = board[r][c];
-    if (cell.state === 'opened' || gameState.status !== 'process') return;
-    if (cell.state === 'closed') { cell.state = 'flagged'; gameState.flagsUsed++; }
-    else if (cell.state === 'flagged') { cell.state = 'closed'; gameState.flagsUsed--; }
+function toggleFlag(row, col) {
+    const cell = board[row][col];
+    if (cell.state === CELL_STATE.OPENED || gameState.status !== GAME_STATUS.PROCESS) return;
+    if (cell.state === CELL_STATE.CLOSED) { 
+        cell.state = CELL_STATE.FLAGGED; 
+        gameState.flagsUsed++; 
+    } else if (cell.state === CELL_STATE.FLAGGED) { 
+        cell.state = CELL_STATE.CLOSED; 
+        gameState.flagsUsed--; 
+    }
 }
 
 function startTimer() {
     stopTimer();
     gameState.gameTime = 0;
     gameState.timerId = setInterval(() => {
-        if (gameState.status === 'process') { gameState.gameTime++; updateUI(); }
-    }, 1000);
+        if (gameState.status === GAME_STATUS.PROCESS) { 
+            gameState.gameTime++; 
+            updateUI(); 
+        }
+    }, CONFIG.TIMER_INTERVAL);
 }
 
 function stopTimer() {
-    if (gameState.timerId) { clearInterval(gameState.timerId); gameState.timerId = null; }
+    if (gameState.timerId) { 
+        clearInterval(gameState.timerId); 
+        gameState.timerId = null; 
+    }
 }
 
 function checkWinCondition() {
-    if (gameState.status !== 'process') return;
+    if (gameState.status !== GAME_STATUS.PROCESS) return;
     let closedEmptyCells = 0;
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            if (board[r][c].type === 'empty' && board[r][c].state !== 'opened') closedEmptyCells++;
+    for (let row = 0; row < gameState.rows; row++) {
+        for (let col = 0; col < gameState.cols; col++) {
+            if (board[row][col].type === CELL_TYPE.EMPTY && board[row][col].state !== CELL_STATE.OPENED) {
+                closedEmptyCells++;
+            }
         }
     }
     if (closedEmptyCells === 0) {
-        gameState.status = 'win';
+        gameState.status = GAME_STATUS.WIN;
         stopTimer();
         updateStatusMessage('Перемога! Всі безпечні клітинки знайдено.');
     }
@@ -95,67 +154,71 @@ function checkWinCondition() {
 const boardElement = document.querySelector('.game-board');
 const flagsCounterUI = document.querySelectorAll('.counter')[0];
 const timerUI = document.querySelectorAll('.counter')[1];
-const restartBtn = document.querySelector('.btn-start');
+const restartButton = document.querySelector('.btn-start');
 
 function renderBoard() {
     if (!boardElement) return;
     boardElement.innerHTML = '';
     
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            const cell = board[r][c];
-            const btn = document.createElement('button');
-            btn.className = 'cell';
+    for (let row = 0; row < gameState.rows; row++) {
+        for (let col = 0; col < gameState.cols; col++) {
+            const cell = board[row][col];
+            const cellButton = document.createElement('button');
+            cellButton.className = 'cell';
 
-            btn.setAttribute(
+            cellButton.setAttribute(
                 'aria-label',
-                `Рядок ${r + 1}, стовпець ${c + 1}: ${cell.state}` +
-                (cell.state === 'opened'
-                    ? `, ${cell.type === 'mine' ? 'міна' : `сусідніх мін: ${cell.neighborMines}`}`
+                `Рядок ${row + 1}, стовпець ${col + 1}: ${cell.state}` +
+                (cell.state === CELL_STATE.OPENED
+                    ? `, ${cell.type === CELL_TYPE.MINE ? 'міна' : `сусідніх мін: ${cell.neighborMines}`}`
                     : '')
             );
 
-            btn.addEventListener('click', () => {
-                openCell(r, c);
+            cellButton.addEventListener('click', () => {
+                openCell(row, col);
                 checkWinCondition();
-                if (gameState.status === 'lose') revealAllMines();
+                if (gameState.status === GAME_STATUS.LOSE) revealAllMines();
                 renderBoard();
                 updateUI();
             });
 
-            btn.addEventListener('contextmenu', (e) => {
-                e.preventDefault();
-                toggleFlag(r, c);
+            cellButton.addEventListener('contextmenu', (event) => {
+                event.preventDefault();
+                toggleFlag(row, col);
                 renderBoard();
                 updateUI();
             });
 
-            if (cell.state === 'opened') {
-                btn.classList.add('cell-open');
-                if (cell.type === 'mine') {
-                    btn.classList.add('cell-mine');
-                    if (gameState.status === 'lose' && gameState.explodedCell?.r === r && gameState.explodedCell?.c === c) {
-                        btn.classList.add('cell-exploded');
+            if (cell.state === CELL_STATE.OPENED) {
+                cellButton.classList.add('cell-open');
+                if (cell.type === CELL_TYPE.MINE) {
+                    cellButton.classList.add('cell-mine');
+                    if (gameState.status === GAME_STATUS.LOSE && gameState.explodedCell?.row === row && gameState.explodedCell?.col === col) {
+                        cellButton.classList.add('cell-exploded');
                     }
-                    btn.innerHTML = '<img class="icon" src="evil-minion.png" alt="Міна">';
+                    cellButton.innerHTML = '<img class="icon" src="evil-minion.png" alt="Міна">';
                 } else if (cell.neighborMines > 0) {
-                    btn.textContent = cell.neighborMines;
-                    btn.dataset.num = cell.neighborMines;
+                    cellButton.textContent = cell.neighborMines;
+                    cellButton.dataset.num = cell.neighborMines;
                 }
-            } else if (cell.state === 'flagged') {
-                btn.classList.add('cell-flag');
-                if (gameState.status === 'lose' && cell.type !== 'mine') btn.classList.add('cell-false-flag');
-                btn.innerHTML = '<img class="icon" src="custom-flag.png" alt="Прапорець">';
+            } else if (cell.state === CELL_STATE.FLAGGED) {
+                cellButton.classList.add('cell-flag');
+                if (gameState.status === GAME_STATUS.LOSE && cell.type !== CELL_TYPE.MINE) {
+                    cellButton.classList.add('cell-false-flag');
+                }
+                cellButton.innerHTML = '<img class="icon" src="custom-flag.png" alt="Прапорець">';
             }
-            boardElement.appendChild(btn);
+            boardElement.appendChild(cellButton);
         }
     }
 }
 
 function revealAllMines() {
-    for (let r = 0; r < gameState.rows; r++) {
-        for (let c = 0; c < gameState.cols; c++) {
-            if (board[r][c].type === 'mine') board[r][c].state = 'opened';
+    for (let row = 0; row < gameState.rows; row++) {
+        for (let col = 0; col < gameState.cols; col++) {
+            if (board[row][col].type === CELL_TYPE.MINE) {
+                board[row][col].state = CELL_STATE.OPENED;
+            }
         }
     }
 }
@@ -167,7 +230,7 @@ function updateUI() {
 }
 
 function initGame() {
-    gameState.status = 'process';
+    gameState.status = GAME_STATUS.PROCESS;
     gameState.flagsUsed = 0;
     gameState.explodedCell = null;
     updateStatusMessage('');
@@ -178,5 +241,5 @@ function initGame() {
     updateUI();
 }
 
-if (restartBtn) restartBtn.addEventListener('click', initGame);
+if (restartButton) restartButton.addEventListener('click', initGame);
 initGame();
