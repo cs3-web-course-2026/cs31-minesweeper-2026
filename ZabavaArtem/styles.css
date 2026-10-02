@@ -42,7 +42,7 @@ body {
   overflow: hidden;
   background: #000;
   color: #f00;
-  font-family: "Courier New", monospace;
+  font-family: 'Courier New', monospace;
   font-size: 28px;
   font-weight: bold;
 }
@@ -61,7 +61,6 @@ body {
 .new-game:active {
   border-color: #555 #fff #fff #555;
 }
-
 
 .board {
   display: grid;
@@ -95,12 +94,18 @@ body {
   border: 1px solid #808080;
 }
 
-.number-1 { color: #0000e0; }
-.number-2 { color: #008000; }
-.number-3 { color: #e00000; }
+.number-1 {
+  color: #0000e0;
+}
+.number-2 {
+  color: #008000;
+}
+.number-3 {
+  color: #e00000;
+}
 
 .flagged {
-    color: #e00000;
+  color: #e00000;
 }
 
 .exploded {
