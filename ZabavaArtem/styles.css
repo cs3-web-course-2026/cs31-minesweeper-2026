@@ -1,0 +1,141 @@
+:root {
+  color: #000;
+  background: #008080;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.game {
+  width: min(100%, 420px);
+  padding: 10px;
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #fff #555 #555 #fff;
+  box-shadow: 2px 2px 0 #000;
+}
+
+.game-header {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  margin-bottom: 10px;
+  border: 3px solid;
+  border-color: #555 #fff #fff #555;
+}
+
+.counter {
+  width: 72px;
+  padding: 4px 5px 2px;
+  overflow: hidden;
+  background: #000;
+  color: #f00;
+  font-family: "Courier New", monospace;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.new-game {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #fff #555 #555 #fff;
+  cursor: pointer;
+  color: #ffea00;
+}
+
+.new-game:active {
+  border-color: #555 #fff #fff #555;
+}
+
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  border: 3px solid;
+  border-color: #555 #fff #fff #555;
+}
+
+.cell {
+  aspect-ratio: 1;
+  min-width: 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  font-size: clamp(14px, 4vw, 22px);
+  font-weight: bold;
+}
+
+.closed {
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: #fff #777 #777 #fff;
+  cursor: pointer;
+}
+
+.open,
+.mine {
+  background: #c0c0c0;
+  border: 1px solid #808080;
+}
+
+.number-1 { color: #0000e0; }
+.number-2 { color: #008000; }
+.number-3 { color: #e00000; }
+
+.flagged {
+    color: #e00000;
+}
+
+.exploded {
+  background: #f00;
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 420px) {
+  body {
+    padding: 12px;
+  }
+
+  .game {
+    padding: 8px;
+  }
+
+  .counter {
+    width: 64px;
+    font-size: 24px;
+  }
+
+  .game-header {
+    min-height: 54px;
+    padding: 7px;
+    margin-bottom: 8px;
+  }
+}

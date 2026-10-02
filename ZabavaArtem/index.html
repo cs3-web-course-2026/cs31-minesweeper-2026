@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minesweeper</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=flag_2,explosion,mood"
+        />
+    </head>
+    <body>
+        <main class="game" aria-labelledby="game-title">
+            <h1 id="game-title" class="hidden">Minesweeper</h1>
+
+            <header class="game-header">
+                <output class="counter" aria-label="Mines remaining"
+                    >010</output
+                >
+                <button
+                    class="new-game"
+                    type="button"
+                    aria-label="Start a new game"
+                >
+                    <span class="material-symbols-outlined"> mood </span>
+                </button>
+                <output class="counter" aria-label="Elapsed time">123</output>
+            </header>
+
+            <section class="board" aria-label="Minesweeper board">
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell flagged"
+                    type="button"
+                    aria-label="Flagged cell"
+                >
+                    <span class="material-symbols-outlined"> flag_2 </span>
+                </button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-2"
+                    type="button"
+                    aria-label="Open cell with 2 adjacent mines"
+                >
+                    2
+                </button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell flagged mine-flagged"
+                    type="button"
+                    aria-label="Flagged mine"
+                >
+                    <span class="material-symbols-outlined"> flag_2 </span>
+                </button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-2"
+                    type="button"
+                    aria-label="Open cell with 2 adjacent mines"
+                >
+                    2
+                </button>
+                <button
+                    class="cell open number-3"
+                    type="button"
+                    aria-label="Open cell with 3 adjacent mines"
+                >
+                    3
+                </button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell flagged"
+                    type="button"
+                    aria-label="Flagged cell"
+                >
+                    <span class="material-symbols-outlined"> flag_2 </span>
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-2"
+                    type="button"
+                    aria-label="Open cell with 2 adjacent mines"
+                >
+                    2
+                </button>
+                <button
+                    class="cell open number-3"
+                    type="button"
+                    aria-label="Open cell with 3 adjacent mines"
+                >
+                    3
+                </button>
+                <button
+                    class="cell open number-2"
+                    type="button"
+                    aria-label="Open cell with 2 adjacent mines"
+                >
+                    2
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-2"
+                    type="button"
+                    aria-label="Open cell with 2 adjacent mines"
+                >
+                    2
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button class="cell mine" type="button" aria-label="Mine">
+                    <span class="material-symbols-outlined"> explosion </span>
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+                <button
+                    class="cell open"
+                    type="button"
+                    aria-label="Open empty cell"
+                ></button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell mine exploded"
+                    type="button"
+                    aria-label="Exploded mine"
+                >
+                    <span class="material-symbols-outlined"> explosion </span>
+                </button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell closed"
+                    type="button"
+                    aria-label="Closed cell"
+                ></button>
+                <button
+                    class="cell open number-1"
+                    type="button"
+                    aria-label="Open cell with 1 adjacent mine"
+                >
+                    1
+                </button>
+            </section>
+        </main>
+    </body>
+</html>
