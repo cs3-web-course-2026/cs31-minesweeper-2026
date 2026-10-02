@@ -1,4 +1,5 @@
 :root {
+  --board-size: 9;
   color: #000;
   background: #008080;
 }
@@ -64,7 +65,7 @@ body {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(var(--board-size), 1fr);
   border: 3px solid;
   border-color: #555 #fff #fff #555;
 }
@@ -124,7 +125,7 @@ body {
   border: 0;
 }
 
-@media (max-width: 420px) {
+@media (width <= 420px) {
   body {
     padding: 12px;
   }
