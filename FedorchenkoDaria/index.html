@@ -33,7 +33,13 @@
               d="M4 22V4a1 1 0 0 1 .4-.8A6 6 0 0 1 8 2c3 0 5 2 7.333 2q2 0 3.067-.8A1 1 0 0 1 20 4v10a1 1 0 0 1-.4.8A6 6 0 0 1 16 16c-3 0-5-2-8-2a6 6 0 0 0-4 1.528"
             />
           </svg>
-          <span class="counter-value" id="flags-counter">000</span>
+          <span
+            class="counter-value"
+            id="flags-counter"
+            role="status"
+            aria-live="polite"
+            >000</span
+          >
         </div>
 
         <button class="restart-btn" type="button" aria-label="почати нову гру">
@@ -80,7 +86,12 @@
         <section class="board" aria-label="ігрове поле"></section>
 
         <div class="overlay" id="overlay" hidden>
-          <p class="overlay-message" id="overlay-message"></p>
+          <p
+            class="overlay-message"
+            id="overlay-message"
+            role="status"
+            aria-live="polite"
+          ></p>
           <button class="overlay-btn" id="overlay-restart" type="button">
             Грати знову
           </button>

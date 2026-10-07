@@ -7,7 +7,7 @@ const gameState = {
   timerId: null,
 };
 
-let minefield = [];
+let board = [];
 let explodedCell = null;
 
 function generateField(rows, cols, minesCount) {
@@ -63,7 +63,7 @@ function countNeighbourMines(grid) {
 }
 
 function revealCells(row, col) {
-  const cell = minefield[row][col];
+  const cell = board[row][col];
   if (cell.state !== 'closed') return;
 
   cell.state = 'opened';
@@ -76,7 +76,7 @@ function revealCells(row, col) {
 function openCell(row, col) {
   if (gameState.status !== 'process') return;
 
-  const cell = minefield[row][col];
+  const cell = board[row][col];
   if (cell.state === 'opened' || cell.state === 'flagged') return;
 
   if (cell.type === 'mine') {
@@ -93,7 +93,7 @@ function openCell(row, col) {
 function toggleFlag(row, col) {
   if (gameState.status !== 'process') return;
 
-  const cell = minefield[row][col];
+  const cell = board[row][col];
   if (cell.state === 'opened') return;
   if (cell.state === 'closed' && getRemainingFlags() === 0) return;
 
@@ -101,7 +101,7 @@ function toggleFlag(row, col) {
 }
 
 function getRemainingFlags() {
-  const flagged = minefield
+  const flagged = board
     .flat()
     .filter((cell) => cell.state === 'flagged').length;
   return gameState.minesCount - flagged;
@@ -120,7 +120,7 @@ function haltTimer() {
 }
 
 function isVictory() {
-  return minefield
+  return board
     .flat()
     .every((cell) => cell.type === 'mine' || cell.state === 'opened');
 }
@@ -137,12 +137,12 @@ function resetGame() {
   gameState.gameTime = 0;
   explodedCell = null;
 
-  minefield = generateField(
+  board = generateField(
     gameState.rows,
     gameState.cols,
     gameState.minesCount,
   );
-  countNeighbourMines(minefield);
+  countNeighbourMines(board);
 }
 
 const boardNode = document.querySelector('.board');
@@ -191,7 +191,7 @@ function buildCell(cell, row, col) {
 
 function drawBoard() {
   boardNode.replaceChildren(
-    ...minefield.map((rowCells, row) => {
+    ...board.map((rowCells, row) => {
       const rowNode = document.createElement('div');
       rowNode.className = 'board-row';
       rowNode.append(...rowCells.map((cell, col) => buildCell(cell, row, col)));
