@@ -193,6 +193,13 @@ function openCell(row, col) {
 }
 
 
+function getFlaggedCount() {
+  return board.flat().filter(
+    (cell) => cell.state === CELL_STATE.FLAGGED,
+  ).length;
+}
+
+
 function toggleFlag(row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS || !isInBounds(row, col)) {
     return;
@@ -201,6 +208,13 @@ function toggleFlag(row, col) {
   const cell = board[row][col];
 
   if (cell.state === CELL_STATE.OPENED) {
+    return;
+  }
+
+  if (
+    cell.state === CELL_STATE.CLOSED &&
+    getFlaggedCount() >= gameState.minesCount
+  ) {
     return;
   }
 
@@ -329,9 +343,7 @@ function renderBoard() {
 
 
 function updateMineCounter() {
-  const flaggedCount = board.flat().filter(
-    (cell) => cell.state === CELL_STATE.FLAGGED,
-  ).length;
+  const flaggedCount = getFlaggedCount();
   const remainingMines = gameState.minesCount - flaggedCount;
   const sign = remainingMines < 0 ? '-' : '';
   const digits = String(Math.abs(remainingMines)).padStart(
