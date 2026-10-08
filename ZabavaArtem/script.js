@@ -141,6 +141,24 @@ function stopTimer() {
 }
 
 
+function openCellRecursively(row, col) {
+  const cell = board[row][col];
+
+  if (cell.state !== CELL_STATE.CLOSED) {
+    return;
+  }
+
+  cell.state = CELL_STATE.OPENED;
+
+  if (cell.neighborMines === 0) {
+    getNeighbourCoordinates(row, col).forEach(
+      ([neighbourRow, neighbourCol]) =>
+        openCellRecursively(neighbourRow, neighbourCol),
+    );
+  }
+}
+
+
 function openCell(row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS || !isInBounds(row, col)) {
     return;
@@ -152,7 +170,7 @@ function openCell(row, col) {
     return;
   }
 
-  cell.state = CELL_STATE.OPENED;
+  startTimer();
 
   if (cell.type === CELL_TYPE.MINE) {
     gameState.status = GAME_STATUS.LOSE;
@@ -163,11 +181,7 @@ function openCell(row, col) {
     return;
   }
 
-  if (cell.neighborMines === 0) {
-    getNeighbourCoordinates(row, col).forEach(
-      ([neighbourRow, neighbourCol]) => openCell(neighbourRow, neighbourCol),
-    );
-  }
+  openCellRecursively(row, col);
 
   if (checkWinCondition()) {
     gameState.status = GAME_STATUS.WIN;
@@ -283,6 +297,12 @@ function createCellButton(cell, row, col) {
 
 
 function renderBoard() {
+  const activeElement = document.activeElement;
+  const hasActiveCell =
+    activeElement && activeElement.classList.contains('cell');
+  const activeRow = hasActiveCell ? activeElement.dataset.row : null;
+  const activeCol = hasActiveCell ? activeElement.dataset.col : null;
+
   boardElement.replaceChildren();
 
   board.forEach((rowCells, row) => {
@@ -290,6 +310,18 @@ function renderBoard() {
       boardElement.append(createCellButton(cell, row, col));
     });
   });
+
+  if (activeRow !== null && activeCol !== null) {
+    const cellButtons = boardElement.querySelectorAll('.cell');
+    const activeCell = [...cellButtons].find(
+      (button) =>
+        button.dataset.row === activeRow && button.dataset.col === activeCol,
+    );
+
+    if (activeCell) {
+      activeCell.focus();
+    }
+  }
 
   updateMineCounter();
   updateTimer();
@@ -301,11 +333,13 @@ function updateMineCounter() {
     (cell) => cell.state === CELL_STATE.FLAGGED,
   ).length;
   const remainingMines = gameState.minesCount - flaggedCount;
-
-  mineCounterElement.textContent = String(remainingMines).padStart(
-    DISPLAY_WIDTH,
+  const sign = remainingMines < 0 ? '-' : '';
+  const digits = String(Math.abs(remainingMines)).padStart(
+    DISPLAY_WIDTH - sign.length,
     '0',
   );
+
+  mineCounterElement.textContent = `${sign}${digits}`;
 }
 
 
@@ -330,7 +364,6 @@ function resetGame() {
   countNeighbourMines(board);
   gameMessageElement.textContent = 'Open a cell to start the game.';
   renderBoard();
-  startTimer();
 }
 
 

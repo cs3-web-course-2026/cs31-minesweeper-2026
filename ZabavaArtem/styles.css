@@ -98,7 +98,7 @@ body {
   outline-offset: -5px;
 }
 
-.cell.open,
+.cell.opened,
 .cell.mine {
   background: #c0c0c0;
   border: 1px solid #808080;
