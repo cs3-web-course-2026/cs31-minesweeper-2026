@@ -1,0 +1,195 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --board-columns: 9;
+  --cell-size: 32px;
+  --face: #c0c0c0;
+  --shadow: #808080;
+  --shadow-dark: #000;
+  --light: #fff;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #008080;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.game {
+  background-color: var(--face);
+  border: 3px solid;
+  border-color: var(--light) var(--shadow-dark) var(--shadow-dark) var(--light);
+  padding: 6px;
+}
+
+.inner-border {
+  border: 2px solid;
+  border-color: var(--shadow) var(--light) var(--light) var(--shadow);
+  padding: 6px;
+}
+
+.panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid;
+  border-color: var(--shadow) var(--light) var(--light) var(--shadow);
+  padding: 4px 6px;
+  margin-bottom: 6px;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 60px;
+  background-color: #000;
+  color: #f00;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  justify-content: center;
+  padding: 2px 4px;
+  border: 1px solid;
+  border-color: var(--shadow) var(--light) var(--light) var(--shadow);
+}
+
+.counter-icon {
+  font-size: 16px;
+}
+
+.restart-btn {
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  line-height: 1;
+  background-color: var(--face);
+  border: 2px solid;
+  border-color: var(--light) var(--shadow) var(--shadow) var(--light);
+  cursor: pointer;
+  padding: 0;
+}
+
+.restart-btn:active {
+  border-color: var(--shadow) var(--light) var(--light) var(--shadow);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), var(--cell-size));
+  grid-template-rows: repeat(var(--board-columns), var(--cell-size));
+  border: 2px solid;
+  border-color: var(--shadow) var(--light) var(--light) var(--shadow);
+}
+
+.cell {
+  position: relative;
+  width: var(--cell-size);
+  height: var(--cell-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.cell.closed,
+.cell.flagged {
+  background-color: var(--face);
+  border: 2px solid;
+  border-color: var(--light) var(--shadow) var(--shadow) var(--light);
+}
+
+.cell.opened,
+.cell.mine {
+  background-color: var(--face);
+  border: 1px solid var(--shadow);
+  cursor: default;
+}
+
+.cell.n1 {
+  color: #00f;
+}
+
+.cell.n2 {
+  color: #005a00;
+}
+
+.cell.n3 {
+  color: #a00000;
+}
+
+.cell.n4 {
+  color: #000080;
+}
+
+.cell.n5 {
+  color: #800000;
+}
+
+.cell.n6 {
+  color: #004d4d;
+}
+
+.cell.n7 {
+  color: #000;
+}
+
+.cell.n8 {
+  color: #4d4d4d;
+}
+
+.cell.flagged::before {
+  content: '🚩';
+  font-size: 14px;
+}
+
+.cell.wrong-flag::after {
+  content: '❌';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+}
+
+.cell.mine::before {
+  content: '💣';
+  font-size: 14px;
+}
+
+.cell.flagged.mine::before {
+  content: '🚩';
+}
+
+.cell.flagged.mine {
+  border-color: #2f7d32 #1b5e20 #1b5e20 #2f7d32;
+}
+
+.cell.mine.exploded {
+  background-color: #f00;
+}
+
+@media (width <= 420px) {
+  :root {
+    --cell-size: 26px;
+  }
+
+  .counter {
+    font-size: 16px;
+    min-width: 50px;
+  }
+
+  .cell {
+    font-size: 13px;
+  }
+}
