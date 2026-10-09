@@ -1,5 +1,6 @@
 :root {
-  --board-size: 9;
+  --board-size: 10;
+  --cell-font-size: clamp(14px, 4vw, 22px);
 
   color: #000;
   background: #008080;
@@ -19,7 +20,7 @@ body {
 }
 
 .game {
-  width: min(100%, 420px);
+  width: min(100%, 460px);
   padding: 10px;
   background: #c0c0c0;
   border: 3px solid;
@@ -47,6 +48,7 @@ body {
   font-family: 'Courier New', monospace;
   font-size: 28px;
   font-weight: bold;
+  text-align: right;
 }
 
 .new-game {
@@ -56,8 +58,8 @@ body {
   background: #c0c0c0;
   border: 3px solid;
   border-color: #fff #555 #555 #fff;
-  cursor: pointer;
   color: #ffea00;
+  cursor: pointer;
 }
 
 .new-game:active {
@@ -79,41 +81,66 @@ body {
   place-items: center;
   padding: 0;
   font-family: Arial, sans-serif;
-  font-size: clamp(14px, 4vw, 22px);
+  font-size: var(--cell-font-size);
   font-weight: bold;
 }
 
-.closed {
+.cell.closed {
   background: #c0c0c0;
   border: 3px solid;
   border-color: #fff #777 #777 #fff;
   cursor: pointer;
 }
 
-.open,
-.mine {
+.cell.closed:focus-visible,
+.new-game:focus-visible {
+  outline: 2px solid #0000e0;
+  outline-offset: -5px;
+}
+
+.cell.opened,
+.cell.mine {
   background: #c0c0c0;
   border: 1px solid #808080;
 }
 
-.number-1 {
+.cell.number-1 {
   color: #0000e0;
 }
 
-.number-2 {
+.cell.number-2 {
   color: #008000;
 }
 
-.number-3 {
+.cell.number-3 {
   color: #e00000;
 }
 
-.flagged {
+.cell.number-4 {
+  color: #000080;
+}
+
+.cell.number-5,
+.cell.number-6,
+.cell.number-7,
+.cell.number-8 {
+  color: #800000;
+}
+
+.cell.flagged {
   color: #e00000;
 }
 
-.exploded {
+.cell.exploded {
   background: #f00;
+}
+
+.game-message {
+  min-height: 1.5em;
+  margin: 10px 2px 0;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  text-align: center;
 }
 
 .hidden {
@@ -128,7 +155,7 @@ body {
   border: 0;
 }
 
-@media (width <= 420px) {
+@media (width <= 480px) {
   body {
     padding: 12px;
   }
