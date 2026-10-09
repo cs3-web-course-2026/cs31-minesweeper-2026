@@ -3,8 +3,8 @@
 }
 
 :root {
-  --board-cols: 8;
-  --board-rows: 4;
+  --board-cols: 10;
+  --board-rows: 10;
   --cell-size: 40px;
 }
 
@@ -59,7 +59,7 @@ body {
 
 .counter-value {
   color: #ff3b30;
-  font-family: "Courier New", monospace;
+  font-family: 'Courier New', monospace;
   font-size: 20px;
   font-weight: bold;
   letter-spacing: 2px;
@@ -124,10 +124,30 @@ body {
   border: 1px solid #a8a8a8;
 }
 
-.cell.open[data-value="1"] { color: #00f; }
-.cell.open[data-value="2"] { color: #008000; }
-.cell.open[data-value="3"] { color: #f00; }
-.cell.open[data-value="4"] { color: #000080; }
+.cell.open[data-value='1'] {
+  color: #00f;
+}
+.cell.open[data-value='2'] {
+  color: #008000;
+}
+.cell.open[data-value='3'] {
+  color: #f00;
+}
+.cell.open[data-value='4'] {
+  color: #000080;
+}
+.cell.open[data-value='5'] {
+  color: #800000;
+}
+.cell.open[data-value='6'] {
+  color: #008080;
+}
+.cell.open[data-value='7'] {
+  color: #000;
+}
+.cell.open[data-value='8'] {
+  color: #808080;
+}
 
 .cell.flagged-mine,
 .cell.flagged-safe {
@@ -141,7 +161,7 @@ body {
 
 .cell.flagged-mine::before,
 .cell.flagged-safe::before {
-  content: "🚩";
+  content: '🚩';
   font-size: 16px;
 }
 
@@ -159,7 +179,7 @@ body {
 }
 
 .cell.mine::before {
-  content: "💣";
+  content: '💣';
   font-size: 16px;
 }
 
@@ -169,8 +189,22 @@ body {
 }
 
 .cell.mine-clicked::before {
-  content: "💣";
+  content: '💣';
   font-size: 16px;
+}
+
+.message {
+  min-height: 1.5em;
+  margin: 12px 0 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.message.win {
+  color: #1a8f4c;
+}
+.message.lose {
+  color: #c0281f;
 }
 
 @media (width <= 480px) {
