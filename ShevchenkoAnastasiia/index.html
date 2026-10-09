@@ -1,74 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minesweeper</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game">
+      <h1 class="game-title">Minesweeper</h1>
 
-  <main class="game">
+      <header class="game-header">
+        <div class="counter">
+          <span class="counter-icon">⏱</span>
+          <span class="counter-value" id="timer">000</span>
+        </div>
 
-    <h1 class="game-title">Minesweeper</h1>
+        <button
+          class="start-btn"
+          id="startBtn"
+          type="button"
+          aria-label="Restart game"
+        >
+          🙂
+        </button>
 
-    <header class="game-header">
+        <div class="counter">
+          <span class="counter-icon">🚩</span>
+          <span class="counter-value" id="flagsLeft">000</span>
+        </div>
+      </header>
 
-      <div class="counter">
-        <span class="counter-icon">⏱</span>
-        <span class="counter-value" id="timer">000</span>
-      </div>
+      <section class="board" id="board" aria-label="Ігрове поле"></section>
 
-      <button class="start-btn" id="startBtn" type="button" aria-label="Restart game">🙂</button>
+      <p class="message" id="message" role="status" aria-live="polite"></p>
+    </main>
 
-      <div class="counter">
-        <span class="counter-icon">🚩</span>
-        <span class="counter-value" id="flagsLeft">010</span>
-      </div>
-
-    </header>
-
-    <section class="board" id="board">
-
-      <div class="cell open" data-value="0"></div>
-      <div class="cell open" data-value="1">1</div>
-      <div class="cell open" data-value="2">2</div>
-      <div class="cell open" data-value="3">3</div>
-      <div class="cell closed"></div>
-      <div class="cell closed"></div>
-      <div class="cell open" data-value="0"></div>
-      <div class="cell open" data-value="4">4</div>
-
-      <div class="cell open" data-value="1">1</div>
-      <div class="cell flagged-mine"></div>
-      <div class="cell closed"></div>
-      <div class="cell open" data-value="2">2</div>
-      <div class="cell closed"></div>
-      <div class="cell flagged-safe"></div>
-      <div class="cell closed"></div>
-      <div class="cell open" data-value="0"></div>
-
-      <div class="cell closed"></div>
-      <div class="cell closed"></div>
-      <div class="cell open" data-value="0"></div>
-      <div class="cell open" data-value="1">1</div>
-      <div class="cell mine"></div>
-      <div class="cell closed"></div>
-      <div class="cell closed"></div>
-      <div class="cell open" data-value="0"></div>
-
-      <div class="cell open" data-value="0"></div>
-      <div class="cell open" data-value="0"></div>
-      <div class="cell open" data-value="1">1</div>
-      <div class="cell mine-clicked"></div>
-      <div class="cell mine"></div>
-      <div class="cell closed"></div>
-      <div class="cell closed"></div>
-      <div class="cell closed"></div>
-
-    </section>
-
-  </main>
-
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
