@@ -10,34 +10,15 @@
     <div class="game-container">
         <!-- Хедер гри -->
         <header class="game-header">
-            <div class="counter-display" id="flag-count" role="status" aria-live="polite">010</div>
-            <button class="restart-btn" id="restart-btn" type="button" title="Нова гра" aria-label="Нова гра">▶️</button>
-            <div class="counter-display" id="timer">000</div>
+            <div class="counter-display" id="flag-count" role="status" aria-live="polite" aria-label="Залишилося прапорців">010</div>
+            <button class="restart-btn" id="restart-btn" type="button" title="Нова гра" aria-label="Почати нову гру">▶️</button>
+            <div class="counter-display" id="timer" role="timer" aria-live="off" aria-label="Час гри у секундах">000</div>
         </header>
 
-        <!-- Ігрове поле (100 клітинок для сітки 10х10) -->
-        <main class="board" id="board">
-            <!-- Демонстрація різних станів для перевірки верстки -->
-            <button class="cell" type="button"></button>
-            <button class="cell revealed" type="button" data-count="1">1</button>
-            <button class="cell revealed" type="button" data-count="2">2</button>
-            <button class="cell flagged" type="button"></button>
-            <button class="cell mine-exploded" type="button"></button>
-            <button class="cell mine" type="button"></button>
-            <button class="cell flagged wrong-flag" type="button"></button>
-            <button class="cell revealed" type="button" data-count="3">3</button>
-            <button class="cell" type="button"></button>
-            <button class="cell" type="button"></button>
-
-            <!-- Решта закритих клітинок для заповнення сітки (всього 100 шт) -->
-            <button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button>
-            <button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button>
-            <button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button>
-            <button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button>
-            <button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button>
-            <button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button>
-            <button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button><button class="cell" type="button"></button>
-        </main>
+        <!-- Ігрове поле -->
+        <main class="board" id="board" role="grid" aria-label="Ігрове поле Сапер"></main>
     </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
