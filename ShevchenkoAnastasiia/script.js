@@ -14,7 +14,7 @@ const NEIGHBOR_OFFSETS = [
 ];
 
 let gameState = createGameState();
-let field = [];
+let board = [];
 
 function createGameState() {
   return {
@@ -45,22 +45,22 @@ function generateField(rows, cols, minesCount) {
   return grid;
 }
 
-function isInside(row, col) {
-  return row >= 0 && row < gameState.rows && col >= 0 && col < gameState.cols;
+function isInside(row, col, rows, cols) {
+  return row >= 0 && row < rows && col >= 0 && col < cols;
 }
 
-function getNeighbors(row, col) {
+function getNeighbors(row, col, rows, cols) {
   return NEIGHBOR_OFFSETS.map(([dr, dc]) => [row + dr, col + dc]).filter(
-    ([r, c]) => isInside(r, c),
+    ([r, c]) => isInside(r, c, rows, cols),
   );
 }
 
-function countNeighbourMines() {
-  field.forEach((rowCells, row) => {
+function countNeighbourMines(board, rows, cols) {
+  board.forEach((rowCells, row) => {
     rowCells.forEach((cell, col) => {
       if (cell.type !== 'empty') return;
-      cell.neighborMines = getNeighbors(row, col).filter(
-        ([r, c]) => field[r][c].type === 'mine',
+      cell.neighborMines = getNeighbors(row, col, rows, cols).filter(
+        ([r, c]) => board[r][c].type === 'mine',
       ).length;
     });
   });
@@ -69,7 +69,7 @@ function countNeighbourMines() {
 function openCell(row, col) {
   if (gameState.status !== 'process') return;
 
-  const cell = field[row][col];
+  const cell = board[row][col];
   if (cell.state !== 'closed') return;
 
   cell.state = 'opened';
@@ -80,14 +80,16 @@ function openCell(row, col) {
   }
 
   if (cell.neighborMines === 0) {
-    getNeighbors(row, col).forEach(([r, c]) => openCell(r, c));
+    getNeighbors(row, col, gameState.rows, gameState.cols).forEach(([r, c]) =>
+      openCell(r, c),
+    );
   }
 
   if (hasWon()) finishGame('win');
 }
 
 function hasWon() {
-  return field
+  return board
     .flat()
     .every((cell) => cell.type === 'mine' || cell.state === 'opened');
 }
@@ -98,7 +100,7 @@ function finishGame(status) {
 }
 
 function countFlags() {
-  return field.flat().filter((cell) => cell.state === 'flagged').length;
+  return board.flat().filter((cell) => cell.state === 'flagged').length;
 }
 
 function getFlagsLeft() {
@@ -108,7 +110,7 @@ function getFlagsLeft() {
 function toggleFlag(row, col) {
   if (gameState.status !== 'process') return;
 
-  const cell = field[row][col];
+  const cell = board[row][col];
   if (cell.state === 'opened') return;
 
   if (cell.state === 'flagged') {
@@ -134,8 +136,8 @@ function stopTimer() {
 function startNewGame() {
   stopTimer();
   gameState = createGameState();
-  field = generateField(gameState.rows, gameState.cols, gameState.minesCount);
-  countNeighbourMines();
+  board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
+  countNeighbourMines(board, gameState.rows, gameState.cols);
   render();
 }
 
@@ -192,7 +194,7 @@ function renderBoard() {
   boardElement.style.setProperty('--board-cols', gameState.cols);
   boardElement.style.setProperty('--board-rows', gameState.rows);
   boardElement.replaceChildren(
-    ...field.flatMap((rowCells, row) =>
+    ...board.flatMap((rowCells, row) =>
       rowCells.map((cell, col) => createCellElement(cell, row, col)),
     ),
   );
