@@ -5,7 +5,22 @@
 /* ---------- Design tokens ---------- */
 :root {
   --cols: 9;
-  --cell-size: min(40px, calc((100vw - 64px) / var(--cols)));
+  --cell-max-size: 40px;
+  --cell-gap: 2px;
+  --page-padding: 16px;
+  --game-padding: 16px;
+  --game-border-width: 1px;
+  --board-padding: 4px;
+
+  /* Everything that takes horizontal space besides the cells themselves */
+  --board-outer-space: calc(
+    2 * (var(--page-padding) + var(--game-padding) + var(--game-border-width) + var(--board-padding)) +
+      (var(--cols) - 1) * var(--cell-gap)
+  );
+  --cell-size: min(
+    var(--cell-max-size),
+    calc((100vw - var(--board-outer-space)) / var(--cols))
+  );
 
   --color-bg: #1e2433;
   --color-panel: #2b3245;
@@ -48,7 +63,7 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 16px;
+  padding: var(--page-padding);
   background: var(--color-bg);
   font-family: var(--font-ui);
   color: #f1f3f8;
@@ -59,9 +74,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px;
+  padding: var(--game-padding);
   background: var(--color-panel);
-  border: 1px solid var(--color-panel-border);
+  border: var(--game-border-width) solid var(--color-panel-border);
   border-radius: 12px;
   box-shadow: 0 12px 32px rgb(0 0 0 / 35%);
 }
@@ -135,8 +150,8 @@ body {
   display: grid;
   grid-template-columns: repeat(var(--cols), var(--cell-size));
   grid-auto-rows: var(--cell-size);
-  gap: 2px;
-  padding: 4px;
+  gap: var(--cell-gap);
+  padding: var(--board-padding);
   background: var(--color-panel-border);
   border-radius: var(--radius);
 }
@@ -223,8 +238,8 @@ body {
 
 /* ---------- Responsive ---------- */
 @media (width <= 420px) {
-  .game {
-    padding: 10px;
+  :root {
+    --game-padding: 10px;
   }
 
   .counter {
