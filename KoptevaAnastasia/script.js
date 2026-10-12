@@ -290,6 +290,28 @@ function getCellContent(cell) {
   return cell.neighborMines > 0 ? String(cell.neighborMines) : '';
 }
 
+function getCellLabel(cell, row, col) {
+  const position = `Cell ${row + 1}, ${col + 1}`;
+
+  if (cell.state === CELL_STATE.CLOSED) {
+    return `${position}: closed`;
+  }
+
+  if (cell.state === CELL_STATE.FLAGGED) {
+    return `${position}: flagged`;
+  }
+
+  if (cell.type === CELL_TYPE.MINE) {
+    return `${position}: mine`;
+  }
+
+  if (cell.neighborMines === 0) {
+    return `${position}: open, no mines nearby`;
+  }
+
+  return `${position}: open, ${cell.neighborMines} mines nearby`;
+}
+
 function createCellElement(cell, row, col) {
   const button = document.createElement('button');
 
@@ -298,7 +320,7 @@ function createCellElement(cell, row, col) {
   button.textContent = getCellContent(cell);
   button.dataset.row = String(row);
   button.dataset.col = String(col);
-  button.setAttribute('aria-label', `Cell ${row + 1}, ${col + 1}`);
+  button.setAttribute('aria-label', getCellLabel(cell, row, col));
 
   if (cell.state === CELL_STATE.OPENED && cell.neighborMines > 0) {
     button.dataset.count = String(cell.neighborMines);
@@ -307,7 +329,32 @@ function createCellElement(cell, row, col) {
   return button;
 }
 
+function getFocusedPosition() {
+  const active = document.activeElement;
+
+  if (!active || !boardElement.contains(active)) {
+    return null;
+  }
+
+  return { row: Number(active.dataset.row), col: Number(active.dataset.col) };
+}
+
+function restoreFocus(position) {
+  if (!position) {
+    return;
+  }
+
+  const target = boardElement.querySelector(
+    `.cell[data-row="${position.row}"][data-col="${position.col}"]`
+  );
+
+  if (target) {
+    target.focus({ preventScroll: true });
+  }
+}
+
 function renderBoard() {
+  const focusedPosition = getFocusedPosition();
   const fragment = document.createDocumentFragment();
 
   board.forEach((rowCells, row) => {
@@ -317,6 +364,7 @@ function renderBoard() {
   });
 
   boardElement.replaceChildren(fragment);
+  restoreFocus(focusedPosition);
 }
 
 function renderHeader() {
