@@ -40,9 +40,10 @@ const gameState = {
   status: GAME_STATUS.PROCESS,
   gameTime: 0,
   timerId: null,
+  explodedCell: null, 
 };
 
-let field = [];
+let board = [];
 
 function createCell() {
   return {
@@ -52,21 +53,21 @@ function createCell() {
   };
 }
 
-function createEmptyField(rows, cols) {
+function createEmptyBoard(rows, cols) {
   return Array.from({ length: rows }, () =>
     Array.from({ length: cols }, createCell)
   );
 }
 
-function plantMines(targetField, minesCount) {
-  const rows = targetField.length;
-  const cols = targetField[0].length;
+function plantMines(targetBoard, minesCount) {
+  const rows = targetBoard.length;
+  const cols = targetBoard[0].length;
   let planted = 0;
 
   while (planted < minesCount) {
     const row = Math.floor(Math.random() * rows);
     const col = Math.floor(Math.random() * cols);
-    const cell = targetField[row][col];
+    const cell = targetBoard[row][col];
 
     if (cell.type !== CELL_TYPE.MINE) {
       cell.type = CELL_TYPE.MINE;
@@ -75,37 +76,36 @@ function plantMines(targetField, minesCount) {
   }
 }
 
-function isInsideField(targetField, row, col) {
+function isInsideBoard(targetBoard, row, col) {
   return (
     row >= 0 &&
-    row < targetField.length &&
+    row < targetBoard.length &&
     col >= 0 &&
-    col < targetField[row].length
+    col < targetBoard[row].length
   );
 }
 
-function forEachNeighbour(targetField, row, col, callback) {
+function forEachNeighbour(targetBoard, row, col, callback) {
   NEIGHBOUR_OFFSETS.forEach(([rowOffset, colOffset]) => {
     const neighbourRow = row + rowOffset;
     const neighbourCol = col + colOffset;
 
-    if (isInsideField(targetField, neighbourRow, neighbourCol)) {
+    if (isInsideBoard(targetBoard, neighbourRow, neighbourCol)) {
       callback(neighbourRow, neighbourCol);
     }
   });
 }
 
-/** Записує в кожну порожню клітинку кількість мін навколо неї. */
-function countNeighbourMines(targetField) {
-  targetField.forEach((rowCells, row) => {
+function countNeighbourMines(targetBoard) {
+  targetBoard.forEach((rowCells, row) => {
     rowCells.forEach((cell, col) => {
       if (cell.type === CELL_TYPE.MINE) {
         return;
       }
 
       let mines = 0;
-      forEachNeighbour(targetField, row, col, (neighbourRow, neighbourCol) => {
-        if (targetField[neighbourRow][neighbourCol].type === CELL_TYPE.MINE) {
+      forEachNeighbour(targetBoard, row, col, (neighbourRow, neighbourCol) => {
+        if (targetBoard[neighbourRow][neighbourCol].type === CELL_TYPE.MINE) {
           mines += 1;
         }
       });
@@ -115,29 +115,22 @@ function countNeighbourMines(targetField) {
   });
 }
 
-/** Повертає готове до гри поле: сітка, міни, підрахунок сусідів. */
 function generateField(rows, cols, minesCount) {
-  const newField = createEmptyField(rows, cols);
+  const newBoard = createEmptyBoard(rows, cols);
 
-  plantMines(newField, minesCount);
-  countNeighbourMines(newField);
+  plantMines(newBoard, minesCount);
+  countNeighbourMines(newBoard);
 
-  return newField;
+  return newBoard;
 }
 
-/* ==========================================================================
-   Ігрова логіка
-   ========================================================================== */
-
-/** Кількість виставлених прапорців. */
 function countFlags() {
-  return field.flat().filter((cell) => cell.state === CELL_STATE.FLAGGED)
+  return board.flat().filter((cell) => cell.state === CELL_STATE.FLAGGED)
     .length;
 }
 
-/** Чи відкриті всі клітинки без мін. */
-function isFieldCleared() {
-  return field
+function isBoardCleared() {
+  return board
     .flat()
     .every(
       (cell) =>
@@ -145,21 +138,16 @@ function isFieldCleared() {
     );
 }
 
-/** Відкриває всі міни — використовується при програші. */
 function revealMines() {
-  field.flat().forEach((cell) => {
+  board.flat().forEach((cell) => {
     if (cell.type === CELL_TYPE.MINE && cell.state !== CELL_STATE.FLAGGED) {
       cell.state = CELL_STATE.OPENED;
     }
   });
 }
 
-/**
- * Рекурсивно відкриває клітинку та, якщо вона порожня,
- * усіх її сусідів — до перших клітинок із цифрами.
- */
 function revealFrom(row, col) {
-  const cell = field[row][col];
+  const cell = board[row][col];
 
   if (cell.state !== CELL_STATE.CLOSED) {
     return;
@@ -168,11 +156,10 @@ function revealFrom(row, col) {
   cell.state = CELL_STATE.OPENED;
 
   if (cell.neighborMines === 0) {
-    forEachNeighbour(field, row, col, revealFrom);
+    forEachNeighbour(board, row, col, revealFrom);
   }
 }
 
-/** Завершує гру із заданим статусом і зупиняє таймер. */
 function finishGame(status) {
   gameState.status = status;
   stopTimer();
@@ -182,13 +169,12 @@ function finishGame(status) {
   }
 }
 
-/** Обробляє відкриття клітинки гравцем. */
 function openCell(row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS) {
     return;
   }
 
-  const cell = field[row][col];
+  const cell = board[row][col];
 
   if (cell.state !== CELL_STATE.CLOSED) {
     return;
@@ -196,24 +182,24 @@ function openCell(row, col) {
 
   if (cell.type === CELL_TYPE.MINE) {
     cell.state = CELL_STATE.OPENED;
+    gameState.explodedCell = { row, col };
     finishGame(GAME_STATUS.LOSE);
     return;
   }
 
   revealFrom(row, col);
 
-  if (isFieldCleared()) {
+  if (isBoardCleared()) {
     finishGame(GAME_STATUS.WIN);
   }
 }
 
-/** Ставить або знімає прапорець на закритій клітинці. */
 function toggleFlag(row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS) {
     return;
   }
 
-  const cell = field[row][col];
+  const cell = board[row][col];
 
   if (cell.state === CELL_STATE.OPENED) {
     return;
@@ -223,16 +209,11 @@ function toggleFlag(row, col) {
     cell.state === CELL_STATE.FLAGGED ? CELL_STATE.CLOSED : CELL_STATE.FLAGGED;
 }
 
-/* ==========================================================================
-   Таймер
-   ========================================================================== */
-
 function stopTimer() {
   clearInterval(gameState.timerId);
   gameState.timerId = null;
 }
 
-/** Запускає відлік часу, якщо він ще не йде. */
 function startTimer() {
   if (gameState.timerId !== null) {
     return;
@@ -244,17 +225,12 @@ function startTimer() {
   }, SECOND);
 }
 
-/* ==========================================================================
-   Робота з DOM
-   ========================================================================== */
-
 const boardElement = document.querySelector('#board');
 const timerElement = document.querySelector('#timer');
 const flagsElement = document.querySelector('#flags-count');
 const messageElement = document.querySelector('#game-message');
 const restartButton = document.querySelector('#restart-btn');
 
-/** Форматує секунди у вигляд MM:SS. */
 function formatTime(totalSeconds) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
@@ -262,8 +238,13 @@ function formatTime(totalSeconds) {
   return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-/** Повертає список CSS-класів для поточного стану клітинки. */
-function getCellClasses(cell) {
+function isExplodedCell(row, col) {
+  const exploded = gameState.explodedCell;
+
+  return exploded !== null && exploded.row === row && exploded.col === col;
+}
+
+function getCellClasses(cell, row, col) {
   const classes = ['cell'];
 
   if (cell.state === CELL_STATE.FLAGGED) {
@@ -279,11 +260,20 @@ function getCellClasses(cell) {
     return classes;
   }
 
-  classes.push(cell.type === CELL_TYPE.MINE ? 'cell-mine' : 'cell-open');
+  if (cell.type === CELL_TYPE.MINE) {
+    classes.push('cell-mine');
+
+    if (isExplodedCell(row, col)) {
+      classes.push('cell-exploded');
+    }
+
+    return classes;
+  }
+
+  classes.push('cell-open');
   return classes;
 }
 
-/** Повертає текст або іконку, яку видно на клітинці. */
 function getCellContent(cell) {
   if (cell.state === CELL_STATE.FLAGGED) {
     return '🏳️';
@@ -300,12 +290,11 @@ function getCellContent(cell) {
   return cell.neighborMines > 0 ? String(cell.neighborMines) : '';
 }
 
-/** Створює DOM-елемент однієї клітинки. */
 function createCellElement(cell, row, col) {
   const button = document.createElement('button');
 
   button.type = 'button';
-  button.className = getCellClasses(cell).join(' ');
+  button.className = getCellClasses(cell, row, col).join(' ');
   button.textContent = getCellContent(cell);
   button.dataset.row = String(row);
   button.dataset.col = String(col);
@@ -318,11 +307,10 @@ function createCellElement(cell, row, col) {
   return button;
 }
 
-/** Перемальовує ігрове поле за поточними даними. */
 function renderBoard() {
   const fragment = document.createDocumentFragment();
 
-  field.forEach((rowCells, row) => {
+  board.forEach((rowCells, row) => {
     rowCells.forEach((cell, col) => {
       fragment.append(createCellElement(cell, row, col));
     });
@@ -331,13 +319,11 @@ function renderBoard() {
   boardElement.replaceChildren(fragment);
 }
 
-/** Оновлює таймер і лічильник прапорців. */
 function renderHeader() {
   timerElement.textContent = formatTime(gameState.gameTime);
   flagsElement.textContent = String(gameState.minesCount - countFlags());
 }
 
-/** Показує повідомлення про перемогу або поразку. */
 function renderMessage() {
   const messages = {
     [GAME_STATUS.WIN]: 'You win!',
@@ -347,18 +333,12 @@ function renderMessage() {
   messageElement.textContent = messages[gameState.status] ?? '';
 }
 
-/** Повністю оновлює інтерфейс за поточним станом гри. */
 function render() {
   renderBoard();
   renderHeader();
   renderMessage();
 }
 
-/* ==========================================================================
-   Обробка подій
-   ========================================================================== */
-
-/** Повертає координати клітинки за подією або null. */
 function getCellPosition(event) {
   const cellElement = event.target.closest('.cell');
 
@@ -398,20 +378,16 @@ function handleBoardContextMenu(event) {
   render();
 }
 
-/** Скидає стан і починає нову гру. */
 function startGame() {
   stopTimer();
 
   gameState.status = GAME_STATUS.PROCESS;
   gameState.gameTime = 0;
-  field = generateField(gameState.rows, gameState.cols, gameState.minesCount);
+  gameState.explodedCell = null;
+  board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
 
   render();
 }
-
-/* ==========================================================================
-   Ініціалізація
-   ========================================================================== */
 
 boardElement.style.setProperty('--board-cols', String(COLS));
 boardElement.addEventListener('click', handleBoardClick);
