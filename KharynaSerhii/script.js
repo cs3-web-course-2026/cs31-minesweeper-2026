@@ -1,3 +1,11 @@
+/**
+ * Клітинка ігрового поля.
+ * @typedef {Object} Cell
+ * @property {'empty'|'mine'} type Вміст клітинки.
+ * @property {'closed'|'opened'|'flagged'} state Стан клітинки.
+ * @property {number} neighborMines Кількість мін серед сусідів.
+ */
+
 const CELL_TYPE = { EMPTY: 'empty', MINE: 'mine' };
 const CELL_STATE = { CLOSED: 'closed', OPENED: 'opened', FLAGGED: 'flagged' };
 const GAME_STATUS = { PROCESS: 'process', WIN: 'win', LOSE: 'lose' };
@@ -26,6 +34,13 @@ const gameState = {
 };
 let board = [];
 
+/**
+ * Повертає координати сусідів, які не виходять за межі поля.
+ * @param {Cell[][]} field Ігрове поле.
+ * @param {number} row Рядок клітинки.
+ * @param {number} col Стовпець клітинки.
+ * @returns {number[][]} Координати сусідніх клітинок.
+ */
 function getNeighbours(field, row, col) {
 
   return DIRECTIONS.map(([directionalRow, directionalCol]) => [
@@ -37,12 +52,22 @@ function getNeighbours(field, row, col) {
 }
 
 
+/**
+ * Рахує прапорці за станами клітинок.
+ * @param {Cell[][]} field Ігрове поле.
+ * @returns {number} Кількість установлених прапорців.
+ */
 function countFlags(field) {
 
   return field.flat().filter(cell => cell.state === CELL_STATE.FLAGGED).length;
 }
 
 
+/**
+ * Перевіряє, чи відкриті всі клітинки без мін.
+ * @param {Cell[][]} field Ігрове поле.
+ * @returns {boolean} Чи виконано умову перемоги.
+ */
 function checkWinCondition(field) {
 
   return field.flat().every(cell =>
@@ -51,6 +76,14 @@ function checkWinCondition(field) {
 }
 
 
+/**
+ * Створює закрите поле й випадково розставляє міни без повторів.
+ * @param {number} rows Кількість рядків.
+ * @param {number} cols Кількість стовпців.
+ * @param {number} minesCount Кількість мін.
+ * @returns {Cell[][]} Нове поле з мінами.
+ * @throws {RangeError} Якщо розміри або кількість мін некоректні.
+ */
 function generateField(rows, cols, minesCount) {
   if (!Number.isInteger(rows) || !Number.isInteger(cols) ||
       !Number.isInteger(minesCount) || rows <= 0 || cols <= 0 ||
@@ -80,6 +113,11 @@ function generateField(rows, cols, minesCount) {
 }
 
 
+/**
+ * Записує в кожну клітинку кількість мін серед її сусідів.
+ * @param {Cell[][]} field Поле, яке потрібно обробити.
+ * @returns {void}
+ */
 function countNeighbourMines(field) {
   field.forEach((cells, row) => cells.forEach((cell, col) => {
     cell.neighborMines = getNeighbours(field, row, col).filter(
@@ -89,6 +127,14 @@ function countNeighbourMines(field) {
 }
 
 
+/**
+ * Рекурсивно відкриває порожню область і цифри на її межі.
+ * Прапорці, міни та вже відкриті клітинки пропускаються.
+ * @param {Cell[][]} field Ігрове поле.
+ * @param {number} row Рядок клітинки.
+ * @param {number} col Стовпець клітинки.
+ * @returns {void}
+ */
 function revealSafeCells(field, row, col) {
   const cell = field[row]?.[col];
   if (!cell || cell.state !== CELL_STATE.CLOSED || cell.type === CELL_TYPE.MINE) {
@@ -105,12 +151,20 @@ function revealSafeCells(field, row, col) {
 }
 
 
+/**
+ * Зупиняє попередній таймер і очищує його ідентифікатор.
+ * @returns {void}
+ */
 function stopTimer() {
   clearInterval(gameState.timerId);
   gameState.timerId = null;
 }
 
 
+/**
+ * Запускає один таймер, який щосекунди оновлює час гри.
+ * @returns {void}
+ */
 function startTimer() {
   if (gameState.timerId !== null || gameState.status !== GAME_STATUS.PROCESS) {
 
@@ -124,6 +178,12 @@ function startTimer() {
 }
 
 
+/**
+ * Відкриває клітинку та перевіряє перемогу або поразку.
+ * @param {number} row Рядок клітинки.
+ * @param {number} col Стовпець клітинки.
+ * @returns {void}
+ */
 function openCell(row, col) {
   const cell = board[row]?.[col];
   if (!cell || gameState.status !== GAME_STATUS.PROCESS || cell.state !== CELL_STATE.CLOSED) {
@@ -148,6 +208,12 @@ function openCell(row, col) {
 }
 
 
+/**
+ * Перемикає прапорець, якщо клітинка закрита й гра триває.
+ * @param {number} row Рядок клітинки.
+ * @param {number} col Стовпець клітинки.
+ * @returns {void}
+ */
 function toggleFlag(row, col) {
   const cell = board[row]?.[col];
   if (!cell || gameState.status !== GAME_STATUS.PROCESS || cell.state === CELL_STATE.OPENED) {
@@ -163,6 +229,10 @@ function toggleFlag(row, col) {
 }
 
 
+/**
+ * Скидає час і статус та створює нове поле із сусідніми числами.
+ * @returns {void}
+ */
 function resetGame() {
   stopTimer();
   gameState.status = GAME_STATUS.PROCESS;
@@ -172,11 +242,19 @@ function resetGame() {
 }
 
 
+/**
+ * Показує поточний час у лічильнику на сторінці.
+ * @returns {void}
+ */
 function renderTimer() {
   DOM.timer.textContent = String(gameState.gameTime).padStart(COUNTER_DIGITS, '0');
 }
 
 
+/**
+ * Оновлює прапорці, час, обличчя кнопки та повідомлення гри.
+ * @returns {void}
+ */
 function renderIndicators() {
   DOM.flags.textContent = String(gameState.minesCount - countFlags(board)).padStart(COUNTER_DIGITS, '0');
   renderTimer();
@@ -191,6 +269,14 @@ function renderIndicators() {
 }
 
 
+/**
+ * Оновлює вигляд і доступний опис однієї кнопки клітинки.
+ * @param {HTMLButtonElement} button Кнопка клітинки.
+ * @param {Cell} cell Дані клітинки.
+ * @param {number} row Рядок клітинки.
+ * @param {number} col Стовпець клітинки.
+ * @returns {void}
+ */
 function updateCellButton(button, cell, row, col) {
   button.className = 'cell';
   button.textContent = '';
@@ -227,6 +313,11 @@ function updateCellButton(button, cell, row, col) {
 }
 
 
+/**
+ * Створює кнопки поля та відображає поточний стан гри.
+ * Під час наступних оновлень кнопки зберігаються, щоб не втрачати фокус.
+ * @returns {void}
+ */
 function renderBoard() {
   DOM.board.style.setProperty('--board-columns', gameState.cols);
   if (DOM.board.children.length !== gameState.rows * gameState.cols) {
@@ -248,6 +339,11 @@ function renderBoard() {
 }
 
 
+/**
+ * Визначає клітинку за подією, змінює її стан і оновлює поле.
+ * @param {MouseEvent|KeyboardEvent} event Подія кліку або клавіші F.
+ * @returns {void}
+ */
 function handleBoardEvent(event) {
   const button = event.target.closest('button[data-row]');
   if (!button || !DOM.board.contains(button)) {
