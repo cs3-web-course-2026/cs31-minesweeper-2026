@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <button type="button" aria-label="Restart game">🙂</button>
+        <span id="mine-counter">🚩 010</span>
+        <span id="timer">⏱ 000</span>
+    </header>
+
+    <main>
+        <div id="board">
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened num1">1</div>
+            <div class="cell opened"></div>
+            <div class="cell flagged"></div>
+
+            <div class="cell closed"></div>
+            <div class="cell opened num2">2</div>
+            <div class="cell opened num3">3</div>
+            <div class="cell mine"></div>
+            <div class="cell mine boom"></div>
+
+            <div class="cell closed"></div>
+            <div class="cell opened"></div>
+            <div class="cell flagged flagged-mine"></div>
+            <div class="cell opened num1">1</div>
+            <div class="cell closed"></div>
+
+            <div class="cell flagged"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <div class="cell opened num2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell opened"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened num1">1</div>
+        </div>
+
+        <p id="game-message" role="status" aria-live="polite"></p>
+    </main>
+</body>
+</html>

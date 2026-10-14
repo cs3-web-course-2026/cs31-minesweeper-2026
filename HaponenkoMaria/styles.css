@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+  --board-columns: 9;
+  --cell-size: 60px;
+  --cell-font-size: 30px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fdf0f5;
+  padding: 20px 10px;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+#game-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+
+#start-button {
+  padding: 5px;
+  height: 120px;
+  width: 120px;
+  box-shadow: 3px 6px 0 rgb(2 54 32 / 50%);
+  border-radius: 10px;
+}
+
+#start-button:active {
+  transform: translateY(2px);
+  box-shadow: 1px 2px 0 rgb(2 54 32 / 50%);
+}
+
+#btn-img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+#game-board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), 1fr);
+  grid-template-rows: repeat(var(--board-columns), 1fr);
+  gap: 2px;
+  width: fit-content;
+  margin-top: 20px;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  box-shadow: 3px 6px 0 rgb(2 54 32 / 50%);
+  border-radius: 10px;
+  background-color: #c0f1ce;
+}
+
+.cell-revealed {
+  background-color: #f6b7db;
+  background-image: url('pictures/safe_cell.png');
+  background-size: cover;
+  background-position: center;
+  box-shadow: -1px -1px 4px rgb(2 54 32 / 50%);
+}
+
+.cell-revealed-num {
+  background-color: #f6b7db;
+  box-shadow: -1px -1px 4px rgb(2 54 32 / 50%);
+  font-family: 'VT323', monospace;
+  font-weight: 400;
+  font-size: var(--cell-font-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell[data-value='1']::after {
+  content: '1';
+  color: blue;
+}
+
+.cell[data-value='2']::after {
+  content: '2';
+  color: green;
+}
+
+.cell[data-value='3']::after {
+  content: '3';
+  color: red;
+}
+
+.cell[data-value='4']::after {
+  content: '4';
+  color: purple;
+}
+
+.cell[data-value='5']::after {
+  content: '5';
+  color: maroon;
+}
+
+.cell[data-value='6']::after {
+  content: '6';
+  color: turquoise;
+}
+
+.cell[data-value='7']::after {
+  content: '7';
+  color: black;
+}
+
+.cell[data-value='8']::after {
+  content: '8';
+  color: brown;
+}
+
+.cell-flagged {
+  background-image: url('pictures/flagged_cell.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.cell-flagged-wrong {
+  background-image: url('pictures/flagged_wrong_cell.png');
+  background-size: cover;
+  background-position: center;
+  background-color: #f6b7db;
+  box-shadow: -1px -1px 4px rgb(2 54 32 / 50%);
+}
+
+.cell-mine {
+  background-image: url('pictures/mine_cell.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #f6b7db;
+  box-shadow: -1px -1px 4px rgb(2 54 32 / 50%);
+}
+
+.cell-mine-exploded {
+  background-image: url('pictures/mine_cell.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #664759;
+  box-shadow: -1px -1px 4px rgb(2 54 32 / 50%);
+}
+
+#mines-count,
+#timer {
+  font-size: 60px;
+  font-family: 'VT323', monospace;
+  font-weight: 400;
+  background-color: #f6b7db;
+  padding: 20px;
+  border-radius: 10px;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* Адаптивність під невеликі екрани */
+@media (width <= 600px) {
+  :root {
+    --cell-size: 34px;
+    --cell-font-size: 24px;
+  }
+
+  #game-info {
+    gap: 15px;
+  }
+
+  #mines-count,
+  #timer {
+    font-size: 36px;
+    padding: 6px 10px;
+    min-width: 50px;
+  }
+
+  #start-button {
+    height: 70px;
+    width: 70px;
+    box-shadow: 2px 4px 0 rgb(2 54 32 / 50%);
+  }
+
+  .cell {
+    border-radius: 5px;
+  }
+}
+
+/* Запобігаємо виділенню тексту при частих кліках */
+#minesweeper {
+  user-select: none;
+}
+
+/* Ефект натискання виключно для початкової закритої клітинки */
+.cell:not([class*='-']):active {
+  transform: translateY(2px);
+  box-shadow: 1px 2px 0 rgb(2 54 32 / 50%);
+}
+
+/* Відкриті клітинки та міни не реагують на курсор як кнопки */
+.cell[class*='-revealed'],
+.cell[class*='-mine'],
+.cell[class*='-flagged-wrong'] {
+  cursor: default;
+}

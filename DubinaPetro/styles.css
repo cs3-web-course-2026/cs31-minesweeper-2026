@@ -1,0 +1,292 @@
+:root {
+  /* кольори  інтерфейсу */
+  --panel: #c6c6c6;
+  --ink: #111;
+  --muted: #555;
+  --closed: #c0c0c0;
+  --open: #bdbdbd;
+  --open-border: #999;
+  --danger: #d44336;
+  --danger-dark: #962519;
+  --shadow: 0 8px 18px rgb(0 0 0 / 30%);
+  --board-columns: 8;
+  --cell-min: 28px;
+  --cell-min-mobile: 26px;
+}
+
+* {
+  /* розміри містять рамки та відступи */
+  box-sizing: border-box;
+}
+
+body {
+  /* фон навколо панелі */
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: #808080;
+}
+
+button {
+  font: inherit;
+}
+
+.game-shell {
+  /* центрування */
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.game-card {
+  /* зовнішній корпус */
+  width: min(100%, 560px);
+  padding: 12px;
+  border: 3px solid;
+  border-color: #fff #404040 #404040 #fff;
+  border-radius: 4px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.game-header {
+  /* панель сапера */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 10px;
+  padding: 10px;
+  border: 3px solid;
+  border-color: #777 #fff #fff #777;
+  background: #c0c0c0;
+  align-items: center;
+}
+
+.status-panel,
+.start-button {
+  min-height: 58px;
+  border-radius: 0;
+}
+
+.status-panel {
+  /* чорне табло з цифрами */
+  display: grid;
+  place-items: center;
+  padding: 4px 7px;
+  border: 3px solid;
+  border-color: #404040 #fff #fff #404040;
+  background: #000;
+}
+
+.status-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.status-value {
+  margin: 0;
+  font-family: "Courier New", Courier, monospace;
+  font-size: clamp(1.55rem, 6vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  color: #f00;
+  text-shadow: 2px 0 #8b0000;
+}
+
+.start-button {
+  /* центральна кнопка */
+  display: grid;
+  place-items: center;
+  width: 58px;
+  min-width: 58px;
+  padding: 0;
+  border: 3px solid;
+  border-color: #fff #404040 #404040 #fff;
+  background: #c0c0c0;
+  cursor: pointer;
+}
+
+.start-button:hover {
+  background: #d0d0d0;
+}
+
+.start-button:active {
+  border-color: #404040 #fff #fff #404040;
+}
+
+.face {
+  width: 32px;
+  height: 32px;
+  display: block;
+  object-fit: contain;
+}
+
+.game-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.board {
+  /* поле з рамкою */
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), minmax(var(--cell-min), 1fr));
+  gap: 0;
+  width: 100%;
+  padding: 3px;
+  border: 6px solid;
+  border-color: #777 #fff #fff #777;
+  border-radius: 3px;
+  background: #c0c0c0;
+}
+
+.cell {
+  /* = кнопка = */
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 4px solid;
+  border-color: #fff #7b7b7b #7b7b7b #fff;
+  border-radius: 0;
+  font-size: clamp(1rem, 5vw, 1.55rem);
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cell:focus-visible {
+  outline: 3px solid rgb(19 125 111 / 35%);
+  outline-offset: 2px;
+}
+
+.cell-closed,
+.cell-flag,
+.cell-question {
+  /* закрита клітинка */
+  background: var(--closed);
+  box-shadow: none;
+}
+
+.cell-question {
+  color: #111;
+  content: "";
+}
+
+.cell-closed:hover,
+.cell-flag:hover,
+.cell-question:hover {
+  filter: brightness(1.05);
+}
+
+.cell-open {
+  /* відкрита клітинка */
+  color: var(--muted);
+  background: var(--open);
+  border: 4px solid var(--open-border);
+  box-shadow: inset 0 2px 4px rgb(52 68 76 / 8%);
+  cursor: default;
+}
+
+.cell-one {
+  color: #1867b7;
+}
+
+.cell-two {
+  color: #2c8f56;
+}
+
+.cell-three {
+  color: #c43d31;
+}
+
+.cell-four {
+  color: #000083;
+}
+
+.cell-five {
+  color: #881212;
+}
+
+.cell-six {
+  color: #008284;
+}
+
+.cell-seven {
+  color: #d501e8;
+}
+
+.cell-eight {
+  color: #f6fa00;
+}
+
+.cell-flag::before {
+  /* прапор */
+  content: "";
+  position: absolute;
+  inset: 17%;
+  background: url("assets/flag.png") center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
+.cell-flag.cell-mine::before {
+  inset: 14%;
+  background-image: url("assets/mine.png");
+}
+
+.cell-flag.cell-mine::after {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  background: url("assets/flag.png") center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
+.cell-mine::before {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  background: url("assets/mine.png") center / contain no-repeat;
+  image-rendering: pixelated;
+}
+
+.cell-exploded {
+  /* міна після натискання */
+  background: var(--danger);
+  border-color: var(--danger-dark);
+  box-shadow: inset 0 0 0 3px rgb(255 255 255 / 28%);
+}
+
+.cell-exploded::before {
+  background-image: url("assets/mine-hit.png");
+}
+
+@media (width <= 480px) {
+  .game-shell {
+    padding: 14px;
+  }
+
+  .game-header {
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .start-button {
+    grid-column: auto;
+    grid-row: auto;
+    width: 52px;
+    min-width: 52px;
+  }
+
+  .board {
+    grid-template-columns: repeat(var(--board-columns), minmax(var(--cell-min-mobile), 1fr));
+  }
+}

@@ -1,0 +1,302 @@
+:root {
+  --paper: #eef2f9;
+  --paper-line: rgb(47 94 209 / 8%);
+  --ink: #1c2b4a;
+  --muted: #657493;
+  --accent: #2f5ed1;
+  --closed: #dfe9f7;
+  --closed-hover: #cddcf3;
+  --open: #fff;
+  --border: #b9cbe9;
+  --danger: #cf4139;
+  --danger-soft: #f8dcda;
+  --success: #24895a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 2rem 1rem;
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--paper-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.sheet {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 2px solid var(--ink);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+}
+
+h1 span {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font: 0.8rem 'IBM Plex Mono', monospace;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 6.5rem;
+  padding: 0.55rem 0.7rem;
+  background: var(--open);
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  color: var(--ink);
+  font: 600 0.78rem 'IBM Plex Mono', monospace;
+}
+
+.badge-icon {
+  color: var(--accent);
+}
+
+#flags-counter .badge-icon {
+  color: var(--danger);
+}
+
+.mode-toggle {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  background: var(--open);
+}
+
+.mode-toggle-option {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.mode-toggle-option + .mode-toggle-option {
+  border-left: 1px solid var(--border);
+}
+
+#restart {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--ink);
+  border-radius: 0.35rem;
+  background: var(--ink);
+  color: #fff;
+  font: 600 0.8rem 'IBM Plex Sans', sans-serif;
+}
+
+main {
+  padding-top: 1.5rem;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 3px;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  padding: 4px;
+  background: var(--ink);
+  border-radius: 0.45rem;
+}
+
+.cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 0.12rem;
+  font: 700 clamp(0.85rem, 2.7vw, 1.2rem) 'IBM Plex Mono', monospace;
+  user-select: none;
+}
+
+.cover,
+.content {
+  grid-area: 1 / 1;
+}
+
+.closed {
+  background: var(--closed);
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 65%);
+}
+
+.closed:hover {
+  background: var(--closed-hover);
+}
+
+.closed .content {
+  opacity: 0;
+}
+
+.open {
+  background: var(--open);
+  border: 1px solid var(--border);
+}
+
+.open .cover {
+  display: none;
+}
+
+.empty .content {
+  opacity: 0;
+}
+
+.count-1 .content {
+  color: var(--accent);
+}
+
+.count-2 .content {
+  color: var(--success);
+}
+
+.count-3 .content {
+  color: var(--danger);
+}
+
+.flagged {
+  background: var(--closed);
+  border: 1px solid var(--border);
+  color: var(--danger);
+}
+
+.flagged .content,
+.flagged-mine .content {
+  opacity: 1;
+}
+
+.flagged-mine {
+  background: var(--danger-soft);
+  border: 1px solid var(--border);
+  color: var(--success);
+}
+
+.flagged-mine .cover {
+  display: none;
+}
+
+.mine {
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: #fff;
+}
+
+.mine .cover {
+  display: none;
+}
+
+.mine .content {
+  opacity: 1;
+}
+
+.triggered-mine {
+  background: var(--danger);
+  border: 1px solid var(--danger);
+  color: #fff;
+  box-shadow: 0 0 0 2px rgb(207 65 57 / 18%);
+}
+
+.triggered-mine .cover {
+  display: none;
+}
+
+.triggered-mine .content {
+  opacity: 1;
+}
+
+.wrong-flag {
+  background: var(--danger-soft);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+.wrong-flag .cover {
+  display: none;
+}
+
+.wrong-flag::after {
+  content: '×';
+  position: absolute;
+  right: 6%;
+  bottom: 3%;
+  font-size: 0.55em;
+  font-weight: 700;
+}
+
+@media (width <= 650px) {
+  header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .controls {
+    justify-content: start;
+    width: 100%;
+  }
+
+  #restart {
+    flex: 1;
+  }
+}
+
+@media (width <= 430px) {
+  body {
+    padding: 1rem 0.65rem;
+  }
+
+  .badge {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .board {
+    gap: 2px;
+    padding: 3px;
+  }
+}
+
+#game-message {
+  margin: 16px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 6px rgb(207 65 57 / 8%);
+}

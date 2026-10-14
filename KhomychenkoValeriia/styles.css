@@ -1,0 +1,286 @@
+/* ==========================================================================
+   Базові налаштування та змінні теми
+   ========================================================================== */
+:root {
+    --bg-page: #e8ecf2;
+    --panel-bg: #c0c0c0;
+    --border-light: #fff;
+    --border-shadow: #7b7b7b;
+    --border-dark: #404040;
+
+    --cell-size: 38px;
+    --board-columns: 8;
+
+    /* Класичні кольори числових позначок Сапера */
+    --num-1: #00f;
+    --num-2: #017e00;
+    --num-3: #f00;
+    --num-4: #010080;
+    --num-5: #810101;
+    --num-6: #008080;
+    --num-7: #000;
+    --num-8: #808080;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-page);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ==========================================================================
+   Контейнер гри (Головна картка)
+   ========================================================================== */
+.game-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.minesweeper-card {
+    background-color: var(--panel-bg);
+    padding: 12px;
+    border-top: 4px solid var(--border-light);
+    border-left: 4px solid var(--border-light);
+    border-right: 4px solid var(--border-shadow);
+    border-bottom: 4px solid var(--border-shadow);
+    box-shadow: 0 10px 25px rgb(0 0 0 / 20%);
+    user-select: none;
+}
+
+/* ==========================================================================
+   Хедер: Таймер, кнопка та індикатор
+   ========================================================================== */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    background-color: var(--panel-bg);
+    border-top: 3px solid var(--border-shadow);
+    border-left: 3px solid var(--border-shadow);
+    border-right: 3px solid var(--border-light);
+    border-bottom: 3px solid var(--border-light);
+}
+
+/* Електронне табло (LED / Сегментний дисплей) */
+.digital-display {
+    background: #000;
+    color: #ff073a;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 28px;
+    line-height: 1;
+    padding: 4px 8px;
+    border-top: 2px solid var(--border-shadow);
+    border-left: 2px solid var(--border-shadow);
+    border-right: 2px solid var(--border-light);
+    border-bottom: 2px solid var(--border-light);
+    letter-spacing: 2px;
+}
+
+/* Кнопка рестарту зі смайликом */
+.reset-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    background-color: var(--panel-bg);
+    cursor: pointer;
+    border-top: 3px solid var(--border-light);
+    border-left: 3px solid var(--border-light);
+    border-right: 3px solid var(--border-shadow);
+    border-bottom: 3px solid var(--border-shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.05s ease;
+}
+
+.reset-btn:focus-visible {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+}
+
+.reset-btn:hover {
+    background-color: #d1d1d1;
+}
+
+.reset-btn:active {
+    border-top: 3px solid var(--border-shadow);
+    border-left: 3px solid var(--border-shadow);
+    border-right: 3px solid var(--border-light);
+    border-bottom: 3px solid var(--border-light);
+}
+
+.reset-btn .face-icon {
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Ігрове поле та сітка
+   ========================================================================== */
+.board {
+    display: grid;
+    grid-template-columns: repeat(var(--board-columns), var(--cell-size));
+    grid-template-rows: repeat(6, var(--cell-size));
+    gap: 1px;
+    background-color: var(--border-shadow);
+    border-top: 3px solid var(--border-shadow);
+    border-left: 3px solid var(--border-shadow);
+    border-right: 3px solid var(--border-light);
+    border-bottom: 3px solid var(--border-light);
+}
+
+/* Базовий стиль клітинки */
+.cell {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 19px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--panel-bg);
+    border: none;
+    padding: 0;
+}
+
+/* 1. Стан: Закрита клітинка (об'ємна) */
+.cell.closed {
+    border-top: 3px solid var(--border-light);
+    border-left: 3px solid var(--border-light);
+    border-right: 3px solid var(--border-shadow);
+    border-bottom: 3px solid var(--border-shadow);
+    cursor: pointer;
+}
+
+.cell.closed:hover {
+    filter: brightness(1.05);
+}
+
+.cell.closed:active {
+    border-top: 1px solid var(--border-shadow);
+    border-left: 1px solid var(--border-shadow);
+    border-right: 1px solid #c0c0c0;
+    border-bottom: 1px solid #c0c0c0;
+}
+
+/* 2. Стан: Відкрита клітинка (пласка з тонкою рамкою) */
+.cell.open {
+    border: 1px solid #999;
+    background-color: #d6d6d6;
+}
+
+/* 3. Стан: Прапорець (на міні) */
+.cell.flagged {
+    font-size: 16px;
+}
+
+/* 4. Стан: Помилковий прапорець (без міни) */
+.cell.flagged-wrong {
+    position: relative;
+    font-size: 16px;
+}
+
+.cell.flagged-wrong::after {
+    content: "❌";
+    position: absolute;
+    font-size: 14px;
+    opacity: 0.85;
+}
+
+/* 5. Стан: Звичайна міна */
+.cell.mine {
+    font-size: 16px;
+    background-color: #d6d6d6;
+}
+
+/* 6. Стан: Міна, на яку натиснув користувач (червоне тло) */
+.cell.mine.exploded {
+    background-color: #f33;
+}
+
+/* ==========================================================================
+   Кольори чисел навколо мін
+   ========================================================================== */
+.val-1 {
+    color: var(--num-1);
+}
+
+.val-2 {
+    color: var(--num-2);
+}
+
+.val-3 {
+    color: var(--num-3);
+}
+
+.val-4 {
+    color: var(--num-4);
+}
+
+.val-5 {
+    color: var(--num-5);
+}
+
+.val-6 {
+    color: var(--num-6);
+}
+
+.val-7 {
+    color: var(--num-7);
+}
+
+.val-8 {
+    color: var(--num-8);
+}
+
+/* Підвал картки */
+.game-footer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.status-tip {
+    font-size: 12px;
+    color: #555;
+}
+
+/* ==========================================================================
+   Адаптивність (Mobile / Small Screens)
+   ========================================================================== */
+@media (width <= 480px) {
+    :root {
+        --cell-size: 32px;
+    }
+
+    .minesweeper-card {
+        padding: 8px;
+    }
+
+    .digital-display {
+        font-size: 22px;
+        padding: 3px 6px;
+    }
+
+    .reset-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .cell {
+        font-size: 16px;
+    }
+}

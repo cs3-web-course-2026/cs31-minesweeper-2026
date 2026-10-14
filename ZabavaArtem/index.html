@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=flag_2,explosion,mood"
+    />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <main class="game" aria-labelledby="game-title">
+      <h1 id="game-title" class="hidden">Minesweeper</h1>
+
+      <header class="game-header">
+        <output id="mine-counter" class="counter" aria-label="Mines remaining">015</output>
+        <button class="new-game" type="button" aria-label="Start a new game">
+          <span class="material-symbols-outlined">mood</span>
+        </button>
+        <output id="timer" class="counter" aria-label="Elapsed time">000</output>
+      </header>
+
+      <section id="board" class="board" aria-label="Minesweeper board"></section>
+      <p id="game-message" class="game-message" role="status" aria-live="polite">
+        Open a cell to start the game.
+      </p>
+    </main>
+  </body>
+</html>

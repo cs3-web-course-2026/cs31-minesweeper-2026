@@ -1,0 +1,251 @@
+:root {
+  --cell-size: 3.1rem;
+  --board-columns: 9;
+
+  --page-bg: #eef7ff;
+  --card-bg: #fff;
+  --header-bg: #dbeafe;
+
+  --closed-cell: #cfe6f7;
+  --closed-cell-hover: #b8d8ef;
+  --open-cell: #f8fbff;
+
+  --flagged-cell: #d9c2ff;
+  --flagged-mine: #8f5bd8;
+  --flagged-mine-hover: #7d4ac9;
+  --flag-hover: #dbcfef;
+  --mine-cell: #ffc2d1;
+  --danger-color: #900020;
+
+  --cell-font-size: 1.25rem;
+  --cell-font-family: "Segoe UI", arial, sans-serif;
+
+  --text-color: #28445a;
+  --page-gradient-end: #fceff6;
+
+  --status-bg: #fff;
+  --restart-bg: #bfd9ef;
+  --restart-hover: #abcde8;
+
+  --title-color: #243b53;
+  --board-bg: #b9d3e6;
+
+  --flag-color: #5f3f94;
+  --mine-color: #8a2340;
+
+  --number-one: #4f7ecf;
+  --number-two: #4f9a70;
+  --number-three: #d46b86;
+
+  --focus-color: #6aa3d8;
+  --light-text: #fff;
+
+  --transition-fast: 0.1s;
+  --transition-standard: 0.15s;
+
+  --shadow: 0 0.75rem 2rem rgb(70 110 145 / 18%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 1rem;
+  font-family: arial, sans-serif;
+  background: linear-gradient(135deg, var(--page-bg), var(--page-gradient-end));
+  color: var(--text-color);
+}
+
+.game-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: var(--header-bg);
+  border-radius: 0.9rem;
+}
+
+.status-item {
+  margin: 0;
+  min-width: 4.5rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 0.65rem;
+  background: var(--status-bg);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.restart-button {
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: none;
+  border-radius: 0.75rem;
+  background: var(--restart-bg);
+  color: var(--text-color);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition:
+    transform var(--transition-standard) ease,
+    background var(--transition-standard) ease;
+}
+
+.restart-button:hover {
+  background: var(--restart-hover);
+}
+
+.restart-button:active {
+  transform: scale(0.95);
+}
+
+.game {
+  width: fit-content;
+  padding: 1.75rem;
+  background: var(--card-bg);
+  border-radius: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.game-header {
+  margin-bottom: 1rem;
+}
+
+.game-title {
+  margin: 0 0 1.25rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: var(--title-color);
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), var(--cell-size));
+  gap: 0.18rem;
+  padding: 0.45rem;
+  background: var(--board-bg);
+  border-radius: 0.85rem;
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  padding: 0;
+  border: none;
+  border-radius: 0.5rem;
+  font-family: var(--cell-font-family);
+  font-size: var(--cell-font-size);
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast) ease,
+    background var(--transition-standard) ease;
+}
+
+.cell-closed {
+  background: var(--closed-cell);
+}
+
+.cell-flagged {
+  background: var(--flagged-cell);
+  color: var(--flag-color);
+}
+
+.cell-flagged.cell-mine {
+  background: var(--flagged-mine);
+  color: var(--light-text);
+}
+
+.cell-open {
+  background: var(--open-cell);
+}
+
+.cell-mine {
+  background: var(--mine-cell);
+  color: var(--mine-color);
+}
+
+.cell-mine-hit {
+  background: var(--danger-color);
+  color: var(--light-text);
+}
+
+.cell-closed:hover {
+  background: var(--closed-cell-hover);
+}
+
+.cell-flagged:hover {
+  background: var(--flag-hover);
+}
+
+.cell-flagged.cell-mine:hover {
+  background: var(--flagged-mine-hover);
+}
+
+.cell-closed:active,
+.cell-flagged:active {
+  transform: scale(0.95);
+}
+
+.cell-number-1 {
+  color: var(--number-one);
+}
+
+.cell-number-2 {
+  color: var(--number-two);
+}
+
+.cell-number-3 {
+  color: var(--number-three);
+}
+
+.cell:focus-visible,
+.restart-button:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+@media (width <= 600px) {
+  :root {
+    --cell-size: min(3.1rem, calc((100vw - 6.5rem) / 9));
+  }
+
+  body {
+    padding: 2rem 1rem;
+  }
+
+  .game {
+    padding: 1rem;
+  }
+
+  .game-title {
+    font-size: 1.6rem;
+  }
+
+  .game-status {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+
+  .status-item {
+    min-width: 0;
+    padding: 0.4rem 0.55rem;
+    font-size: 0.9rem;
+  }
+
+  .restart-button {
+    width: 2.7rem;
+    height: 2.7rem;
+  }
+}
+

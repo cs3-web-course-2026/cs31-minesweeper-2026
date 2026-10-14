@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper-Hrabovyi Ivan</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ==================== Game header ==================== -->
+  <header class="game-header">
+
+    <!-- Flag counter -->
+    <div class="counter" id="flag-counter" role="status" aria-live="polite" aria-label="Залишилось прапорців: 5">
+      <span class="counter-icon" aria-hidden="true">🚩</span>
+      <span class="counter-value">05</span>
+    </div>
+
+    <!-- Start button (new game) -->
+    <button class="start-btn" id="start-btn" type="button" aria-label="Нова гра">
+      <span aria-hidden="true">⏯</span>
+    </button>
+
+    <!-- Timer -->
+    <div class="counter" id="timer" aria-label="Час гри: 0 секунд">
+      <span class="counter-icon" aria-hidden="true">⏱</span>
+      <span class="counter-value">000</span>
+    </div>
+
+  </header>
+
+  <main class="game">
+
+    <h1 class="visually-hidden">Сапер 5x5</h1>
+
+    <!-- ==================== 5x5 game board ==================== -->
+    <!-- The cells below demonstrate all possible states -->
+    <div class="board" id="board" aria-label="Ігрове поле 5 на 5">
+
+      <!-- Row 1: closed cells -->
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+
+      <!-- Row 2: open cells (empty and with numbers 1-4) -->
+      <button class="cell open" type="button" aria-label="Відкрита порожня" disabled></button>
+      <button class="cell open n1" type="button" aria-label="Відкрита клітинка, поруч одна міна" disabled>1</button>
+      <button class="cell open n2" type="button" aria-label="Відкрита клітинка, поруч дві міни" disabled>2</button>
+      <button class="cell open n3" type="button" aria-label="Відкрита клітинка, поруч три міни" disabled>3</button>
+      <button class="cell open n4" type="button" aria-label="Відкрита клітинка, поруч чотири міни" disabled>4</button>
+
+      <!-- Row 3: flags -->
+      <!-- Flag on a mine (correct) -->
+      <button class="cell flagged" type="button" aria-label="Прапорець на міні"></button>
+      <!-- Flag without a mine (after game over — wrong, crossed-out mine) -->
+      <button class="cell flagged wrong" type="button" aria-label="Помилковий прапорець" disabled></button>
+      <button class="cell flagged" type="button" aria-label="Прапорець"></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+
+      <!-- Row 4: mines -->
+      <!-- Regular revealed mine (shown on loss) -->
+      <button class="cell open mine" type="button" aria-label="Міна" disabled></button>
+      <!-- Mine the user clicked on (exploded) -->
+      <button class="cell open mine exploded" type="button" aria-label="Міна, що вибухнула" disabled></button>
+      <button class="cell open mine" type="button" aria-label="Міна" disabled></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+      <button class="cell" type="button" aria-label="Закрита клітинка"></button>
+
+      <!-- Row 5: open cells with numbers 5-8 and an empty cell -->
+      <button class="cell open n5" type="button" disabled>5</button>
+      <button class="cell open n6" type="button" disabled>6</button>
+      <button class="cell open n7" type="button" disabled>7</button>
+      <button class="cell open n8" type="button" disabled>8</button>
+      <button class="cell open" type="button" aria-label="Відкрита порожня" disabled></button>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

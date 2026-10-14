@@ -1,0 +1,233 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --game-container-outerborder: 6px;
+  --game-container-innerborder: 10px;
+
+  --game-menu-boardsize: 6px;
+  --game-menu-height: 100px;
+  --game-board-boardsize: 6px;
+
+  --cells-count: 16;
+  --game-cell-boardsize: 6px;
+  --cell-size: 3.2rem;
+
+  --number-1-color: #00f;
+  --number-2-color: #008000;
+  --number-3-color: #f00;
+  --number-4-color: #000080;
+  --number-5-color: #800000;
+  --number-6-color: #008080;
+  --number-7-color: #000;
+  --number-8-color: #808080;
+}
+
+@font-face {
+  font-family: 'DSEG7';
+  src: url('./assets/fonts/DSEG7Classic-Bold.ttf');
+}
+
+.game-container {
+  width: min(90vw, 800px);
+  margin: 0 auto;
+  background: #c0c0c0;
+  border: var(--game-container-outerborder) solid;
+  border-color: white #808080 #808080 white;
+}
+
+.inner-border {
+  height: 100%;
+  width: 100%;
+  border: var(--game-container-innerborder) #b4afaf solid;
+}
+
+.game-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DSEG7', monospace;
+  border: var(--game-menu-boardsize) solid;
+  border-color: #808080 white white #808080;
+  height: var(--game-menu-height);
+  gap: 0.75rem;
+}
+
+.mines-counter-container,
+.timer-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min(22vw, 150px);
+  height: clamp(52px, 8vw, 70px);
+  font-size: clamp(2rem, 5vw, 3.75rem);
+  color: red;
+  background-color: black;
+}
+
+.mines-counter-container {
+  margin-left: var(--game-container-innerborder);
+}
+
+.timer-container {
+  margin-right: var(--game-container-innerborder);
+}
+
+.start-game-button-container {
+  border: var(--game-menu-boardsize) solid;
+  border-color: white #808080 #808080 white;
+  cursor: pointer;
+  background: #c0c0c0;
+  padding: 0.25rem;
+}
+
+.start-game-button-container button {
+  background: #c0c0c0;
+  border: none;
+  cursor: pointer;
+}
+
+.start-game-button-container img {
+  width: clamp(40px, 7vw, 60px);
+  height: clamp(40px, 7vw, 60px);
+  display: block;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(var(--cells-count), minmax(0, 1fr));
+  aspect-ratio: 1;
+  min-width: 0;
+  border: var(--game-board-boardsize) solid;
+  border-color: #808080 white white #808080;
+}
+
+.number-1 {
+  color: var(--number-1-color);
+}
+
+.number-2 {
+  color: var(--number-2-color);
+}
+
+.number-3 {
+  color: var(--number-3-color);
+}
+
+.number-4 {
+  color: var(--number-4-color);
+}
+
+.number-5 {
+  color: var(--number-5-color);
+}
+
+.number-6 {
+  color: var(--number-6-color);
+}
+
+.number-7 {
+  color: var(--number-7-color);
+}
+
+.number-8 {
+  color: var(--number-8-color);
+}
+
+.game-board > .cell.opened {
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.game-board > .cell {
+  font-family: 'Press Start 2P', monospace;
+  outline: 2px solid #808080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1;
+  min-width: 0;
+}
+
+.game-board > .cell.closed {
+  border: var(--game-cell-boardsize) solid;
+  outline: none;
+  border-color: white #808080 #808080 white;
+  background: #c0c0c0;
+}
+
+.game-board > .cell.closed:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+}
+
+.game-board > .cell > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.game-board > .cell.mine {
+  background-image: url('./assets/images/mine.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 60%;
+}
+
+/* Distinct styles for flagged cells so flagged mines and flagged safe cells
+   can be visually distinguished. Markup must add `flagged-mine` or
+   `flagged-safe` to a `.cell.flag` as appropriate; leaving existing `.flag`
+   selector for backward compatibility. */
+.game-board > .cell.flag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-board > .cell.flag.flagged-safe {
+  background-color: rgb(0 128 0 / 15%);
+  border-color: #4caf50 #357a38 #357a38 #4caf50;
+}
+
+.game-board > .cell.flag.flagged-mine {
+  background-color: rgb(244 67 54 / 12%);
+  border-color: #f44336 #b71c1c #b71c1c #f44336;
+}
+
+/* Make exploded mines visually distinct */
+.game-board > .cell.mine.exploded {
+  background-color: #f44336;
+  background-image: url('./assets/images/mine.png');
+  background-size: 70%;
+  background-position: center;
+}
+
+@media (width <= 768px) {
+  .game-container {
+    width: min(94vw, 640px);
+  }
+
+  .game-board > .cell.opened {
+    font-size: 1.8rem;
+  }
+}
+
+@media (width <= 480px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  .game-menu {
+    gap: 0.5rem;
+  }
+
+  .game-board > .cell.opened {
+    font-size: 1.5rem;
+  }
+
+  .mines-counter-container,
+  .timer-container {
+    width: min(24vw, 110px);
+  }
+}

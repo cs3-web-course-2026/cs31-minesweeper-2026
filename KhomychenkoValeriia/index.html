@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сапер (Minesweeper) UI — Практична робота №1</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Підключення шрифту цифрових табло -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <main class="game-wrapper">
+        <div class="minesweeper-card">
+
+            <!-- Хедер гри: елементи керування та табло -->
+            <header class="game-header">
+                <!-- Лічильник прапорців / мін -->
+                <div class="digital-display" title="Залишок мін / прапорців">
+                    <span class="digital-digits">010</span>
+                </div>
+
+                <!-- Кнопка старту нової гри (смайлик) -->
+                <button class="reset-btn" type="button" aria-label="Почати нову гру">
+                    <span class="face-icon">🙂</span>
+                </button>
+
+                <!-- Таймер гри -->
+                <div class="digital-display" title="Час гри">
+                    <span class="digital-digits">000</span>
+                </div>
+            </header>
+
+            <!-- Ігрове поле: сітка з усіма можливими станами клітинок -->
+            <section class="board" aria-label="Ігрове поле Сапер">
+
+                <!-- Рядок 1: Закриті та прапорці -->
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed flagged" type="button" aria-label="Прапорець на міні">🚩</button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+
+                <!-- Рядок 2: Числові стани (відкриті) -->
+                <div class="cell open"></div>
+                <div class="cell open val-1">1</div>
+                <div class="cell open val-2">2</div>
+                <div class="cell open val-1">1</div>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed flagged-wrong" type="button"
+                    aria-label="Помилковий прапорець (без міни)">🚩</button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+
+                <!-- Рядок 3: Більші значення чисел -->
+                <div class="cell open"></div>
+                <div class="cell open val-1">1</div>
+                <div class="cell open val-3">3</div>
+                <div class="cell open val-4">4</div>
+                <div class="cell open val-2">2</div>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+
+                <!-- Рядок 4: Високі значення та міни -->
+                <div class="cell open val-1">1</div>
+                <div class="cell open val-2">2</div>
+                <div class="cell open val-5">5</div>
+                <!-- Звичайна відкрита міна при поразці -->
+                <div class="cell open mine" aria-label="Міна">💣</div>
+                <div class="cell open val-2">2</div>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+
+                <!-- Рядок 5: Фатальна міна -->
+                <div class="cell open"></div>
+                <div class="cell open val-1">1</div>
+                <div class="cell open val-2">2</div>
+                <!-- Міна, на яку натиснув гравець (підрив) -->
+                <div class="cell open mine exploded" aria-label="Підірвана міна">💥</div>
+                <div class="cell open val-1">1</div>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+
+                <!-- Рядок 6: Решта закритих клітинок -->
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+                <button class="cell closed" type="button" aria-label="Закрита клітинка"></button>
+
+            </section>
+
+            <!-- Підвал з легендою станів для перевірки -->
+            <footer class="game-footer">
+                <span class="status-tip">Демонстрація всіх станів клітинок UI</span>
+            </footer>
+
+        </div>
+    </main>
+
+</body>
+
+</html>

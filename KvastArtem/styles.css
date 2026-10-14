@@ -1,0 +1,233 @@
+:root {
+  --background-color: #dce8f3;
+  --surface-color: #f7fbff;
+  --surface-shadow: rgb(61 86 111 / 22%);
+  --text-color: #213547;
+  --muted-color: #6b7c8d;
+  --cell-size: min(10vw, 4.1rem);
+  --cell-gap: 0.3rem;
+  --board-columns: 8;
+  --board-size: calc((var(--cell-size) * var(--board-columns)) + (var(--cell-gap) * 7));
+  --transition-duration: 140ms;
+  --control-transition-duration: 160ms;
+  --closed-color: #b9cde0;
+  --opened-color: #e7eef5;
+  --accent-color: #356d9c;
+  --danger-color: #e36b67;
+  --flagged-mine-color: #d8b6b3;
+  --cell-border-color: #d5e1eb;
+  --closed-border-color: #d9e6f1;
+  --closed-shadow-color: #88a4bb;
+  --hover-color: #c9dff0;
+  --closed-hover-color: #a5c2d9;
+  --active-color: #91aec5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, #f4f9fd, var(--background-color));
+  color: var(--text-color);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.game {
+  width: min(100%, 40rem);
+  padding: clamp(1rem, 4vw, 2rem);
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: 1.25rem;
+  background: var(--surface-color);
+  box-shadow: 0 1rem 2.5rem var(--surface-shadow);
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.status-panel {
+  min-width: 5.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.75rem;
+  background: #edf4fa;
+  text-align: center;
+}
+
+.status-label {
+  color: var(--muted-color);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timer,
+.flag-counter {
+  color: var(--accent-color);
+  font-size: 1.15rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.restart-button {
+  width: 3.5rem;
+  height: 3.5rem;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0.35rem 0.75rem rgb(61 86 111 / 18%);
+  cursor: pointer;
+  font-size: 1.7rem;
+  transition: transform var(--control-transition-duration) ease,
+    box-shadow var(--control-transition-duration) ease;
+}
+
+.restart-button:hover,
+.restart-button:focus-visible {
+  transform: translateY(-0.15rem);
+  box-shadow: 0 0.55rem 1rem rgb(61 86 111 / 25%);
+}
+
+.restart-button:focus-visible {
+  outline: 0.2rem solid var(--accent-color);
+  outline-offset: 0.2rem;
+}
+
+.board {
+  width: var(--board-size);
+  max-width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), 1fr);
+  gap: var(--cell-gap);
+}
+
+.cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 0.35rem;
+  color: var(--text-color);
+  font-size: clamp(0.85rem, 3vw, 1.35rem);
+  font-weight: 800;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color var(--transition-duration) ease,
+    box-shadow var(--transition-duration) ease,
+    transform var(--transition-duration) ease;
+}
+
+.cell.closed,
+.cell.flag {
+  border: 0.15rem solid var(--closed-border-color);
+  border-right-color: var(--closed-shadow-color);
+  border-bottom-color: var(--closed-shadow-color);
+  background: var(--closed-color);
+}
+
+.cell.opened,
+.cell.mine,
+.cell.exploded {
+  border: 1px solid var(--cell-border-color);
+  background: var(--opened-color);
+}
+
+.cell.flagged-mine {
+  border-color: #c99591;
+  background: var(--flagged-mine-color);
+}
+
+.cell:hover {
+  background: var(--hover-color);
+  box-shadow: 0 0 0 0.12rem rgb(53 109 156 / 24%);
+}
+
+.cell.closed:hover,
+.cell.flag:hover {
+  background: var(--closed-hover-color);
+}
+
+.cell:active {
+  background: var(--active-color);
+  box-shadow: inset 0 0.18rem 0.3rem rgb(33 53 71 / 30%);
+  transform: translateY(0.12rem);
+}
+
+.cell.exploded {
+  border-color: #c84e4a;
+  background: var(--danger-color);
+}
+
+.cell.opened:active,
+.cell.mine:active,
+.cell.exploded:active {
+  background: #c5d5e2;
+}
+
+.cell.number-one {
+  color: #2d72b0;
+}
+
+.cell.number-two {
+  color: #35854d;
+}
+
+.cell.number-three {
+  color: #b64c41;
+}
+
+.cell.flag::after {
+  content: "🚩";
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.cell.mine::after,
+.cell.exploded::after {
+  content: "💣";
+  font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+.game-message {
+  margin: 1.25rem 0 0;
+  color: var(--muted-color);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+@media (width <= 420px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  .game {
+    padding: 0.85rem;
+  }
+
+  .game-header {
+    gap: 0.5rem;
+  }
+
+  .status-panel {
+    min-width: 4.7rem;
+    padding-inline: 0.5rem;
+  }
+
+  .restart-button {
+    width: 3rem;
+    height: 3rem;
+  }
+}

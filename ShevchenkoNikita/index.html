@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Сапер</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="game-container">
+      <div class="inner-border">
+        <header>
+          <div class="game-menu">
+            <div class="mines-counter-container" role="status" aria-live="polite">010</div>
+            <div class="start-game-button-container">
+              <button type="button" aria-label="Начать игру заново">
+                <img
+                  src="./assets/images/smile_default.png"
+                  alt="Restart game"
+                />
+              </button>
+            </div>
+            <div class="timer-container">010</div>
+          </div>
+        </header>
+
+        <main>
+          <div class="game-board">
+            <!-- row 1 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell mine">
+              <img src="./assets/images/mine.png" alt="Mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <!-- row 2 -->
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell mine exploded">
+              <img src="./assets/images/mine.png" alt="Exploded mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <!-- row 3 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+
+            <!-- row 4 -->
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell mine exploded">
+              <img src="./assets/images/mine.png" alt="Exploded mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+
+            <!-- row 5 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <!-- row 6 -->
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <!-- row 7 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine exploded">
+              <img src="./assets/images/mine.png" alt="Exploded mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <!-- row 8 -->
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+
+            <!-- row 9 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-mine">
+              <img src="./assets/images/flag.png" alt="Flag on mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+
+            <!-- row 10 -->
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-mine">
+              <img src="./assets/images/flag.png" alt="Flag on mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell mine exploded">
+              <img src="./assets/images/mine.png" alt="Exploded mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <!-- row 11 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+
+            <!-- row 12 -->
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-mine">
+              <img src="./assets/images/flag.png" alt="Flag on mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+
+            <!-- row 13 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-mine">
+              <img src="./assets/images/flag.png" alt="Flag on mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine exploded">
+              <img src="./assets/images/mine.png" alt="mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+
+            <!-- row 14 -->
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+
+            <!-- row 15 -->
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-3">3</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+
+            <!-- row 16 -->
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell mine"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-1">1</div>
+            <div class="cell closed"></div>
+            <div class="cell flag flagged-safe">
+              <img src="./assets/images/flag.png" alt="Flag" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+            <div class="cell opened number-2">2</div>
+            <div class="cell closed"></div>
+            <div class="cell mine exploded">
+              <img src="./assets/images/mine.png" alt="Exploded mine" />
+            </div>
+            <div class="cell closed"></div>
+            <div class="cell closed"></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

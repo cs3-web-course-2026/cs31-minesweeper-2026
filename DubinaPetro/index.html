@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minesweeper </title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell" >
+    <section class="game-card">
+      <header class="game-header">
+        <!-- таймер та кнопка нової гри -->
+        <div class="status-panel" aria-label="Таймер">
+          <span class="status-label">Час</span>
+          <span class="status-value">042</span> 
+        </div>
+
+        <button class="start-button" type="button" aria-label="Нова гра" >
+          <img class="face" src="assets/verity.png" alt="">
+        </button>
+
+        <!-- міни  -->
+        <div class="status-panel" >
+          <span class="status-label">Міни</span>
+          <span class="status-value">010</span>
+        </div>
+      </header>
+
+      <h1 id="game-title" class="game-title">Сапер</h1>
+
+      <div class="board">
+        <!-- числові клітинки -->
+        <button class="cell cell-open cell-one" type="button">1</button>
+        <button class="cell cell-open cell-two" type="button">2</button>
+        <button class="cell cell-open cell-three" type="button">3</button>
+        <button class="cell cell-open cell-four" type="button">4</button>
+        <button class="cell cell-open cell-five" type="button">5</button>
+        <button class="cell cell-open cell-six" type="button">6</button>
+        <button class="cell cell-open cell-seven" type="button">7</button>
+        <button class="cell cell-open cell-eight" type="button">8</button>
+
+        <!-- стани клітинок -->
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-flag" type="button" aria-label="Позначена клітинка"></button>
+        <button class="cell cell-flag cell-mine" type="button" aria-label="Позначена клітинка з міною"></button>
+        <button class="cell cell-question" type="button">?</button>
+        <button class="cell cell-open cell-mine" type="button" aria-label="Відкрита клітинка з міною"></button>
+        <button class="cell cell-mine cell-exploded" type="button" aria-label="Міна вибухнула"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+
+        <!-- закрите поле до початку гри. 6 рядів по 8 клітинок -->
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
+        
+      </div>
+    </section>
+  </main>
+</body>
+</html>
