@@ -1,6 +1,6 @@
 :root {
   --board-columns: 9;
-  --cell-size: clamp(2rem, 8.5vw, 3.25rem);
+  --cell-size: clamp(2rem, 6.5vw, 3.25rem);
   --page-background: #f5f7ff;
   --surface: #fff;
   --ink: #19253e;
@@ -294,4 +294,33 @@ h1 {
   .restart-button {
     transition: none;
   }
+}
+
+.cell-number-5 {
+  color: #97422d;
+}
+
+.cell-number-6 {
+  color: #168080;
+}
+
+.cell-number-7 {
+  color: #27334e;
+}
+
+.cell-number-8 {
+  color: #65718a;
+}
+
+.game-message[data-status="win"] {
+  color: #237744;
+}
+
+.game-message[data-status="lose"] {
+  color: #b63143;
+}
+
+.cell[aria-disabled="true"] {
+  cursor: default;
+  transform: none;
 }
