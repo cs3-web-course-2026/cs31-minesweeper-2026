@@ -1,7 +1,7 @@
 :root {
   --cell-size: 36px;
   --cell-gap: 3px;
-  --board-cols: 9;
+  --board-cols: 10;
   --transition-bg: 0.15s ease;
   --transition-transform: 0.1s ease;
 
@@ -92,7 +92,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 250px;
+  width: 160px;
   height: 48px;
   font-size: 1.4rem;
   cursor: pointer;
@@ -130,6 +130,7 @@ body {
   padding: 0;
   font-size: 1rem;
   font-weight: 700;
+  line-height: 1;
   cursor: pointer;
   user-select: none;
   border-radius: 4px;
@@ -189,22 +190,13 @@ body {
 
 .cell-flagged {
   background: var(--color-cell-closed);
-}
-
-.cell-flag {
-  font-size: 1rem;
-  line-height: 1;
+  border: 2px solid;
+  border-color: #6d84a0 #202b38 #202b38 #6d84a0;
 }
 
 .cell-flagged-wrong {
-  position: relative;
   background: var(--color-cell-flag-wrong);
-  box-shadow: 0 0 0 2px var(--color-accent) inset;
-}
-
-.cell-flag-wrong {
-  z-index: 2;
-  font-size: 1rem;
+  border: 1px solid var(--color-border-light);
 }
 
 .cell-mine {
@@ -212,49 +204,18 @@ body {
   border: 1px solid var(--color-border-light);
 }
 
-.cell-mine-icon {
-  font-size: 1rem;
-  line-height: 1;
-}
-
 .cell-mine.cell-exploded {
   background: var(--color-cell-mine-exploded);
   box-shadow: 0 0 0 2px var(--color-accent) inset;
 }
 
-.legend {
-  padding: 14px 16px;
-  background: var(--color-panel);
-  border: 2px solid var(--color-border-light);
-  border-radius: 10px;
-}
-
-.legend-title {
-  margin: 0 0 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.legend-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
+.game-message {
+  min-height: 1.5rem;
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.legend-item {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  font-size: 0.85rem;
-}
-
-.legend-item .cell {
-  flex-shrink: 0;
-  cursor: default;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-accent);
 }
 
 @media (width <= 420px) {
@@ -276,10 +237,6 @@ body {
     width: 110px;
     height: 40px;
     font-size: 1rem;
-  }
-
-  .legend-list {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
 
