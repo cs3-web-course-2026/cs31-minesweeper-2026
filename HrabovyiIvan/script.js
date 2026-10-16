@@ -230,14 +230,15 @@ function flagMines(grid) {
   }
 }
 
-function startTimer() {
+// Logic layer stays DOM-free: the UI passes in what should happen on each tick.
+function startTimer(onTick) {
   if (gameState.timerId !== null) {
     return;
   }
 
   gameState.timerId = setInterval(() => {
     gameState.gameTime++;
-    renderStatusBar();
+    onTick();
   }, GAME_CONFIG.TIMER_INTERVAL_MS);
 }
 
@@ -246,41 +247,41 @@ function stopTimer() {
   gameState.timerId = null;
 }
 
-function finishGame(status) {
+function finishGame(grid, status) {
   gameState.status = status;
   stopTimer();
 
   if (status === GAME_STATUS.LOSE) {
-    revealMines(board);
+    revealMines(grid);
   } else {
-    flagMines(board);
+    flagMines(grid);
   }
 }
 
-function openCell(row, col) {
+function openCell(grid, row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS) {
     return;
   }
 
-  const hitMine = revealCell(board, row, col);
+  const hitMine = revealCell(grid, row, col);
 
   if (hitMine) {
-    finishGame(GAME_STATUS.LOSE);
+    finishGame(grid, GAME_STATUS.LOSE);
 
     return;
   }
 
-  if (hasOpenedAllSafeCells(board)) {
-    finishGame(GAME_STATUS.WIN);
+  if (hasOpenedAllSafeCells(grid)) {
+    finishGame(grid, GAME_STATUS.WIN);
   }
 }
 
-function toggleFlag(row, col) {
+function toggleFlag(grid, row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS) {
     return;
   }
 
-  const cell = board[row][col];
+  const cell = grid[row][col];
 
   if (cell.state === CELL_STATE.OPENED) {
     return;
@@ -292,7 +293,7 @@ function toggleFlag(row, col) {
     return;
   }
 
-  if (countRemainingFlags(board, gameState.minesCount) > 0) {
+  if (countRemainingFlags(grid, gameState.minesCount) > 0) {
     cell.state = CELL_STATE.FLAGGED;
   }
 }
@@ -475,8 +476,8 @@ function handleBoardClick(event) {
     return;
   }
 
-  startTimer();
-  openCell(position.row, position.col);
+  startTimer(renderStatusBar);
+  openCell(board, position.row, position.col);
   renderGame(gameState.status === GAME_STATUS.LOSE ? position : null);
 }
 
@@ -489,8 +490,8 @@ function handleBoardContextMenu(event) {
     return;
   }
 
-  startTimer();
-  toggleFlag(position.row, position.col);
+  startTimer(renderStatusBar);
+  toggleFlag(board, position.row, position.col);
   renderGame();
 }
 
