@@ -24,21 +24,23 @@
     </header>
     <main>
         <div class="game-container">
-            <div class="status-bar">
-                <div class="mines-counter status-badge" aria-label="Залишилось прапорців">
+            <header class="status-bar">
+                <div class="mines-counter status-badge">
                     <span class="counter-icon" aria-hidden="true">⚑</span>
-                    <output class="counter-value">000</output>
+                    <output class="counter-value" role="status" aria-live="polite" aria-label="Залишилось прапорців">000</output>
                 </div>
 
                 <button type="button" class="btn-restart" aria-label="Нова гра">❀</button>
 
-                <div class="timer status-badge" aria-label="Таймер">
+                <div class="timer status-badge">
                     <span class="timer-icon" aria-hidden="true">⏱</span>
-                    <output class="timer-value">000</output>
+                    <!-- aria-live="off": інакше таймер озвучувався б щосекунди -->
+                    <output class="timer-value" aria-live="off" aria-label="Таймер">000</output>
                 </div>
-            </div>
-            <p class="game-message" role="status"></p>
+            </header>
+            <p class="game-message" role="status" aria-live="polite"></p>
             <section class="game-field" aria-label="Ігрове поле"></section>
+            <p class="game-hint">ЛКМ — відкрити, ПКМ або клавіша F — прапорець</p>
         </div>
     </main>
     <script src="script.js"></script>

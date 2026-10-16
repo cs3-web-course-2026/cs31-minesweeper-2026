@@ -86,6 +86,21 @@ a {
   text-align: center;
 }
 
+.game-message[data-status="win"]{
+  color: var(--color-flag-correct);
+}
+
+.game-message[data-status="lose"]{
+  color: var(--color-flag-wrong);
+}
+
+.game-hint{
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+
 main{
     display: flex;
     margin-top: 20px;
@@ -160,6 +175,11 @@ main{
   width: var(--cell-size);
   height: var(--cell-size);
   font-weight: bold;
+}
+
+.cell:focus-visible {
+  outline: 3px solid var(--color-flag);
+  outline-offset: -3px;
 }
 
 .cell-closed {
@@ -257,7 +277,7 @@ main{
 
 /* Медіа-запити */
 @media (width <= 400px) {
-  header {
+  body > header {
     flex-wrap: wrap;
     row-gap: 8px;
   }
