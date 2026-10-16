@@ -1,5 +1,5 @@
 // ==========================================
-// Константи (вимога кролика: UPPER_SNAKE_CASE)
+// Константи UPPER_SNAKE_CASE
 // ==========================================
 const GAME_STATUS = {
   PROCESS: 'process',
@@ -19,7 +19,7 @@ const CELL_TYPE = {
 };
 
 // ==========================================
-// Кешовані DOM-елементи (вимога кролика)
+// Кешовані DOM-елементи
 // ==========================================
 const boardElement = document.getElementById('board');
 const flagCountElement = document.getElementById('flag-count');
@@ -28,7 +28,7 @@ const gameStatusElement = document.getElementById('game-status');
 const restartButton = document.getElementById('restart-btn');
 
 // ==========================================
-// Стан гри
+// Стан гри (тільки два контейнери: gameState та board)
 // ==========================================
 const gameState = {
   cols: 10,
@@ -40,7 +40,6 @@ const gameState = {
 };
 
 let board = [];
-let cellElements = []; // Кешовані DOM-елементи сітки
 
 // ==========================================
 // Логіка створення та розрахунку поля
@@ -168,12 +167,11 @@ function toggleFlag(row, col) {
 function renderBoard() {
   if (!boardElement) return;
   boardElement.innerHTML = '';
-  boardElement.style.gridTemplateColumns = `repeat(${gameState.cols}, 35px)`;
-
-  cellElements = [];
+  // Використовуємо CSS-змінну або коректне керування колонками, щоб не ламати медіа-запити
+  boardElement.style.setProperty('--cols', gameState.cols);
+  boardElement.style.gridTemplateColumns = `repeat(var(--cols), minmax(30px, 1fr))`;
 
   for (let row = 0; row < gameState.rows; row++) {
-    const rowElements = [];
     for (let col = 0; col < gameState.cols; col++) {
       const cellElement = document.createElement('button');
       cellElement.type = 'button';
@@ -188,9 +186,7 @@ function renderBoard() {
       });
 
       boardElement.appendChild(cellElement);
-      rowElements.push(cellElement);
     }
-    cellElements.push(rowElements);
   }
 
   updateUI();
@@ -202,7 +198,9 @@ function updateUI() {
   for (let row = 0; row < gameState.rows; row++) {
     for (let col = 0; col < gameState.cols; col++) {
       const cell = board[row][col];
-      const cellElement = cellElements[row]?.[col];
+      // Отримуємо елемент через дочірні елементи контейнера в порядку рендерингу
+      const index = row * gameState.cols + col;
+      const cellElement = boardElement.children[index];
 
       if (!cellElement) continue;
 
@@ -214,11 +212,11 @@ function updateUI() {
 
       if (cell.state === CELL_STATE.OPENED) {
         cellElement.classList.add('revealed');
-        cellElement.setAttribute('aria-disabled', 'true'); // Зберігає фокус клавіатури
+        cellElement.setAttribute('aria-disabled', 'true');
 
         if (cell.type === CELL_TYPE.MINE) {
           cellElement.classList.add('mine');
-          cellElement.textContent = '💣';
+          // textContent не потрібен, CSS додасть міну через ::before
           cellElement.setAttribute('aria-label', `${positionText}: Міна`);
         } else if (cell.neighborMines > 0) {
           cellElement.dataset.count = cell.neighborMines;
@@ -229,7 +227,7 @@ function updateUI() {
         }
       } else if (cell.state === CELL_STATE.FLAGGED) {
         cellElement.classList.add('flagged');
-        cellElement.textContent = '🚩';
+        // textContent не потрібен, CSS додасть прапорець через ::before
         cellElement.setAttribute('aria-disabled', 'false');
         cellElement.setAttribute('aria-label', `${positionText}: Поставлено прапорець`);
         flaggedCount++;
