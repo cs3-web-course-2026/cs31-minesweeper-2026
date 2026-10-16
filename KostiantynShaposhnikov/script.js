@@ -1,5 +1,8 @@
 // ==========================================
 // Константи UPPER_SNAKE_CASE
+
+// (UPPER_SNAKE_CASE)
+
 // ==========================================
 const GAME_STATUS = {
   PROCESS: 'process',
