@@ -1,52 +1,22 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minesweeper</title>
-    <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minesweeper</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <button type="button" aria-label="Restart game">🙂</button>
-        <span id="mine-counter">🚩 010</span>
-        <span id="timer">⏱ 000</span>
-    </header>
-
-    <main>
-        <div id="board">
-            <div class="cell closed"></div>
-            <div class="cell closed"></div>
-            <div class="cell opened num1">1</div>
-            <div class="cell opened"></div>
-            <div class="cell flagged"></div>
-
-            <div class="cell closed"></div>
-            <div class="cell opened num2">2</div>
-            <div class="cell opened num3">3</div>
-            <div class="cell mine"></div>
-            <div class="cell mine boom"></div>
-
-            <div class="cell closed"></div>
-            <div class="cell opened"></div>
-            <div class="cell flagged flagged-mine"></div>
-            <div class="cell opened num1">1</div>
-            <div class="cell closed"></div>
-
-            <div class="cell flagged"></div>
-            <div class="cell closed"></div>
-            <div class="cell opened"></div>
-            <div class="cell closed"></div>
-            <div class="cell closed"></div>
-
-            <div class="cell opened num2">2</div>
-            <div class="cell closed"></div>
-            <div class="cell opened"></div>
-            <div class="cell closed"></div>
-            <div class="cell opened num1">1</div>
-        </div>
-
-        <p id="game-message" role="status" aria-live="polite"></p>
-    </main>
+  <main class="game">
+    <h1>Minesweeper</h1>
+    <section class="panel">
+      <div class="counter" title="Доступні прапорці">🚩 <span id="flags-counter">0</span></div>
+      <button id="restart-btn" type="button">Старт / Рестарт</button>
+      <div class="counter" title="Час гри">⏱ <span id="timer">0</span> c</div>
+    </section>
+    <div id="board" class="board"></div>
+    <p id="message" class="message" aria-live="polite"></p>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
