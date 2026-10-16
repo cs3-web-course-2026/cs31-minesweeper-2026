@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,119 +18,29 @@
                 class="btn-rules" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                aria-label="How to play">🗐
+                aria-label="Правила гри">🗐
             </a>
-            <button type="button" class="btn-records" aria-label="Your records">✮</button>
         </div>
     </header>
     <main>
         <div class="game-container">
-            <header class="status-bar">
-                <div class="mines-counter status-badge" aria-label="Amount of mines">
+            <div class="status-bar">
+                <div class="mines-counter status-badge" aria-label="Залишилось прапорців">
                     <span class="counter-icon" aria-hidden="true">⚑</span>
-                    <output class="counter-value">006</output>
+                    <output class="counter-value">000</output>
                 </div>
 
-                <button type="button" class="btn-restart" aria-label="New game">❀</button>
+                <button type="button" class="btn-restart" aria-label="Нова гра">❀</button>
 
-                <div class="timer status-badge" aria-label="Game timer">
+                <div class="timer status-badge" aria-label="Таймер">
                     <span class="timer-icon" aria-hidden="true">⏱</span>
-                    <output class="timer-value">142</output>
+                    <output class="timer-value">000</output>
                 </div>
-            </header>
-            
-            <section class="game-field" aria-label="Game field">
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-flagged" aria-label="Flagged cell">⚑</button>
-                <button type="button" class="cell cell-opened cell-num-2" disabled aria-label="Opened cell with number 2 mine">2</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-2" disabled aria-label="Opened cell with number 2 mine">2</button>
-                <button type="button" class="cell cell-flagged" aria-label="Flagged cell">⚑</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-opened cell-num-2" disabled aria-label="Opened cell with number 2 mine">2</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-
-                <button type="button" class="cell cell-flagged cell-correct" disabled aria-label="Flagged cell with mine underneath">⚑</button>
-                <button type="button" class="cell cell-opened cell-num-3" disabled aria-label="Opened cell with number 3 mine">3</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-opened cell-num-2" disabled aria-label="Opened cell with number 2 mine">2</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-2" disabled aria-label="Opened cell with number 2 mine">2</button>
-                <button type="button" class="cell cell-opened cell-num-2" disabled aria-label="Opened cell with number 2 mine">2</button>
-
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-opened cell-num-2" disabled aria-label="Opened cell with number 2 mine">2</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened" disabled aria-label="Opened empty cell"></button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-flagged" aria-label="Flagged cell">⚑</button>
-                <button type="button" class="cell cell-flagged" aria-label="Flagged cell">⚑</button>
-
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-opened cell-num-1" disabled aria-label="Opened cell with number 1 mine">1</button>
-                <button type="button" class="cell cell-flagged cell-wrong" disabled aria-label="Flagged cell without mine underneath">⚑</button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-mine cell-exploded" disabled aria-label="Exploded mine">☠</button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-mine" disabled aria-label="Mined cell">✹</button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-                <button type="button" class="cell cell-closed" aria-label="Closed cell"></button>
-            </section>
+            </div>
+            <p class="game-message" role="status"></p>
+            <section class="game-field" aria-label="Ігрове поле"></section>
         </div>
     </main>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -4,12 +4,26 @@
     --color-surface:#A7D19E;
     --color-text: #33522C;
     --color-button:#587c69;
-    --color-cell-num-1: #7690b9;
-    --color-cell-num-2: #6eae60;
-    --color-cell-num-3: #b98176;
+    --color-cell-num-1: #4a6fa5;
+    --color-cell-num-2: #3f8a32;
+    --color-cell-num-3: #b0524a;
+    --color-cell-num-4: #2f8f7a;
+    --color-cell-num-5: #a8445a;
+    --color-cell-num-6: #c07a1a;
+    --color-cell-num-7: #7a5ca8;
+    --color-cell-num-8: #4a4a4a;
+    --color-flag: #f2c14e;
+    --color-flag-correct-bg: #c4e6b8;
+    --color-flag-correct: #2f6b2a;
+    --color-flag-wrong-bg: #e9c0b8;
+    --color-flag-wrong: #8a3b30;
+    --color-mine-bg: #f0d9d3;
+    --color-mine: #8a3b30;
+    --color-exploded-bg: #c0504a;
     --cell-size: clamp(30px, 9vw, 42px);
     --icon-size-large: 40px;
-    --board-size: 9;
+    --board-cols: 10;
+    --board-rows: 10;
 }
 
 /* Скидання базових стилів */
@@ -29,7 +43,7 @@ body{
     font-family: 'Comic Neue', 'Comic Sans MS', cursive;
 }
 
-header{
+body > header{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -66,12 +80,10 @@ a {
   font-size: var(--icon-size-large);
 }
 
-.btn-records{
-  color: var(--color-text);
-  border: none;
-  cursor: pointer;
-  font-size: var(--icon-size-large);
-  background: none;
+.game-message{
+  min-height: 1.5em;
+  margin-bottom: 8px;
+  text-align: center;
 }
 
 main{
@@ -131,8 +143,8 @@ main{
 
 .game-field {
   display:grid;
-  grid-template-rows: repeat(var(--board-size), var(--cell-size));
-  grid-template-columns: repeat(var(--board-size), var(--cell-size));
+  grid-template-rows: repeat(var(--board-rows), var(--cell-size));
+  grid-template-columns: repeat(var(--board-cols), var(--cell-size));
   width: fit-content;
   border-radius: 5px;
   justify-content: center;
@@ -168,10 +180,6 @@ main{
   border-radius: 2px;
 }
 
-.cell:disabled {
-  cursor: default;
-}
-
 .cell-num-1{
   color: var(--color-cell-num-1);
 }
@@ -184,42 +192,64 @@ main{
   color: var(--color-cell-num-3);
 }
 
+.cell-num-4{
+  color: var(--color-cell-num-4);
+}
+
+.cell-num-5{
+  color: var(--color-cell-num-5);
+}
+
+.cell-num-6{
+  color: var(--color-cell-num-6);
+}
+
+.cell-num-7{
+  color: var(--color-cell-num-7);
+}
+
+.cell-num-8{
+  color: var(--color-cell-num-8);
+}
+
 /* Прапорець під час гри (невідомо, що під ним) */
-.cell-flagged{
+.cell-flagged {
   background-color: var(--color-text);
-  color: var(--color-background);
+  color: var(--color-flag);
   border-radius: 2px;
   font-size: calc(var(--cell-size) * 0.55);
   cursor: pointer;
 }
 
-.cell-flagged:not(:disabled):hover {
+.cell-flagged:hover {
   opacity: 0.9;
 }
 
 /* Прапорець після програшу: прапорець стояв помилково (міни не було) */
 .cell-flagged.cell-wrong {
-  background-color: var(--color-button);
-  color: var(--color-background);
+  background-color: var(--color-flag-wrong-bg);
+  color: var(--color-flag-wrong);
+  cursor: default;
 }
 
 /* Прапорець після програшу: прапорець стояв правильно (міна була) */
 .cell-flagged.cell-correct {
-  background-color: var(--color-background);
-  color: var(--color-button);
+  background-color: var(--color-flag-correct-bg);
+  color: var(--color-flag-correct);
+  cursor: default;
 }
 
 .cell-mine {
-  background-color: var(--color-background);
-  color: var(--color-button);
+  background-color: var(--color-mine-bg);
+  color: var(--color-mine);
   border-radius: 2px;
   cursor: default;
   font-size: calc(var(--cell-size) * 0.55);
 }
 
 .cell-exploded {
-  background-color: var(--color-button);
-  color: var(--color-background);
+  background-color: var(--color-exploded-bg);
+  color: #fff;
   border-radius: 2px;
   font-size: calc(var(--cell-size) * 0.55);
   font-weight: lighter;
@@ -239,10 +269,6 @@ main{
 
   .btn-rules {
     font-size: 28px;
-  }
-
-  .btn-records {
-    font-size: 34px;
   }
 
   .header-actions {
