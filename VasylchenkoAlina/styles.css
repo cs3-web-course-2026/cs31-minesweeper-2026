@@ -20,7 +20,8 @@
     --color-mine-bg: #f0d9d3;
     --color-mine: #8a3b30;
     --color-exploded-bg: #c0504a;
-    --cell-size: clamp(30px, 9vw, 42px);
+    --color-cell-closed: #5c8a52;
+    --container-padding: 20px;
     --icon-size-large: 40px;
     --board-cols: 10;
     --board-rows: 10;
@@ -112,30 +113,43 @@ main{
 .game-container{
     display: inline-block;
     border-radius: 15px;
-    padding: 20px;
+    padding: var(--container-padding);
     max-width: 95vw;
     border: none;
     box-shadow: 0 5px 25px var(--color-text);
 }
 
 .status-bar{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;   /* кнопка рестарту завжди точно по центру */
     align-items: center;
+    gap: 8px;
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 20px;
-    padding: 15px 11px;
+    padding: 12px;
     border-radius: 5px;
     background-color: var(--color-surface);
     box-shadow: 0 10px 60px var(--color-surface);
 }
 
+.mines-counter{
+  justify-self: start;
+}
+
+.timer{
+  justify-self: end;
+}
+
 .status-badge{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;   /* та сама висота, що й у кнопки рестарту */
   background-color: var(--color-background);
   color:var(--color-text);
-  padding: 10px 11px;
+  padding: 0 12px;
   border-radius: 10px;
   opacity: 0.9;
 }
@@ -157,6 +171,8 @@ main{
 }
 
 .game-field {
+  /* розмір клітинки: вписуємо поле в ширину екрана (мінус відступи контейнера і проміжки), але не більше 42px */
+  --cell-size: clamp(20px, calc((95vw - 2 * var(--container-padding) - var(--board-cols) * 1px) / var(--board-cols)), 42px);
   display:grid;
   grid-template-rows: repeat(var(--board-rows), var(--cell-size));
   grid-template-columns: repeat(var(--board-cols), var(--cell-size));
@@ -175,6 +191,7 @@ main{
   width: var(--cell-size);
   height: var(--cell-size);
   font-weight: bold;
+  border: none;   /* прибираємо стандартну рамку браузера на кнопках */
 }
 
 .cell:focus-visible {
@@ -183,10 +200,18 @@ main{
 }
 
 .cell-closed {
-  background-color: var(--color-text);
+  background-color: var(--color-cell-closed);
   color: var(--color-background);
   border-radius: 2px;
   cursor: pointer;
+}
+
+/* «Випуклий» вигляд: світла грань зверху-зліва, темна знизу-справа */
+.cell-closed,
+.cell-flagged:not(.cell-wrong):not(.cell-correct) {
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.35),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.25);
 }
 
 .cell-closed:hover {
@@ -234,8 +259,9 @@ main{
 
 /* Прапорець під час гри (невідомо, що під ним) */
 .cell-flagged {
-  background-color: var(--color-text);
+  background-color: var(--color-cell-closed);
   color: var(--color-flag);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);   /* щоб жовтий прапорець читався на світлішому фоні */
   border-radius: 2px;
   font-size: calc(var(--cell-size) * 0.55);
   cursor: pointer;
@@ -249,6 +275,7 @@ main{
 .cell-flagged.cell-wrong {
   background-color: var(--color-flag-wrong-bg);
   color: var(--color-flag-wrong);
+  text-shadow: none;
   cursor: default;
 }
 
@@ -256,6 +283,7 @@ main{
 .cell-flagged.cell-correct {
   background-color: var(--color-flag-correct-bg);
   color: var(--color-flag-correct);
+  text-shadow: none;
   cursor: default;
 }
 
@@ -277,6 +305,10 @@ main{
 
 /* Медіа-запити */
 @media (width <= 400px) {
+  :root {
+    --container-padding: 12px;   /* більше місця для поля на вузьких екранах */
+  }
+
   body > header {
     flex-wrap: wrap;
     row-gap: 8px;
@@ -298,6 +330,12 @@ main{
 
   .status-bar {
     font-size: 16px;
-    padding: 10px 8px;
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .status-badge {
+    padding: 0 8px;
+    gap: 4px;
   }
 }

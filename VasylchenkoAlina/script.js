@@ -296,7 +296,7 @@ boardElement.addEventListener('contextmenu', (event) => {
 
 // прапорець з клавіатури: клавіша F (за фізичним кодом, тому працює в будь-якій розкладці)
 boardElement.addEventListener('keydown', (event) => {
-  if (event.code !== 'KeyF') return;
+  if (event.code !== 'KeyF' || event.repeat) return;   // утримання клавіші не має перемикати прапорець знову і знову
   handleCellAction(event, toggleFlag);
 });
 
