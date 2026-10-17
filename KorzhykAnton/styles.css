@@ -36,6 +36,7 @@
   --color-cell-exploded: #ff5a4f;
   --color-cell-wrong: #f7c548;
   --color-focus: #ffd166;
+  --color-status-win: #6ee08a;
 
   --color-n1: #1f5fd1;
   --color-n2: #1c8a3a;
@@ -252,4 +253,38 @@ body {
     height: 38px;
     font-size: 1.25rem;
   }
+}
+
+/* ---------- Game status message ---------- */
+.game-status {
+  margin: 0;
+  min-height: 1.5em;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.game-status-win {
+  color: var(--color-status-win);
+}
+
+.game-status-lose {
+  color: var(--color-display-text);
+}
+
+.game-hint {
+  margin: 0;
+  max-width: calc(var(--cols) * var(--cell-size));
+  font-size: 0.85rem;
+  text-align: center;
+  opacity: 0.7;
+}
+
+/* ---------- Board is locked after the game ends ---------- */
+.board-finished .cell {
+  cursor: default;
+}
+
+.board-finished .cell:hover {
+  filter: none;
 }
