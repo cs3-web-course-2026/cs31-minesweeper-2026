@@ -369,7 +369,7 @@ function renderStatus() {
   elements.status.className = `game-status game-status-${gameState.status}`;
 }
 
-function render() {
+function renderGame() {
   renderBoard();
   renderTimer();
   renderFlagsCounter();
@@ -414,7 +414,7 @@ function handleCellAction(event, action) {
   }
 
   action(position.row, position.col);
-  render();
+  renderGame();
 }
 
 function handleBoardClick(event) {
@@ -432,13 +432,19 @@ function handleBoardKeydown(event) {
   }
 
   event.preventDefault();
+
+  // Утримання клавіші не має перемикати прапорець знову і знову
+  if (event.repeat) {
+    return;
+  }
+
   handleCellAction(event, toggleFlag);
 }
 
 function startNewGame() {
   resetGame();
   createBoardButtons();
-  render();
+  renderGame();
 }
 
 elements.board.addEventListener('click', handleBoardClick);
