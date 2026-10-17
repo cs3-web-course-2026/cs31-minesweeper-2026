@@ -22,6 +22,9 @@
     --color-exploded-bg: #c0504a;
     --color-cell-closed: #5c8a52;
     --container-padding: 20px;
+    --shadow-cell-raised:
+      inset 2px 2px 0 rgb(255 255 255 / 35%),
+      inset -2px -2px 0 rgb(0 0 0 / 25%);
     --icon-size-large: 40px;
     --board-cols: 10;
     --board-rows: 10;
@@ -173,6 +176,7 @@ main{
 .game-field {
   /* розмір клітинки: вписуємо поле в ширину екрана (мінус відступи контейнера і проміжки), але не більше 42px */
   --cell-size: clamp(20px, calc((95vw - 2 * var(--container-padding) - var(--board-cols) * 1px) / var(--board-cols)), 42px);
+
   display:grid;
   grid-template-rows: repeat(var(--board-rows), var(--cell-size));
   grid-template-columns: repeat(var(--board-cols), var(--cell-size));
@@ -203,15 +207,8 @@ main{
   background-color: var(--color-cell-closed);
   color: var(--color-background);
   border-radius: 2px;
+  box-shadow: var(--shadow-cell-raised);   /* «випуклий» вигляд: світла грань зверху-зліва, темна знизу-справа */
   cursor: pointer;
-}
-
-/* «Випуклий» вигляд: світла грань зверху-зліва, темна знизу-справа */
-.cell-closed,
-.cell-flagged:not(.cell-wrong):not(.cell-correct) {
-  box-shadow:
-    inset 2px 2px 0 rgba(255, 255, 255, 0.35),
-    inset -2px -2px 0 rgba(0, 0, 0, 0.25);
 }
 
 .cell-closed:hover {
@@ -261,8 +258,9 @@ main{
 .cell-flagged {
   background-color: var(--color-cell-closed);
   color: var(--color-flag);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);   /* щоб жовтий прапорець читався на світлішому фоні */
+  text-shadow: 0 1px 2px rgb(0 0 0 / 60%);   /* щоб жовтий прапорець читався на світлішому фоні */
   border-radius: 2px;
+  box-shadow: var(--shadow-cell-raised);
   font-size: calc(var(--cell-size) * 0.55);
   cursor: pointer;
 }
@@ -276,6 +274,7 @@ main{
   background-color: var(--color-flag-wrong-bg);
   color: var(--color-flag-wrong);
   text-shadow: none;
+  box-shadow: none;
   cursor: default;
 }
 
@@ -284,6 +283,7 @@ main{
   background-color: var(--color-flag-correct-bg);
   color: var(--color-flag-correct);
   text-shadow: none;
+  box-shadow: none;
   cursor: default;
 }
 
