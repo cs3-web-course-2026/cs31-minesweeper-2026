@@ -59,10 +59,16 @@ h1 {
 }
 
 .board {
-  /* 100vw - .game padding (2*24px) - board padding (2*6px) - gaps ((cols-1)*2px) */
+  /*
+   * 100vw - .game padding (2 * 24px)
+   * - board padding (2 * 6px)
+   * - gaps ((cols - 1) * 2px)
+   */
   --cell: clamp(
     var(--cell-min),
-    calc((100vw - 48px - 12px - (var(--cols) - 1) * 2px) / var(--cols)),
+    calc(
+      (100vw - 48px - 12px - (var(--cols) - 1) * 2px) / var(--cols)
+    ),
     var(--cell-max)
   );
 
