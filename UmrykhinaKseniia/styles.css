@@ -1,7 +1,3 @@
-:root {
-  --cell: 36px;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -29,6 +25,7 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 12px;
 }
@@ -57,6 +54,12 @@ h1 {
 }
 
 .board {
+  /* 100vw - .game padding (2*24px) - board padding (2*6px) - gaps ((cols-1)*2px) */
+  --cell: clamp(
+    16px,
+    calc((100vw - 48px - 12px - (var(--cols) - 1) * 2px) / var(--cols)),
+    36px
+  );
   display: inline-grid;
   grid-template-columns: repeat(var(--cols), var(--cell));
   gap: 2px;
@@ -72,15 +75,21 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  font: bold 18px monospace;
+  font: bold clamp(10px, calc(var(--cell) * 0.5), 18px) monospace;
   background: #cfd6e4;
   border-radius: 4px;
   cursor: pointer;
   border: 2px outset #f2f5fb;
+  padding: 0;
 }
 
 .cell:hover {
   background: #dce2ee;
+}
+
+.cell:focus-visible {
+  outline: 3px solid #2f6fed;
+  outline-offset: 1px;
 }
 
 .cell.opened {
@@ -142,4 +151,10 @@ h1 {
 
 .message.lose {
   color: #d32f2f;
+}
+
+.hint {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #555;
 }
