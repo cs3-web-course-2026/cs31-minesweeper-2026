@@ -1,5 +1,5 @@
 :root {
-  --board-columns: 9;
+  --board-columns: 10;
   --cell-font-size: clamp(0.85rem, 2.8vw, 1.15rem);
   --counter-width: 4.75rem;
   --counter-height: 2.5rem;
@@ -21,6 +21,12 @@
   --color-start-active: #a6a6a6;
   --color-number-1: #1a5fb4;
   --color-number-2: #26a269;
+  --color-number-3: #c01c28;
+  --color-number-4: #613583;
+  --color-number-5: #865e3c;
+  --color-number-6: #1c71d8;
+  --color-number-7: #241f31;
+  --color-number-8: #5e5c64;
   --radius-panel: 1rem;
 }
 
@@ -199,6 +205,30 @@ button {
   color: var(--color-number-2);
 }
 
+.cell-number-3 {
+  color: var(--color-number-3);
+}
+
+.cell-number-4 {
+  color: var(--color-number-4);
+}
+
+.cell-number-5 {
+  color: var(--color-number-5);
+}
+
+.cell-number-6 {
+  color: var(--color-number-6);
+}
+
+.cell-number-7 {
+  color: var(--color-number-7);
+}
+
+.cell-number-8 {
+  color: var(--color-number-8);
+}
+
 .cell-flagged::after,
 .cell-flagged-mine::after {
   position: absolute;
@@ -231,6 +261,25 @@ button {
 .cell-exploded {
   background: var(--color-exploded);
   box-shadow: inset 0 0 0 0.08rem #2f2f2f;
+}
+
+.game-message {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+.game-message:empty {
+  display: none;
+}
+
+.game-message-win {
+  color: var(--color-number-2);
+}
+
+.game-message-lose {
+  color: var(--color-number-3);
 }
 
 @media (width <= 22rem) {
