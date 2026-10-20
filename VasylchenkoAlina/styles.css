@@ -4,12 +4,30 @@
     --color-surface:#A7D19E;
     --color-text: #33522C;
     --color-button:#587c69;
-    --color-cell-num-1: #7690b9;
-    --color-cell-num-2: #6eae60;
-    --color-cell-num-3: #b98176;
-    --cell-size: clamp(30px, 9vw, 42px);
+    --color-cell-num-1: #4a6fa5;
+    --color-cell-num-2: #3f8a32;
+    --color-cell-num-3: #b0524a;
+    --color-cell-num-4: #2f8f7a;
+    --color-cell-num-5: #a8445a;
+    --color-cell-num-6: #c07a1a;
+    --color-cell-num-7: #7a5ca8;
+    --color-cell-num-8: #4a4a4a;
+    --color-flag: #f2c14e;
+    --color-flag-correct-bg: #c4e6b8;
+    --color-flag-correct: #2f6b2a;
+    --color-flag-wrong-bg: #e9c0b8;
+    --color-flag-wrong: #8a3b30;
+    --color-mine-bg: #f0d9d3;
+    --color-mine: #8a3b30;
+    --color-exploded-bg: #c0504a;
+    --color-cell-closed: #5c8a52;
+    --container-padding: 20px;
+    --shadow-cell-raised:
+      inset 2px 2px 0 rgb(255 255 255 / 35%),
+      inset -2px -2px 0 rgb(0 0 0 / 25%);
     --icon-size-large: 40px;
-    --board-size: 9;
+    --board-cols: 10;
+    --board-rows: 10;
 }
 
 /* Скидання базових стилів */
@@ -29,7 +47,7 @@ body{
     font-family: 'Comic Neue', 'Comic Sans MS', cursive;
 }
 
-header{
+body > header{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -66,12 +84,25 @@ a {
   font-size: var(--icon-size-large);
 }
 
-.btn-records{
-  color: var(--color-text);
-  border: none;
-  cursor: pointer;
-  font-size: var(--icon-size-large);
-  background: none;
+.game-message{
+  min-height: 1.5em;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.game-message[data-status="win"]{
+  color: var(--color-flag-correct);
+}
+
+.game-message[data-status="lose"]{
+  color: var(--color-flag-wrong);
+}
+
+.game-hint{
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: normal;
 }
 
 main{
@@ -85,30 +116,43 @@ main{
 .game-container{
     display: inline-block;
     border-radius: 15px;
-    padding: 20px;
+    padding: var(--container-padding);
     max-width: 95vw;
     border: none;
     box-shadow: 0 5px 25px var(--color-text);
 }
 
 .status-bar{
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;   /* кнопка рестарту завжди точно по центру */
     align-items: center;
+    gap: 8px;
     font-weight: bold;
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 20px;
-    padding: 15px 11px;
+    padding: 12px;
     border-radius: 5px;
     background-color: var(--color-surface);
     box-shadow: 0 10px 60px var(--color-surface);
 }
 
+.mines-counter{
+  justify-self: start;
+}
+
+.timer{
+  justify-self: end;
+}
+
 .status-badge{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;   /* та сама висота, що й у кнопки рестарту */
   background-color: var(--color-background);
   color:var(--color-text);
-  padding: 10px 11px;
+  padding: 0 12px;
   border-radius: 10px;
   opacity: 0.9;
 }
@@ -130,9 +174,12 @@ main{
 }
 
 .game-field {
+  /* розмір клітинки: вписуємо поле в ширину екрана (мінус відступи контейнера і проміжки), але не більше 42px */
+  --cell-size: clamp(20px, calc((95vw - 2 * var(--container-padding) - var(--board-cols) * 1px) / var(--board-cols)), 42px);
+
   display:grid;
-  grid-template-rows: repeat(var(--board-size), var(--cell-size));
-  grid-template-columns: repeat(var(--board-size), var(--cell-size));
+  grid-template-rows: repeat(var(--board-rows), var(--cell-size));
+  grid-template-columns: repeat(var(--board-cols), var(--cell-size));
   width: fit-content;
   border-radius: 5px;
   justify-content: center;
@@ -148,12 +195,19 @@ main{
   width: var(--cell-size);
   height: var(--cell-size);
   font-weight: bold;
+  border: none;   /* прибираємо стандартну рамку браузера на кнопках */
+}
+
+.cell:focus-visible {
+  outline: 3px solid var(--color-flag);
+  outline-offset: -3px;
 }
 
 .cell-closed {
-  background-color: var(--color-text);
+  background-color: var(--color-cell-closed);
   color: var(--color-background);
   border-radius: 2px;
+  box-shadow: var(--shadow-cell-raised);   /* «випуклий» вигляд: світла грань зверху-зліва, темна знизу-справа */
   cursor: pointer;
 }
 
@@ -168,10 +222,6 @@ main{
   border-radius: 2px;
 }
 
-.cell:disabled {
-  cursor: default;
-}
-
 .cell-num-1{
   color: var(--color-cell-num-1);
 }
@@ -184,42 +234,70 @@ main{
   color: var(--color-cell-num-3);
 }
 
+.cell-num-4{
+  color: var(--color-cell-num-4);
+}
+
+.cell-num-5{
+  color: var(--color-cell-num-5);
+}
+
+.cell-num-6{
+  color: var(--color-cell-num-6);
+}
+
+.cell-num-7{
+  color: var(--color-cell-num-7);
+}
+
+.cell-num-8{
+  color: var(--color-cell-num-8);
+}
+
 /* Прапорець під час гри (невідомо, що під ним) */
-.cell-flagged{
-  background-color: var(--color-text);
-  color: var(--color-background);
+.cell-flagged {
+  background-color: var(--color-cell-closed);
+  color: var(--color-flag);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 60%);   /* щоб жовтий прапорець читався на світлішому фоні */
   border-radius: 2px;
+  box-shadow: var(--shadow-cell-raised);
   font-size: calc(var(--cell-size) * 0.55);
   cursor: pointer;
 }
 
-.cell-flagged:not(:disabled):hover {
+.cell-flagged:hover {
   opacity: 0.9;
 }
 
 /* Прапорець після програшу: прапорець стояв помилково (міни не було) */
 .cell-flagged.cell-wrong {
-  background-color: var(--color-button);
-  color: var(--color-background);
+  background-color: var(--color-flag-wrong-bg);
+  color: var(--color-flag-wrong);
+  text-shadow: none;
+  box-shadow: none;
+  cursor: default;
 }
 
 /* Прапорець після програшу: прапорець стояв правильно (міна була) */
 .cell-flagged.cell-correct {
-  background-color: var(--color-background);
-  color: var(--color-button);
+  background-color: var(--color-flag-correct-bg);
+  color: var(--color-flag-correct);
+  text-shadow: none;
+  box-shadow: none;
+  cursor: default;
 }
 
 .cell-mine {
-  background-color: var(--color-background);
-  color: var(--color-button);
+  background-color: var(--color-mine-bg);
+  color: var(--color-mine);
   border-radius: 2px;
   cursor: default;
   font-size: calc(var(--cell-size) * 0.55);
 }
 
 .cell-exploded {
-  background-color: var(--color-button);
-  color: var(--color-background);
+  background-color: var(--color-exploded-bg);
+  color: #fff;
   border-radius: 2px;
   font-size: calc(var(--cell-size) * 0.55);
   font-weight: lighter;
@@ -227,7 +305,11 @@ main{
 
 /* Медіа-запити */
 @media (width <= 400px) {
-  header {
+  :root {
+    --container-padding: 12px;   /* більше місця для поля на вузьких екранах */
+  }
+
+  body > header {
     flex-wrap: wrap;
     row-gap: 8px;
   }
@@ -241,10 +323,6 @@ main{
     font-size: 28px;
   }
 
-  .btn-records {
-    font-size: 34px;
-  }
-
   .header-actions {
     gap: 6px;
     margin-right: 6px;
@@ -252,6 +330,12 @@ main{
 
   .status-bar {
     font-size: 16px;
-    padding: 10px 8px;
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .status-badge {
+    padding: 0 8px;
+    gap: 4px;
   }
 }
