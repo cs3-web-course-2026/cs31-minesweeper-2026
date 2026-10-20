@@ -1,0 +1,286 @@
+:root {
+  --board-columns: 10;
+  --cell-size: 2.25rem;
+  --cell-font-size: 1.125rem;
+  --font-base: 'Courier New', monospace;
+  --font-system: 'Segoe UI', system-ui, sans-serif;
+  --color-bg: #808080;
+  --color-panel: #c0c0c0;
+  --color-border-light: #fff;
+  --color-border-dark: #808080;
+  --color-border-darkest: #404040;
+  --color-cell-closed: #c0c0c0;
+  --color-cell-opened: #ebebeb;
+  --color-cell-opened-border: #b0b0b0;
+  --color-mine-exploded: #f44;
+  --color-flagged-wrong: #ffd0d0;
+  --color-digital-bg: #000;
+  --color-digital-text: #f00;
+  --color-num-1: #00f;
+  --color-num-2: #080;
+  --color-num-3: #f00;
+  --color-num-4: #000080;
+  --color-num-5: #800000;
+  --color-num-6: #008080;
+  --color-num-7: #000;
+  --color-num-8: #808080;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg);
+  font-family: var(--font-system);
+  padding: 1rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.game-container {
+  background-color: var(--color-panel);
+  border-top: 3px solid var(--color-border-light);
+  border-left: 3px solid var(--color-border-light);
+  border-right: 3px solid var(--color-border-darkest);
+  border-bottom: 3px solid var(--color-border-darkest);
+  padding: 0.75rem;
+  box-shadow: 0 0.5rem 1.25rem rgb(0 0 0 / 30%);
+  max-width: 100%;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-panel);
+  border-top: 2px solid var(--color-border-darkest);
+  border-left: 2px solid var(--color-border-darkest);
+  border-right: 2px solid var(--color-border-light);
+  border-bottom: 2px solid var(--color-border-light);
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background-color: var(--color-digital-bg);
+  border-top: 1px solid var(--color-border-dark);
+  border-left: 1px solid var(--color-border-dark);
+  border-right: 1px solid var(--color-border-light);
+  border-bottom: 1px solid var(--color-border-light);
+  padding: 0.125rem 0.375rem;
+}
+
+.counter-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.counter-value {
+  font-family: var(--font-base);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-digital-text);
+  letter-spacing: 0.125rem;
+  line-height: 1;
+  min-width: 2.75rem;
+  text-align: right;
+}
+
+.restart-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: var(--color-panel);
+  border-top: 2px solid var(--color-border-light);
+  border-left: 2px solid var(--color-border-light);
+  border-right: 2px solid var(--color-border-darkest);
+  border-bottom: 2px solid var(--color-border-darkest);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.restart-button:active {
+  border-top: 2px solid var(--color-border-darkest);
+  border-left: 2px solid var(--color-border-darkest);
+  border-right: 2px solid var(--color-border-light);
+  border-bottom: 2px solid var(--color-border-light);
+}
+
+.restart-face {
+  display: inline-block;
+  line-height: 1;
+}
+
+.game-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--board-columns), var(--cell-size));
+  grid-template-rows: repeat(var(--board-columns), var(--cell-size));
+  border-top: 3px solid var(--color-border-darkest);
+  border-left: 3px solid var(--color-border-darkest);
+  border-right: 3px solid var(--color-border-light);
+  border-bottom: 3px solid var(--color-border-light);
+  background-color: var(--color-border-dark);
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-system);
+  font-size: var(--cell-font-size);
+  font-weight: bold;
+  user-select: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* Стани клітинки */
+.cell-closed {
+  background-color: var(--color-cell-closed);
+  border-top: 2px solid var(--color-border-light);
+  border-left: 2px solid var(--color-border-light);
+  border-right: 2px solid var(--color-border-darkest);
+  border-bottom: 2px solid var(--color-border-darkest);
+}
+
+.cell-closed:active {
+  border: 1px solid var(--color-border-dark);
+}
+
+.cell-opened {
+  background-color: var(--color-cell-opened);
+  border: 1px solid var(--color-cell-opened-border);
+  cursor: default;
+}
+
+.cell-flagged {
+  background-color: var(--color-cell-closed);
+  border-top: 2px solid var(--color-border-light);
+  border-left: 2px solid var(--color-border-light);
+  border-right: 2px solid var(--color-border-darkest);
+  border-bottom: 2px solid var(--color-border-darkest);
+}
+
+.cell-flagged-wrong {
+  background-color: var(--color-flagged-wrong);
+  border-top: 2px solid var(--color-border-light);
+  border-left: 2px solid var(--color-border-light);
+  border-right: 2px solid var(--color-border-darkest);
+  border-bottom: 2px solid var(--color-border-darkest);
+  position: relative;
+}
+
+.cell-flagged-wrong::after {
+  content: '❌';
+  position: absolute;
+  font-size: 0.75rem;
+  top: 0.125rem;
+  right: 0.125rem;
+}
+
+.cell-mine {
+  background-color: var(--color-cell-opened);
+  border: 1px solid var(--color-cell-opened-border);
+}
+
+.cell-mine-exploded {
+  background-color: var(--color-mine-exploded);
+  border: 1px solid var(--color-border-darkest);
+}
+
+/* Кольори цифр 1–8 */
+.cell-number-1 {
+  color: var(--color-num-1);
+}
+
+.cell-number-2 {
+  color: var(--color-num-2);
+}
+
+.cell-number-3 {
+  color: var(--color-num-3);
+}
+
+.cell-number-4 {
+  color: var(--color-num-4);
+}
+
+.cell-number-5 {
+  color: var(--color-num-5);
+}
+
+.cell-number-6 {
+  color: var(--color-num-6);
+}
+
+.cell-number-7 {
+  color: var(--color-num-7);
+}
+
+.cell-number-8 {
+  color: var(--color-num-8);
+}
+
+.game-message {
+  margin-top: 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+  min-height: 1.25rem;
+}
+
+.game-message-win {
+  color: #060;
+}
+
+.game-message-lose {
+  color: #900;
+}
+
+/* Адаптивність для мобільних пристроїв */
+@media (width <= 480px) {
+  :root {
+    --cell-size: 1.875rem;
+    --cell-font-size: 1rem;
+  }
+
+  body {
+    padding: 0.5rem;
+  }
+
+  .game-container {
+    padding: 0.5rem;
+  }
+}
