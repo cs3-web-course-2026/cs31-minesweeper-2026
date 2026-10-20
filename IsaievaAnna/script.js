@@ -15,6 +15,11 @@ const GAME_STATUS = {
   LOSE: 'lose',
 };
 
+const TIMER_CONFIG = {
+  INTERVAL_MS: 1000,
+  DISPLAY_DIGITS: 3
+};
+
 const gameState = {
   rows: 9,
   cols: 9,
@@ -284,7 +289,7 @@ function startTimer() {
 
     gameState.gameTime++;
     updateTimerDisplay();
-  }, 1000);
+  }, TIMER_CONFIG.INTERVAL_MS);
 }
 
 
@@ -293,7 +298,7 @@ function updateTimerDisplay() {
     return;
   }
 
-  elements.timer.textContent = String(gameState.gameTime).padStart(3, '0');
+  elements.timer.textContent = String(gameState.gameTime).padStart(TIMER_CONFIG.DISPLAY_DIGITS, '0');
 }
 
 
