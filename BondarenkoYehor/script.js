@@ -10,7 +10,7 @@ const gameState = {
   explodedCell: null,
 };
 
-let field = [];
+let board = [];
 
 function createCell() {
   return { type: 'empty', neighborMines: 0, state: 'closed' };
@@ -59,17 +59,17 @@ function countNeighbourMines(grid) {
 }
 
 function revealCell(row, col) {
-  const cell = field[row][col];
+  const cell = board[row][col];
   if (cell.state !== 'closed') return;
 
   cell.state = 'opened';
   if (cell.neighborMines === 0) {
-    forEachNeighbor(field, row, col, (_, r, c) => revealCell(r, c));
+    forEachNeighbor(board, row, col, (_, r, c) => revealCell(r, c));
   }
 }
 
 function hasWon() {
-  return field.every((line) =>
+  return board.every((line) =>
     line.every((cell) => cell.type === 'mine' || cell.state === 'opened'),
   );
 }
@@ -82,7 +82,7 @@ function endGame(status) {
 function openCell(row, col) {
   if (gameState.status !== 'process') return;
 
-  const cell = field[row][col];
+  const cell = board[row][col];
   if (cell.state !== 'closed') return;
 
   if (cell.type === 'mine') {
@@ -96,13 +96,13 @@ function openCell(row, col) {
 }
 
 function countFlags() {
-  return field.flat().filter((cell) => cell.state === 'flagged').length;
+  return board.flat().filter((cell) => cell.state === 'flagged').length;
 }
 
 function toggleFlag(row, col) {
   if (gameState.status !== 'process') return;
 
-  const cell = field[row][col];
+  const cell = board[row][col];
   if (cell.state === 'opened') return;
 
   if (cell.state === 'flagged') {
@@ -135,8 +135,8 @@ function startNewGame({ rows, cols, minesCount } = DEFAULT_SETTINGS) {
     gameTime: 0,
     explodedCell: null,
   });
-  field = generateField(rows, cols, minesCount);
-  countNeighbourMines(field);
+  board = generateField(rows, cols, minesCount);
+  countNeighbourMines(board);
 }
 
 const boardElement = document.getElementById('board');
@@ -204,7 +204,7 @@ function createCellElement(cell, row, col) {
 }
 
 function renderBoard() {
-  const cells = field.flatMap((line, row) =>
+  const cells = board.flatMap((line, row) =>
     line.map((cell, col) => createCellElement(cell, row, col)),
   );
   boardElement.style.setProperty('--cols', gameState.cols);
