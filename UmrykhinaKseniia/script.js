@@ -314,7 +314,6 @@ function onKeyDown(event) {
   toggleFlag(coords.row, coords.col);
   render();
 }
-```
 
 function startGame() {
   resetGame();
