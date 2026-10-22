@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -9,14 +10,30 @@
 <body>
   <main class="game">
     <h1>Minesweeper</h1>
+
     <section class="panel">
-      <div class="counter" title="Доступні прапорці">🚩 <span id="flags-counter">0</span></div>
+      <div
+        class="counter"
+        title="Доступні прапорці"
+        role="status"
+        aria-live="polite"
+      >
+        🚩 <span id="flags-counter">0</span>
+      </div>
+
       <button id="restart-btn" type="button">Старт / Рестарт</button>
-      <div class="counter" title="Час гри">⏱ <span id="timer">0</span> c</div>
+
+      <div class="counter" title="Час гри">
+        ⏱ <span id="timer">0</span> c
+      </div>
     </section>
+
     <div id="board" class="board"></div>
+
     <p id="message" class="message" aria-live="polite"></p>
   </main>
+
   <script src="script.js"></script>
 </body>
 </html>
+```
