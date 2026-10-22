@@ -92,17 +92,13 @@ function countNeighbourMines(grid) {
 
 // Ітеративна заливка: без рекурсії, тому не залежить від розміру поля
 function revealCell(grid, row, col) {
-  const stack = [[row, col]];
-  while (stack.length > 0) {
-    const [currentRow, currentCol] = stack.pop();
-    const cell = grid[currentRow][currentCol];
-    if (cell.state !== CELL_STATE.CLOSED) continue;
-    cell.state = CELL_STATE.OPENED;
-    if (cell.type === CELL_TYPE.EMPTY && cell.neighborMines === 0) {
-      forEachNeighbor(grid, currentRow, currentCol, (neighborRow, neighborCol) =>
-        stack.push([neighborRow, neighborCol])
-      );
-    }
+  const cell = grid[row][col];
+  if (cell.state !== CELL_STATE.CLOSED) return;
+  cell.state = CELL_STATE.OPENED;
+  if (cell.type === CELL_TYPE.EMPTY && cell.neighborMines === 0) {
+    forEachNeighbor(grid, row, col, (neighborRow, neighborCol) =>
+      revealCell(grid, neighborRow, neighborCol)
+    );
   }
 }
 
