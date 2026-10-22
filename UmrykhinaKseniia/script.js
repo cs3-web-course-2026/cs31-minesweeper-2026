@@ -301,12 +301,20 @@ function onRightClick(event) {
 }
 
 function onKeyDown(event) {
-  if (event.code !== 'KeyF' || event.ctrlKey || event.metaKey || event.altKey) return;
+  if (
+    event.code !== 'KeyF' ||
+    event.repeat ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.altKey
+  ) return;
+
   const coords = getCellCoords(event);
   if (!coords) return;
   toggleFlag(coords.row, coords.col);
   render();
 }
+```
 
 function startGame() {
   resetGame();
