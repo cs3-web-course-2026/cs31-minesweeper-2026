@@ -1,6 +1,9 @@
 :root {
   --cell-min: 16px;
   --cell-max: 36px;
+  --game-padding: 24px;
+  --board-padding: 6px;
+  --cell-gap: 2px;
 }
 
 * {
@@ -18,7 +21,7 @@ body {
 }
 
 .game {
-  padding: 24px;
+  padding: var(--game-padding);
   text-align: center;
 }
 
@@ -59,23 +62,20 @@ h1 {
 }
 
 .board {
-  /*
-   * 100vw - .game padding (2 * 24px)
-   * - board padding (2 * 6px)
-   * - gaps ((cols - 1) * 2px)
-   */
   --cell: clamp(
     var(--cell-min),
     calc(
-      (100vw - 48px - 12px - (var(--cols) - 1) * 2px) / var(--cols)
+      (100vw - var(--game-padding) - var(--game-padding)
+        - var(--board-padding) - var(--board-padding)
+        - (var(--cols) - 1) * var(--cell-gap)) / var(--cols)
     ),
     var(--cell-max)
   );
 
   display: inline-grid;
   grid-template-columns: repeat(var(--cols), var(--cell));
-  gap: 2px;
-  padding: 6px;
+  gap: var(--cell-gap);
+  padding: var(--board-padding);
   background: #99a;
   border-radius: 8px;
   user-select: none;
