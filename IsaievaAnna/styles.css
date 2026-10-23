@@ -36,6 +36,11 @@
   --number-one: #4f7ecf;
   --number-two: #4f9a70;
   --number-three: #d46b86;
+  --number-four: #283593;
+  --number-five: #a52a2a;
+  --number-six: #008b8b;
+  --number-seven: #4b0082;
+  --number-eight: #616161;
 
   --focus-color: #6aa3d8;
   --light-text: #fff;
@@ -209,6 +214,26 @@ body {
   color: var(--number-three);
 }
 
+.cell-number-4 {
+  color: var(--number-four);
+}
+
+.cell-number-5 {
+  color: var(--number-five);
+}
+
+.cell-number-6 {
+  color: var(--number-six);
+}
+
+.cell-number-7 {
+  color: var(--number-seven);
+}
+
+.cell-number-8 {
+  color: var(--number-eight);
+}
+
 .cell:focus-visible,
 .restart-button:focus-visible {
   outline: 3px solid var(--focus-color);
@@ -249,3 +274,22 @@ body {
   }
 }
 
+.game-hint {
+  margin: 0.75rem 0 0;
+  color: var(--text-color);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.game-message {
+  margin: 1rem 0 0;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--title-color);
+}
+
+.game-message:empty {
+  display: none;
+}
