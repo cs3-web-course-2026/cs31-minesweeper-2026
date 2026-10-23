@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minesweeper // Svyrydenko Tetiana</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="minesweeper-wrapper">
+        <section class="game-container" aria-label="Ігрове поле Сапер">
+            
+            <header class="game-dashboard">
+                <div class="display-box" role="status" aria-label="Кількість прапорців">
+                    <span class="icon">🚩</span>
+                    <output class="value">010</output>
+                </div>
+                
+                <button class="control-btn" type="button" aria-label="Нова гра">
+                    <span class="face-icon">😎</span>
+                </button>
+                
+                <div class="display-box" role="timer" aria-label="Час гри">
+                    <span class="icon">⏳</span>
+                    <output class="value">000</output>
+                </div>
+            </header>
+
+            <div class="game-grid" role="grid">
+                <button class="cell is-closed" role="gridcell" aria-label="Закрита клітинка"></button>
+                
+                <button class="cell is-open num-1" role="gridcell">1</button>
+                
+                <button class="cell is-closed is-flagged" role="gridcell" aria-label="Прапорець">🚩</button>
+                
+                <button class="cell is-open num-2" role="gridcell">2</button>
+                
+                <button class="cell is-open is-mine" role="gridcell" aria-label="Міна">💣</button>
+                
+                <button class="cell is-open is-exploded" role="gridcell" aria-label="Вибух"></button>
+                
+                <button class="cell is-closed" role="gridcell"></button>
+                <button class="cell is-closed" role="gridcell"></button>
+            </div>
+
+        </section>
+    </main>
+</body>
+</html>
