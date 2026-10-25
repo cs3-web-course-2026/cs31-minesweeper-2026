@@ -60,6 +60,7 @@ function createCell() {
     state: CELL_STATE.CLOSED,
     neighborMines: 0,
     exploded: false,
+    wrongFlag: false,
   };
 }
 
@@ -120,6 +121,10 @@ function revealAllMines(currentBoard) {
       if (cell.type === CELL_TYPE.MINE && cell.state !== CELL_STATE.FLAGGED) {
         cell.state = CELL_STATE.OPENED;
       }
+
+      if (cell.type === CELL_TYPE.EMPTY && cell.state === CELL_STATE.FLAGGED) {
+        cell.wrongFlag = true;
+      }
     }
   }
 }
@@ -163,7 +168,9 @@ function formatCounterValue(value) {
 
 function getCellAriaLabel(cell, row, col) {
   if (cell.state === CELL_STATE.FLAGGED) {
-    return `Рядок ${row + 1}, колонка ${col + 1}, прапорець`;
+    return cell.wrongFlag
+      ? `Рядок ${row + 1}, колонка ${col + 1}, помилковий прапорець`
+      : `Рядок ${row + 1}, колонка ${col + 1}, прапорець`;
   }
 
   if (cell.state === CELL_STATE.CLOSED) {
@@ -338,6 +345,12 @@ function renderField() {
     return;
   }
 
+  const focusedCell = document.activeElement?.closest?.('.cell');
+  const focusedRow = focusedCell?.dataset.row;
+  const focusedCol = focusedCell?.dataset.col;
+
+  let buttonToFocus = null;
+
   boardElement.innerHTML = '';
 
   for (let row = 0; row < gameState.rows; row++) {
@@ -354,7 +367,9 @@ function renderField() {
       if (cell.state === CELL_STATE.CLOSED) {
         button.classList.add('cell-closed');
       } else if (cell.state === CELL_STATE.FLAGGED) {
-        button.classList.add('cell-flagged');
+        button.classList.add(
+          cell.wrongFlag ? 'cell-flagged-wrong' : 'cell-flagged',
+        );
         button.textContent = '🚩';
       } else if (cell.state === CELL_STATE.OPENED) {
         button.classList.add('cell-opened');
@@ -373,9 +388,15 @@ function renderField() {
         }
       }
 
+      if (String(row) === focusedRow && String(col) === focusedCol) {
+        buttonToFocus = button;
+      }
+
       boardElement.appendChild(button);
     }
   }
+
+  buttonToFocus?.focus();
 }
 
 function updateUI() {
