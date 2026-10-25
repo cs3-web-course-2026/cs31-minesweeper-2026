@@ -1,15 +1,38 @@
+const CELL_TYPE = {
+  EMPTY: 'empty',
+  MINE: 'mine',
+};
+
+const CELL_STATE = {
+  CLOSED: 'closed',
+  OPENED: 'opened',
+  FLAGGED: 'flagged',
+};
+
+const GAME_STATUS = {
+  PROCESS: 'process',
+  WIN: 'win',
+  LOSE: 'lose',
+  STOP: 'stop',
+};
+
 const DIRECTIONS = [
-  [-1, -1], [-1, 0], [-1, 1],
-  [0, -1],           [0, 1],
-  [1, -1],  [1, 0],  [1, 1],
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
 ];
 
 function generateField(rows, cols, minesCount, safeRow = -1, safeCol = -1) {
   const board = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, () => ({
-      type: 'empty',
+      type: CELL_TYPE.EMPTY,
       neighborMines: 0,
-      state: 'closed',
+      state: CELL_STATE.CLOSED,
     }))
   );
 
@@ -18,41 +41,51 @@ function generateField(rows, cols, minesCount, safeRow = -1, safeCol = -1) {
   const targetMines = Math.min(minesCount, Math.max(0, maxPossibleMines));
 
   while (minesPlaced < targetMines) {
-    const r = Math.floor(Math.random() * rows);
-    const c = Math.floor(Math.random() * cols);
+    const row = Math.floor(Math.random() * rows);
+    const col = Math.floor(Math.random() * cols);
 
-    // Exclude safe zone (cell and all its 8 neighbors) if safeRow specified
-    if (safeRow !== -1 && Math.abs(r - safeRow) <= 1 && Math.abs(c - safeCol) <= 1) {
-      continue;
-    }
-    if (board[r][c].type === 'mine') {
+    if (safeRow !== -1 && Math.abs(row - safeRow) <= 1 && Math.abs(col - safeCol) <= 1) {
       continue;
     }
 
-    board[r][c].type = 'mine';
+    if (board[row][col].type === CELL_TYPE.MINE) {
+      continue;
+    }
+
+    board[row][col].type = CELL_TYPE.MINE;
     minesPlaced++;
   }
 
   countNeighbourMines(board, rows, cols);
+
   return board;
 }
 
 function countNeighbourMines(board, rows, cols) {
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      if (board[r][c].type === 'mine') {
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (board[row][col].type === CELL_TYPE.MINE) {
         continue;
       }
 
       let count = 0;
-      for (const [dr, dc] of DIRECTIONS) {
-        const nr = r + dr;
-        const nc = c + dc;
-        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && board[nr][nc].type === 'mine') {
+
+      for (const [directionalRow, directionalCol] of DIRECTIONS) {
+        const neighbourRow = row + directionalRow;
+        const neighbourCol = col + directionalCol;
+
+        if (
+          neighbourRow >= 0 &&
+          neighbourRow < rows &&
+          neighbourCol >= 0 &&
+          neighbourCol < cols &&
+          board[neighbourRow][neighbourCol].type === CELL_TYPE.MINE
+        ) {
           count++;
         }
       }
-      board[r][c].neighborMines = count;
+
+      board[row][col].neighborMines = count;
     }
   }
 }
@@ -61,24 +94,24 @@ class Game {
   countdown = document.querySelector('.countdown');
   flagsCounter = document.querySelector('.flags-count');
   gameStatus = document.querySelector('.game-status');
-  tableEl = document.querySelector('.board');
-  tbodyEl = document.querySelector('.board tbody');
-  startBtn = document.querySelector('.start-btn');
-  stopBtn = document.querySelector('.stop-btn');
+  tableElement = document.querySelector('.board');
+  tbodyElement = document.querySelector('.board tbody');
+  startButton = document.querySelector('.start-btn');
+  stopButton = document.querySelector('.stop-btn');
 
   gameState = {
     rows: 6,
     cols: 6,
     minesCount: 6,
-    status: 'stop', // 'stop' | 'process' | 'win' | 'lose'
+    status: GAME_STATUS.STOP,
     gameTime: 0,
     timerId: null,
   };
 
-  board = []; // 2D array of cell objects (Lab 2 data layer)
+  board = [];
   flags = 6;
   firstClick = true;
-  cellElements = []; // 2D array of DOM elements
+  cellElements = [];
 
   constructor() {
     this.initEvents();
@@ -87,61 +120,66 @@ class Game {
   }
 
   initEvents() {
-    this.startBtn.addEventListener('click', () => this.start());
-    this.stopBtn.addEventListener('click', () => this.stop());
+    this.startButton.addEventListener('click', () => this.start());
+    this.stopButton.addEventListener('click', () => this.stop());
   }
 
   initEmptyBoardData() {
     this.board = Array.from({ length: this.gameState.rows }, () =>
       Array.from({ length: this.gameState.cols }, () => ({
-        type: 'empty',
+        type: CELL_TYPE.EMPTY,
         neighborMines: 0,
-        state: 'closed',
+        state: CELL_STATE.CLOSED,
       }))
     );
   }
 
   createBoardUI() {
-    this.tbodyEl.innerHTML = '';
+    this.tbodyElement.innerHTML = '';
     this.cellElements = [];
 
-    for (let r = 0; r < this.gameState.rows; r++) {
-      const tr = document.createElement('tr');
-      tr.className = 'raw';
+    for (let row = 0; row < this.gameState.rows; row++) {
+      const tableRow = document.createElement('tr');
+      tableRow.className = 'raw';
       const rowElements = [];
 
-      for (let c = 0; c < this.gameState.cols; c++) {
-        const th = document.createElement('th');
-        th.className = 'column closed';
+      for (let col = 0; col < this.gameState.cols; col++) {
+        const cellElement = document.createElement('th');
+        cellElement.className = 'column closed';
+        cellElement.setAttribute(
+          'aria-label',
+          `Row ${row + 1}, column ${col + 1}, closed`
+        );
 
-        th.addEventListener('click', () => this.openCell(r, c));
-        th.addEventListener('contextmenu', (e) => {
-          e.preventDefault();
-          this.toggleFlag(r, c);
+        cellElement.addEventListener('click', () => this.openCell(row, col));
+        cellElement.addEventListener('contextmenu', (event) => {
+          event.preventDefault();
+          this.toggleFlag(row, col);
         });
 
-        tr.appendChild(th);
-        rowElements.push(th);
+        tableRow.appendChild(cellElement);
+        rowElements.push(cellElement);
       }
 
-      this.tbodyEl.appendChild(tr);
+      this.tbodyElement.appendChild(tableRow);
       this.cellElements.push(rowElements);
     }
   }
 
   start() {
     clearInterval(this.gameState.timerId);
-    this.gameState.status = 'process';
+    this.gameState.status = GAME_STATUS.PROCESS;
     this.gameState.gameTime = 0;
     this.firstClick = true;
 
-    this.startBtn.disabled = true;
-    this.stopBtn.disabled = false;
-    this.tableEl.classList.add('game-active');
+    this.startButton.disabled = true;
+    this.stopButton.disabled = false;
+    this.tableElement.classList.add('game-active');
 
     this.flags = this.gameState.minesCount;
     this.countdown.textContent = `${this.gameState.gameTime} s`;
     this.flagsCounter.textContent = `${this.flags} flags`;
+
     if (this.gameStatus) {
       this.gameStatus.textContent = `Mines: ${this.gameState.minesCount}`;
     }
@@ -156,11 +194,11 @@ class Game {
   }
 
   stop() {
-    this.gameState.status = 'stop';
+    this.gameState.status = GAME_STATUS.STOP;
     this.firstClick = true;
-    this.startBtn.disabled = false;
-    this.stopBtn.disabled = true;
-    this.tableEl.classList.remove('game-active');
+    this.startButton.disabled = false;
+    this.stopButton.disabled = true;
+    this.tableElement.classList.remove('game-active');
 
     clearInterval(this.gameState.timerId);
     this.gameState.timerId = null;
@@ -172,92 +210,137 @@ class Game {
     this.countdown.textContent = '0 s';
     this.flags = 0;
     this.flagsCounter.textContent = '0 flags';
+
     if (this.gameStatus) {
       this.gameStatus.textContent = '';
     }
   }
 
   resetBoardUI() {
-    for (let r = 0; r < this.gameState.rows; r++) {
-      for (let c = 0; c < this.gameState.cols; c++) {
-        const cellEl = this.cellElements[r][c];
-        cellEl.className = 'column closed';
-        cellEl.textContent = '';
+    for (let row = 0; row < this.gameState.rows; row++) {
+      for (let col = 0; col < this.gameState.cols; col++) {
+        const cellElement = this.cellElements[row][col];
+        cellElement.className = 'column closed';
+        cellElement.textContent = '';
+        cellElement.setAttribute(
+          'aria-label',
+          `Row ${row + 1}, column ${col + 1}, closed`
+        );
       }
     }
   }
 
-  openCell(r, c) {
-    if (this.gameState.status !== 'process') return;
+  openCell(row, col) {
+    if (this.gameState.status !== GAME_STATUS.PROCESS) {
+      return;
+    }
 
     if (this.firstClick) {
       this.board = generateField(
         this.gameState.rows,
         this.gameState.cols,
         this.gameState.minesCount,
-        r,
-        c
+        row,
+        col
       );
       this.firstClick = false;
     }
 
-    const cellData = this.board[r][c];
-    if (cellData.state === 'opened' || cellData.state === 'flagged') return;
+    const cellData = this.board[row][col];
 
-    if (cellData.type === 'mine') {
-      this.gameOver(r, c);
+    if (
+      cellData.state === CELL_STATE.OPENED ||
+      cellData.state === CELL_STATE.FLAGGED
+    ) {
       return;
     }
 
-    this.revealCell(r, c);
+    if (cellData.type === CELL_TYPE.MINE) {
+      this.gameOver(row, col);
+
+      return;
+    }
+
+    this.revealCell(row, col);
 
     if (this.checkWin()) {
       this.winGame();
     }
   }
 
-  revealCell(r, c) {
-    const cellData = this.board[r][c];
-    if (cellData.state === 'opened' || cellData.state === 'flagged' || cellData.type === 'mine') {
+  revealCell(row, col) {
+    const cellData = this.board[row][col];
+
+    if (
+      cellData.state === CELL_STATE.OPENED ||
+      cellData.state === CELL_STATE.FLAGGED ||
+      cellData.type === CELL_TYPE.MINE
+    ) {
       return;
     }
 
-    cellData.state = 'opened';
-    const cellEl = this.cellElements[r][c];
-    cellEl.classList.remove('closed');
-    cellEl.classList.add('opened');
-    cellEl.textContent = cellData.neighborMines || '';
+    cellData.state = CELL_STATE.OPENED;
+    const cellElement = this.cellElements[row][col];
+    cellElement.classList.remove('closed');
+    cellElement.classList.add('opened');
+    cellElement.textContent = cellData.neighborMines || '';
+    cellElement.setAttribute(
+      'aria-label',
+      `Row ${row + 1}, column ${col + 1}, opened ${cellData.neighborMines || 0} mines`
+    );
 
     if (cellData.neighborMines === 0) {
-      for (const [dr, dc] of DIRECTIONS) {
-        const nr = r + dr;
-        const nc = c + dc;
-        if (nr >= 0 && nr < this.gameState.rows && nc >= 0 && nc < this.gameState.cols) {
-          this.revealCell(nr, nc);
+      for (const [directionalRow, directionalCol] of DIRECTIONS) {
+        const neighbourRow = row + directionalRow;
+        const neighbourCol = col + directionalCol;
+
+        if (
+          neighbourRow >= 0 &&
+          neighbourRow < this.gameState.rows &&
+          neighbourCol >= 0 &&
+          neighbourCol < this.gameState.cols
+        ) {
+          this.revealCell(neighbourRow, neighbourCol);
         }
       }
     }
   }
 
-  toggleFlag(r, c) {
-    if (this.gameState.status !== 'process') return;
+  toggleFlag(row, col) {
+    if (this.gameState.status !== GAME_STATUS.PROCESS) {
+      return;
+    }
 
-    const cellData = this.board[r][c];
-    if (cellData.state === 'opened') return;
+    const cellData = this.board[row][col];
 
-    const cellEl = this.cellElements[r][c];
+    if (cellData.state === CELL_STATE.OPENED) {
+      return;
+    }
 
-    if (cellData.state === 'flagged') {
-      cellData.state = 'closed';
+    const cellElement = this.cellElements[row][col];
+
+    if (cellData.state === CELL_STATE.FLAGGED) {
+      cellData.state = CELL_STATE.CLOSED;
       this.flags++;
-      cellEl.classList.remove('flagged');
-      cellEl.textContent = '';
+      cellElement.classList.remove('flagged');
+      cellElement.textContent = '';
+      cellElement.setAttribute(
+        'aria-label',
+        `Row ${row + 1}, column ${col + 1}, closed`
+      );
     } else {
-      if (this.flags <= 0) return;
-      cellData.state = 'flagged';
+      if (this.flags <= 0) {
+        return;
+      }
+
+      cellData.state = CELL_STATE.FLAGGED;
       this.flags--;
-      cellEl.classList.add('flagged');
-      cellEl.textContent = '🚩';
+      cellElement.classList.add('flagged');
+      cellElement.textContent = '🚩';
+      cellElement.setAttribute(
+        'aria-label',
+        `Row ${row + 1}, column ${col + 1}, flagged`
+      );
     }
 
     this.flagsCounter.textContent = `${this.flags} flags`;
@@ -267,38 +350,58 @@ class Game {
     }
   }
 
-  gameOver(explodedR, explodedC) {
-    this.gameState.status = 'lose';
-    this.startBtn.disabled = false;
-    this.stopBtn.disabled = true;
-    this.tableEl.classList.remove('game-active');
+  gameOver(explodedRow, explodedCol) {
+    this.gameState.status = GAME_STATUS.LOSE;
+    this.startButton.disabled = false;
+    this.stopButton.disabled = true;
+    this.tableElement.classList.remove('game-active');
 
     clearInterval(this.gameState.timerId);
     this.gameState.timerId = null;
 
-    for (let r = 0; r < this.gameState.rows; r++) {
-      for (let c = 0; c < this.gameState.cols; c++) {
-        const cellData = this.board[r][c];
-        const cellEl = this.cellElements[r][c];
+    for (let row = 0; row < this.gameState.rows; row++) {
+      for (let col = 0; col < this.gameState.cols; col++) {
+        const cellData = this.board[row][col];
+        const cellElement = this.cellElements[row][col];
 
-        if (r === explodedR && c === explodedC) {
-          cellEl.className = 'column first-exploded';
-          cellEl.textContent = '💣';
-        } else if (cellData.type === 'mine') {
-          if (cellData.state === 'flagged') {
-            cellEl.className = 'column flagged';
-            cellEl.textContent = '🚩';
+        if (row === explodedRow && col === explodedCol) {
+          cellElement.className = 'column first-exploded';
+          cellElement.textContent = '💣';
+          cellElement.setAttribute(
+            'aria-label',
+            `Row ${row + 1}, column ${col + 1}, exploded mine`
+          );
+        } else if (cellData.type === CELL_TYPE.MINE) {
+          if (cellData.state === CELL_STATE.FLAGGED) {
+            cellElement.className = 'column flagged';
+            cellElement.textContent = '🚩';
+            cellElement.setAttribute(
+              'aria-label',
+              `Row ${row + 1}, column ${col + 1}, flagged mine`
+            );
           } else {
-            cellEl.className = 'column bombed';
-            cellEl.textContent = '💣';
+            cellElement.className = 'column bombed';
+            cellElement.textContent = '💣';
+            cellElement.setAttribute(
+              'aria-label',
+              `Row ${row + 1}, column ${col + 1}, mine`
+            );
           }
         } else {
-          if (cellData.state === 'flagged') {
-            cellEl.className = 'column flagged wrong';
-            cellEl.textContent = '🚩';
+          if (cellData.state === CELL_STATE.FLAGGED) {
+            cellElement.className = 'column flagged wrong';
+            cellElement.textContent = '🚩';
+            cellElement.setAttribute(
+              'aria-label',
+              `Row ${row + 1}, column ${col + 1}, falsely flagged`
+            );
           } else {
-            cellEl.className = 'column opened';
-            cellEl.textContent = cellData.neighborMines || '';
+            cellElement.className = 'column opened';
+            cellElement.textContent = cellData.neighborMines || '';
+            cellElement.setAttribute(
+              'aria-label',
+              `Row ${row + 1}, column ${col + 1}, opened ${cellData.neighborMines || 0} mines`
+            );
           }
         }
       }
@@ -310,22 +413,27 @@ class Game {
   }
 
   checkWin() {
-    for (let r = 0; r < this.gameState.rows; r++) {
-      for (let c = 0; c < this.gameState.cols; c++) {
-        const cellData = this.board[r][c];
-        if (cellData.type !== 'mine' && cellData.state !== 'opened') {
+    for (let row = 0; row < this.gameState.rows; row++) {
+      for (let col = 0; col < this.gameState.cols; col++) {
+        const cellData = this.board[row][col];
+
+        if (
+          cellData.type !== CELL_TYPE.MINE &&
+          cellData.state !== CELL_STATE.OPENED
+        ) {
           return false;
         }
       }
     }
+
     return true;
   }
 
   winGame() {
-    this.gameState.status = 'win';
-    this.tableEl.classList.remove('game-active');
-    this.startBtn.disabled = false;
-    this.stopBtn.disabled = true;
+    this.gameState.status = GAME_STATUS.WIN;
+    this.tableElement.classList.remove('game-active');
+    this.startButton.disabled = false;
+    this.stopButton.disabled = true;
 
     clearInterval(this.gameState.timerId);
     this.gameState.timerId = null;
