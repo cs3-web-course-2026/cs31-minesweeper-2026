@@ -1,0 +1,239 @@
+:root {
+  --bevel: 3px;
+  --gap: 2px;
+  --color-page: #2b2f3a;
+  --color-panel: #c0c0c0;
+  --color-light: #fff;
+  --color-shadow: #7b7b7b;
+  --color-closed: #c0c0c0;
+  --color-closed-hover: #d0d0d0;
+  --color-opened: #d6d6d6;
+  --color-danger: #e53935;
+  --color-focus: #1e88e5;
+  --color-display-bg: #1a0000;
+  --color-display-text: #ff3b30;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 16px;
+  background-color: var(--color-page);
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Контейнер гри */
+.game {
+  width: min(100%, 480px);
+  padding: 12px;
+  background-color: var(--color-panel);
+  border: 4px solid;
+  border-color: var(--color-light) var(--color-shadow) var(--color-shadow) var(--color-light);
+  border-radius: 6px;
+}
+
+.game-title {
+  margin: 0 0 12px;
+  color: #222;
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  text-align: center;
+}
+
+/* Хедер: лічильник прапорців, кнопка старту, таймер */
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px;
+  border: 3px solid;
+  border-color: var(--color-shadow) var(--color-light) var(--color-light) var(--color-shadow);
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  background-color: var(--color-display-bg);
+  color: var(--color-display-text);
+  font-family: "Courier New", monospace;
+  font-size: clamp(1.1rem, 5vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: 2px;
+  border: 2px solid;
+  border-color: var(--color-shadow) var(--color-light) var(--color-light) var(--color-shadow);
+}
+
+.counter-icon {
+  font-size: 0.8em;
+}
+
+.restart-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background-color: var(--color-closed);
+  font-size: 1.7rem;
+  line-height: 1;
+  cursor: pointer;
+  border: var(--bevel) solid;
+  border-color: var(--color-light) var(--color-shadow) var(--color-shadow) var(--color-light);
+}
+
+.restart-button:active {
+  border-color: var(--color-shadow) var(--color-light) var(--color-light) var(--color-shadow);
+}
+
+.restart-button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+/* Ігрове поле 9×9 */
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: var(--gap);
+}
+
+/* Базова клітинка: опукла, як закрита */
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 0;
+  background-color: var(--color-closed);
+  color: #000;
+  font-family: inherit;
+  font-size: clamp(0.9rem, 4.6vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  border: var(--bevel) solid;
+  border-color: var(--color-light) var(--color-shadow) var(--color-shadow) var(--color-light);
+}
+
+.cell:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+/* Закрита клітинка */
+.closed:hover {
+  background-color: var(--color-closed-hover);
+}
+
+/* Відкрита клітинка: пласка */
+.opened {
+  background-color: var(--color-opened);
+  cursor: default;
+  border: 1px solid var(--color-shadow);
+}
+
+/* Міна */
+.mine::before {
+  content: "💣";
+  font-size: 0.85em;
+}
+
+/* Клітинка з прапорцем. Для .flagged.mine (прапорець на міні) прапорець перекриває міну */
+.flagged::before {
+  content: "🚩";
+  font-size: 0.85em;
+}
+
+/* Прапорець без міни під ним: перекреслений */
+.wrong-flag {
+  position: relative;
+}
+
+.wrong-flag::after {
+  content: "✖";
+  position: absolute;
+  color: var(--color-danger);
+  font-size: 1.3em;
+}
+
+/* Міна, на яку натиснув гравець */
+.exploded {
+  background-color: var(--color-danger);
+}
+
+/* Цифри: кольори підібрані з достатнім контрастом на сірому фоні */
+.n1 {
+  color: #1a2fd0;
+}
+
+.n2 {
+  color: #0e6a0e;
+}
+
+.n3 {
+  color: #b01010;
+}
+
+.n4 {
+  color: #0b1f8a;
+}
+
+.n5 {
+  color: #7a0f0f;
+}
+
+.n6 {
+  color: #0a6262;
+}
+
+.n7 {
+  color: #000;
+}
+
+.n8 {
+  color: #555;
+}
+
+/* Вузькі екрани */
+@media (width <= 400px) {
+  :root {
+    --bevel: 2px;
+    --gap: 1px;
+  }
+
+  body {
+    padding: 8px;
+  }
+
+  .game {
+    padding: 8px;
+  }
+
+  .game-header {
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .counter {
+    padding: 2px 6px;
+    letter-spacing: 1px;
+  }
+
+  .restart-button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.4rem;
+  }
+}
