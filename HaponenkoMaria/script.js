@@ -1,76 +1,96 @@
-// ==========================================
-// КРОК 1. Моделювання даних (Data Layer)
-// ==========================================
+const GAME_STATUS = { PROCESS: 'process', WIN: 'win', LOSE: 'lose' };
+const CELL_STATE = { CLOSED: 'closed', OPENED: 'opened', FLAGGED: 'flagged' };
+const CELL_TYPE = { EMPTY: 'empty', MINE: 'mine' };
+const TIMER_INTERVAL_MS = 1000;
+
+//Моделювання даних
 const gameState = {
-  rows: 9, // Згідно з вашим CSS (--board-columns: 9)
+  rows: 9,
   cols: 9,
-  minesCount: 10, // Класична складність для поля 9х9
+  minesCount: 10,
   flagsCount: 0,
-  status: 'process', // 'process' | 'win' | 'lose'
+  status: GAME_STATUS.PROCESS,
   gameTime: 0,
   timerId: null,
   isFirstClick: true,
 };
 
-// Двовимірний масив ігрового поля
-const field = [];
+let board = [];
 
-// ==========================================
-// КРОК 2. Генерація поля та мін
-// ==========================================
-// Функція 1: Створює або очищає поле (без мін) зберігаючи HTML-елементи
-function createEmptyField() {
-  if (field.length === 0) {
-    for (let r = 0; r < gameState.rows; r++) {
-      const row = [];
-      for (let c = 0; c < gameState.cols; c++) {
-        row.push({
-          type: 'empty',
-          state: 'closed',
-          neighborMines: 0,
-          exploded: false,
-          element: null, // Тут зберігатиметься кнопка (для оптимізації DOM)
-        });
-      }
-      field.push(row);
+//Кешування DOM-елементів
+const boardElement = document.getElementById('game-board');
+const minesCountElement = document.querySelector('#mines-count span');
+const timerElement = document.querySelector('#timer span');
+const startButton = document.getElementById('start-button');
+const buttonImageElement = document.getElementById('btn-img');
+const gameMessageElement = document.getElementById('game-message');
+
+//Генерація поля та мін
+function generateField(rows, cols, minesCount, firstRow = -1, firstCol = -1) {
+  const newBoard = [];
+
+  for (let row = 0; row < rows; row++) {
+    const boardRow = [];
+    for (let col = 0; col < cols; col++) {
+      boardRow.push({
+        type: CELL_TYPE.EMPTY,
+        state: CELL_STATE.CLOSED,
+        neighborMines: 0,
+        exploded: false,
+        element: null,
+      });
     }
-  } else {
-    // Якщо масив вже є (клік по кнопці Рестарт), просто скидаємо значення
-    for (let r = 0; r < gameState.rows; r++) {
-      for (let c = 0; c < gameState.cols; c++) {
-        field[r][c].type = 'empty';
-        field[r][c].state = 'closed';
-        field[r][c].neighborMines = 0;
-        field[r][c].exploded = false;
-      }
-    }
+    newBoard.push(boardRow);
   }
-}
 
-// Функція 2: Розставляє міни, гарантуючи, що перша клітинка і її сусіди будуть порожніми
-function placeMines(firstRow, firstCol) {
+  if (minesCount === 0) return newBoard;
+
   let minesPlaced = 0;
-  while (minesPlaced < gameState.minesCount) {
-    const r = Math.floor(Math.random() * gameState.rows);
-    const c = Math.floor(Math.random() * gameState.cols);
+  while (minesPlaced < minesCount) {
+    const row = Math.floor(Math.random() * rows);
+    const col = Math.floor(Math.random() * cols);
 
-    // Зона безпеки 3х3 навколо першого кліку
     const isSafeZone =
-      Math.abs(r - firstRow) <= 1 && Math.abs(c - firstCol) <= 1;
+      firstRow !== -1 &&
+      Math.abs(row - firstRow) <= 1 &&
+      Math.abs(col - firstCol) <= 1;
 
-    if (field[r][c].type !== 'mine' && !isSafeZone) {
-      field[r][c].type = 'mine';
+    if (newBoard[row][col].type !== CELL_TYPE.MINE && !isSafeZone) {
+      newBoard[row][col].type = CELL_TYPE.MINE;
       minesPlaced++;
     }
   }
 
-  // Рахуємо сусідів відразу після розстановки мін
-  countNeighbourMines();
+  return newBoard;
 }
 
-// ==========================================
-// КРОК 3. Алгоритмічна частина (Business Logic)
-// ==========================================
+function countNeighbourMines(currentBoard, rows, cols) {
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (currentBoard[row][col].type === CELL_TYPE.MINE) continue;
+
+      let count = 0;
+      for (const [rowOffset, colOffset] of directions) {
+        const neighborRow = row + rowOffset;
+        const neighborCol = col + colOffset;
+
+        if (
+          neighborRow >= 0 &&
+          neighborRow < rows &&
+          neighborCol >= 0 &&
+          neighborCol < cols
+        ) {
+          if (currentBoard[neighborRow][neighborCol].type === CELL_TYPE.MINE) {
+            count++;
+          }
+        }
+      }
+      currentBoard[row][col].neighborMines = count;
+    }
+  }
+}
+
+//Алгоритмічна частина
 const directions = [
   [-1, -1],
   [-1, 0],
@@ -82,78 +102,88 @@ const directions = [
   [1, 1],
 ];
 
-function countNeighbourMines() {
-  for (let r = 0; r < gameState.rows; r++) {
-    for (let c = 0; c < gameState.cols; c++) {
-      if (field[r][c].type === 'mine') continue;
+function revealCell(row, col) {
+  const cell = board[row][col];
+  if (cell.state === CELL_STATE.OPENED || cell.state === CELL_STATE.FLAGGED)
+    return;
 
-      let count = 0;
-      for (const [dr, dc] of directions) {
-        const nr = r + dr;
-        const nc = c + dc;
+  cell.state = CELL_STATE.OPENED;
 
-        // Перевірка, чи не виходимо за межі поля
-        if (nr >= 0 && nr < gameState.rows && nc >= 0 && nc < gameState.cols) {
-          if (field[nr][nc].type === 'mine') {
-            count++;
-          }
-        }
-      }
-      field[r][c].neighborMines = count;
-    }
-  }
-}
-
-function openCell(r, c) {
-  if (gameState.status !== 'process') return;
-
-  const cell = field[r][c];
-  if (cell.state === 'opened' || cell.state === 'flagged') return;
-
-  // Якщо це найперший клік у грі:
-  if (gameState.isFirstClick) {
-    gameState.isFirstClick = false; // Знімаємо прапорець
-    startTimer(); // Запускаємо час
-    placeMines(r, c); // Розставляємо міни, передаючи координати кліку
-  }
-
-  cell.state = 'opened';
-
-  if (cell.type === 'mine') {
+  if (cell.type === CELL_TYPE.MINE) {
     cell.exploded = true;
-    handleGameOver(false);
     return;
   }
 
   if (cell.neighborMines === 0) {
-    for (const [dr, dc] of directions) {
-      const nr = r + dr;
-      const nc = c + dc;
-      if (nr >= 0 && nr < gameState.rows && nc >= 0 && nc < gameState.cols) {
-        openCell(nr, nc);
+    for (const [rowOffset, colOffset] of directions) {
+      const neighborRow = row + rowOffset;
+      const neighborCol = col + colOffset;
+      if (
+        neighborRow >= 0 &&
+        neighborRow < gameState.rows &&
+        neighborCol >= 0 &&
+        neighborCol < gameState.cols
+      ) {
+        revealCell(neighborRow, neighborCol);
       }
     }
   }
-
-  checkWinCondition();
-  updateUI();
-  renderField();
 }
 
-// ==========================================
-// КРОК 4. Таймер та прапорці
-// ==========================================
-function toggleFlag(r, c) {
-  if (gameState.status !== 'process') return;
+function openCell(row, col) {
+  if (gameState.status !== GAME_STATUS.PROCESS) return;
 
-  const cell = field[r][c];
-  if (cell.state === 'opened') return;
+  let cell = board[row][col];
+  if (cell.state === CELL_STATE.OPENED || cell.state === CELL_STATE.FLAGGED)
+    return;
 
-  if (cell.state === 'closed') {
-    cell.state = 'flagged';
+  if (gameState.isFirstClick) {
+    gameState.isFirstClick = false;
+    startTimer();
+
+    const oldElements = board.map((boardRow) => boardRow.map((c) => c.element));
+
+    board = generateField(
+      gameState.rows,
+      gameState.cols,
+      gameState.minesCount,
+      row,
+      col,
+    );
+    countNeighbourMines(board, gameState.rows, gameState.cols);
+
+    for (let i = 0; i < gameState.rows; i++) {
+      for (let j = 0; j < gameState.cols; j++) {
+        board[i][j].element = oldElements[i][j];
+      }
+    }
+
+    cell = board[row][col];
+  }
+
+  revealCell(row, col);
+
+  if (cell.type === CELL_TYPE.MINE) {
+    handleGameOver(false);
+  } else {
+    checkWinCondition();
+    updateUI();
+    renderField();
+  }
+}
+
+//Таймер та прапорці
+function toggleFlag(row, col) {
+  if (gameState.status !== GAME_STATUS.PROCESS) return;
+
+  const cell = board[row][col];
+  if (cell.state === CELL_STATE.OPENED) return;
+
+  if (cell.state === CELL_STATE.CLOSED) {
+    cell.state = CELL_STATE.FLAGGED;
     gameState.flagsCount++;
-  } else if (cell.state === 'flagged') {
-    cell.state = 'closed';
+  } else if (cell.state === CELL_STATE.FLAGGED) {
+    cell.state = CELL_STATE.CLOSED;
     gameState.flagsCount--;
   }
 
@@ -166,7 +196,7 @@ function startTimer() {
   gameState.timerId = setInterval(() => {
     gameState.gameTime++;
     updateUI();
-  }, 1000);
+  }, TIMER_INTERVAL_MS);
 }
 
 function stopTimer() {
@@ -176,187 +206,180 @@ function stopTimer() {
   }
 }
 
-// ==========================================
-// КРОК 5. Рендеринг ігрового поля (DOM)
-// ==========================================
-const boardElement = document.getElementById('game-board');
-
+//Рендеринг ігрового поля
 function renderField() {
-  // 1. Створюємо HTML-кнопки лише якщо їх ще немає (на старті нової гри)
   const needsCreation =
-    boardElement.children.length === 0 || !field[0][0].element;
+    boardElement.children.length === 0 || !board[0][0].element;
 
   if (needsCreation) {
-    boardElement.innerHTML = ''; // Очищуємо поле перед генерацією
-    for (let r = 0; r < gameState.rows; r++) {
-      for (let c = 0; c < gameState.cols; c++) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.dataset.row = r;
-        btn.dataset.col = c;
-        btn.setAttribute('aria-label', `Cell ${r} ${c}`);
-
-        boardElement.appendChild(btn);
-
-        // Зберігаємо посилання на фізичну HTML-кнопку всередині об'єкта логіки
-        field[r][c].element = btn;
+    boardElement.innerHTML = '';
+    for (let row = 0; row < gameState.rows; row++) {
+      for (let col = 0; col < gameState.cols; col++) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.row = row;
+        button.dataset.col = col;
+        boardElement.appendChild(button);
+        board[row][col].element = button;
       }
     }
   }
 
-  // 2. Оновлюємо існуючі кнопки (без їх видалення і перестворення)
-  for (let r = 0; r < gameState.rows; r++) {
-    for (let c = 0; c < gameState.cols; c++) {
-      const cellData = field[r][c];
-      const btn = cellData.element; // Отримуємо збережену кнопку
+  for (let row = 0; row < gameState.rows; row++) {
+    for (let col = 0; col < gameState.cols; col++) {
+      const cellData = board[row][col];
+      const button = cellData.element;
 
-      // Скидаємо всі класи, залишаючи лише базовий
-      btn.className = 'cell';
+      button.className = 'cell';
+      button.removeAttribute('data-value');
 
-      btn.removeAttribute('data-value');
+      let ariaLabelState = 'closed';
 
-      if (cellData.state === 'closed') {
-        btn.classList.add('cell-closed');
+      if (cellData.state === CELL_STATE.CLOSED) {
+        button.classList.add('cell-closed');
       }
 
-      // Додаємо специфічні класи залежно від стану
-      if (cellData.state === 'opened') {
-        if (cellData.type === 'mine') {
-          btn.classList.add(
+      if (cellData.state === CELL_STATE.OPENED) {
+        if (cellData.type === CELL_TYPE.MINE) {
+          button.classList.add(
             cellData.exploded ? 'cell-mine-exploded' : 'cell-mine',
           );
+          ariaLabelState = 'mine';
         } else {
           if (cellData.neighborMines > 0) {
-            btn.classList.add('cell-revealed-num');
-            btn.dataset.value = cellData.neighborMines;
+            button.classList.add('cell-revealed-num');
+            button.dataset.value = cellData.neighborMines;
+            ariaLabelState = `revealed, ${cellData.neighborMines} mines nearby`;
           } else {
-            btn.classList.add('cell-revealed');
+            button.classList.add('cell-revealed');
+            ariaLabelState = 'revealed, empty';
           }
         }
-      } else if (cellData.state === 'flagged') {
-        if (gameState.status === 'lose' && cellData.type !== 'mine') {
-          btn.classList.add('cell-flagged-wrong');
+      } else if (cellData.state === CELL_STATE.FLAGGED) {
+        if (
+          gameState.status === GAME_STATUS.LOSE &&
+          cellData.type !== CELL_TYPE.MINE
+        ) {
+          button.classList.add('cell-flagged-wrong');
+          ariaLabelState = 'wrongly flagged';
         } else {
-          btn.classList.add('cell-flagged');
+          button.classList.add('cell-flagged');
+          ariaLabelState = 'flagged';
         }
       }
+
+      button.setAttribute('aria-label', `Cell ${row} ${col} ${ariaLabelState}`);
     }
   }
 }
 
-// ==========================================
-// КРОК 6. Динамічні елементи інтерфейсу
-// ==========================================
-const minesCountEl = document.querySelector('#mines-count span');
-const timerEl = document.querySelector('#timer span');
-const startBtn = document.getElementById('start-button');
+//Динамічні елементи інтерфейсу
 
 function updateUI() {
-  minesCountEl.textContent = gameState.minesCount - gameState.flagsCount;
-  timerEl.textContent = gameState.gameTime;
+  minesCountElement.textContent = gameState.minesCount - gameState.flagsCount;
+  timerElement.textContent = gameState.gameTime;
 
-  const btnImg = document.getElementById('btn-img');
-
-  if (gameState.status === 'win') {
-    // Картинка при перемозі
-    btnImg.src = 'pictures/WIN.png';
-  } else if (gameState.status === 'lose') {
-    // Картинка при поразці
-    btnImg.src = 'pictures/GAMEOVER.png';
+  if (gameState.status === GAME_STATUS.WIN) {
+    buttonImageElement.src = 'pictures/WIN.png';
+  } else if (gameState.status === GAME_STATUS.LOSE) {
+    buttonImageElement.src = 'pictures/GAMEOVER.png';
   } else if (gameState.gameTime === 0 && !gameState.timerId) {
-    // Картинка ПЕРЕД початком гри (до першого кліку)
-    btnImg.src = 'pictures/START.png';
+    buttonImageElement.src = 'pictures/START.png';
   } else {
-    // Картинка ПІД ЧАС гри (зроблено правильний крок)
-    btnImg.src = 'pictures/inProgress.png';
+    buttonImageElement.src = 'pictures/inProgress.png';
   }
 }
 
-// Функція старту нової гри
 function initGame() {
-  gameState.status = 'process';
+  gameState.status = GAME_STATUS.PROCESS;
   gameState.flagsCount = 0;
   gameState.gameTime = 0;
-
   gameState.isFirstClick = true;
-
   stopTimer();
 
-  createEmptyField();
+  board = generateField(gameState.rows, gameState.cols, 0);
 
   updateUI();
   renderField();
 
-  const msgEl = document.getElementById('game-message');
-  if (msgEl) msgEl.textContent = '';
+  if (gameMessageElement) gameMessageElement.textContent = '';
 }
 
-// ==========================================
-// КРОК 7. Обробка подій користувача (Event Handling)
-// ==========================================
-boardElement.addEventListener('mousedown', (event) => {
-  const btn = event.target.closest('.cell');
-  if (!btn) return;
+//Обробка подій
 
-  const r = parseInt(btn.dataset.row);
-  const c = parseInt(btn.dataset.col);
+boardElement.addEventListener('click', (event) => {
+  const button = event.target.closest('.cell');
+  if (!button) return;
 
-  if (event.button === 0) {
-    // Лівий клік миші (0)
-    openCell(r, c);
-  } else if (event.button === 2) {
-    // Правий клік миші (2)
-    toggleFlag(r, c);
+  const row = parseInt(button.dataset.row);
+  const col = parseInt(button.dataset.col);
+  openCell(row, col);
+});
+
+boardElement.addEventListener('contextmenu', (event) => {
+  event.preventDefault();
+  const button = event.target.closest('.cell');
+  if (!button) return;
+
+  const row = parseInt(button.dataset.row);
+  const col = parseInt(button.dataset.col);
+  toggleFlag(row, col);
+});
+
+boardElement.addEventListener('keydown', (event) => {
+  if (event.key.toLowerCase() === 'f') {
+    const button = event.target.closest('.cell');
+    if (!button) return;
+
+    const row = parseInt(button.dataset.row);
+    const col = parseInt(button.dataset.col);
+    toggleFlag(row, col);
   }
 });
 
-// Блокування контекстного меню на ігровому полі при правому кліку
-boardElement.addEventListener('contextmenu', (event) => {
-  event.preventDefault();
-});
+startButton.addEventListener('click', initGame);
 
-// Перезапуск гри по кліку на головну кнопку
-startBtn.addEventListener('click', initGame);
+//Завершення гри
 
-// ==========================================
-// КРОК 8. Завершення гри
-// ==========================================
 function checkWinCondition() {
   let safeCellsOpened = 0;
   const targetSafeCells =
     gameState.rows * gameState.cols - gameState.minesCount;
 
-  for (let r = 0; r < gameState.rows; r++) {
-    for (let c = 0; c < gameState.cols; c++) {
-      if (field[r][c].type === 'empty' && field[r][c].state === 'opened') {
+  for (let row = 0; row < gameState.rows; row++) {
+    for (let col = 0; col < gameState.cols; col++) {
+      if (
+        board[row][col].type === CELL_TYPE.EMPTY &&
+        board[row][col].state === CELL_STATE.OPENED
+      ) {
         safeCellsOpened++;
       }
     }
   }
 
-  // Якщо відкриті всі клітинки, де немає мін — перемога
   if (safeCellsOpened === targetSafeCells) {
     handleGameOver(true);
   }
 }
 
 function handleGameOver(isWin) {
-  gameState.status = isWin ? 'win' : 'lose';
+  gameState.status = isWin ? GAME_STATUS.WIN : GAME_STATUS.LOSE;
   stopTimer();
 
-  const msgEl = document.getElementById('game-message');
-  if (msgEl) {
-    msgEl.textContent = isWin
+  if (gameMessageElement) {
+    gameMessageElement.textContent = isWin
       ? 'Вітаємо! Ви перемогли!'
       : 'Гру закінчено. Ви натрапили на міну.';
   }
 
-  // Якщо програш — показуємо всі міни (крім тих, що правильно відмічені прапорцем)
   if (!isWin) {
-    for (let r = 0; r < gameState.rows; r++) {
-      for (let c = 0; c < gameState.cols; c++) {
-        if (field[r][c].type === 'mine' && field[r][c].state !== 'flagged') {
-          field[r][c].state = 'opened';
+    for (let row = 0; row < gameState.rows; row++) {
+      for (let col = 0; col < gameState.cols; col++) {
+        if (
+          board[row][col].type === CELL_TYPE.MINE &&
+          board[row][col].state !== CELL_STATE.FLAGGED
+        ) {
+          board[row][col].state = CELL_STATE.OPENED;
         }
       }
     }
@@ -366,7 +389,4 @@ function handleGameOver(isWin) {
   renderField();
 }
 
-// ==========================================
-// Запуск першої гри після завантаження сторінки
-// ==========================================
 initGame();
