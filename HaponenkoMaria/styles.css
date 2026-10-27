@@ -98,24 +98,31 @@ button {
 .cell[data-value='1']::after {
   color: blue;
 }
+
 .cell[data-value='2']::after {
   color: green;
 }
+
 .cell[data-value='3']::after {
   color: red;
 }
+
 .cell[data-value='4']::after {
   color: purple;
 }
+
 .cell[data-value='5']::after {
   color: maroon;
 }
+
 .cell[data-value='6']::after {
-  color: rgb(7, 142, 129);
+  color: rgb(7 142 129);
 }
+
 .cell[data-value='7']::after {
   color: black;
 }
+
 .cell[data-value='8']::after {
   color: brown;
 }
