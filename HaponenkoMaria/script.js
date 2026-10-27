@@ -13,7 +13,7 @@ const gameState = {
 };
 
 // Двовимірний масив ігрового поля
-let field = [];
+const field = [];
 
 // ==========================================
 // КРОК 2. Генерація поля та мін
@@ -88,7 +88,7 @@ function countNeighbourMines() {
       if (field[r][c].type === 'mine') continue;
 
       let count = 0;
-      for (let [dr, dc] of directions) {
+      for (const [dr, dc] of directions) {
         const nr = r + dr;
         const nc = c + dc;
 
@@ -126,7 +126,7 @@ function openCell(r, c) {
   }
 
   if (cell.neighborMines === 0) {
-    for (let [dr, dc] of directions) {
+    for (const [dr, dc] of directions) {
       const nr = r + dr;
       const nc = c + dc;
       if (nr >= 0 && nr < gameState.rows && nc >= 0 && nc < gameState.cols) {
