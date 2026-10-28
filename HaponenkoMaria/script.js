@@ -141,7 +141,7 @@ function openCell(row, col) {
     gameState.isFirstClick = false;
     startTimer();
 
-    const oldElements = board.map((boardRow) => boardRow.map((c) => c.element));
+    const previousBoard = board;
 
     board = generateField(
       gameState.rows,
@@ -152,9 +152,14 @@ function openCell(row, col) {
     );
     countNeighbourMines(board, gameState.rows, gameState.cols);
 
-    for (let i = 0; i < gameState.rows; i++) {
-      for (let j = 0; j < gameState.cols; j++) {
-        board[i][j].element = oldElements[i][j];
+    for (let rowIndex = 0; rowIndex < gameState.rows; rowIndex++) {
+      for (let colIndex = 0; colIndex < gameState.cols; colIndex++) {
+        board[rowIndex][colIndex].element =
+          previousBoard[rowIndex][colIndex].element;
+
+        if (previousBoard[rowIndex][colIndex].state === CELL_STATE.FLAGGED) {
+          board[rowIndex][colIndex].state = CELL_STATE.FLAGGED;
+        }
       }
     }
 
