@@ -9,9 +9,18 @@
   --danger: #d44336;
   --danger-dark: #962519;
   --shadow: 0 8px 18px rgb(0 0 0 / 30%);
-  --board-columns: 8;
+  --board-columns: 10;
   --cell-min: 28px;
   --cell-min-mobile: 26px;
+  --counter-width: 86px;
+  --result-width: 72px;
+}
+
+@font-face {
+  /* цифровий шрифт для табло сапера  (Sizenko Alexander Style-7)*/
+  font-family: "Digital-7";
+  src: url("assets/digital-7.ttf") format("truetype");
+  font-display: swap;
 }
 
 * {
@@ -54,9 +63,9 @@ button {
 .game-header {
   /* панель сапера */
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto auto auto 1fr auto;
   gap: 10px;
-  padding: 10px;
+  padding: 10px 6px;
   border: 3px solid;
   border-color: #777 #fff #fff #777;
   background: #c0c0c0;
@@ -73,10 +82,19 @@ button {
   /* чорне табло з цифрами */
   display: grid;
   place-items: center;
+  width: var(--counter-width);
   padding: 4px 7px;
   border: 3px solid;
   border-color: #404040 #fff #fff #404040;
   background: #000;
+}
+
+.status-panel-time {
+  grid-column: 1;
+}
+
+.status-panel-mines {
+  grid-column: 7;
 }
 
 .status-label {
@@ -89,7 +107,7 @@ button {
 
 .status-value {
   margin: 0;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Digital-7", "Courier New", Courier, monospace;
   font-size: clamp(1.55rem, 6vw, 2.2rem);
   font-weight: 700;
   line-height: 1;
@@ -109,6 +127,39 @@ button {
   border-color: #fff #404040 #404040 #fff;
   background: #c0c0c0;
   cursor: pointer;
+  justify-self: center;
+  grid-column: 4;
+}
+
+.result-indicator {
+  /* індикатор перемоги або поразки */
+  display: grid;
+  place-items: center;
+  width: var(--result-width);
+  min-height: 58px;
+  padding: 4px;
+  border: 3px solid;
+  border-color: #404040 #fff #fff #404040;
+  background: #000;
+  color: #3f0000;
+  font-family: "Digital-7", "Courier New", Courier, monospace;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+#loss-indicator {
+  grid-column: 3;
+}
+
+#win-indicator {
+  grid-column: 5;
+}
+
+.result-indicator.is-active {
+  color: #f00;
+  text-shadow: 2px 0 #8b0000;
 }
 
 .start-button:hover {
@@ -197,6 +248,10 @@ button {
   cursor: default;
 }
 
+.cell:disabled {
+  opacity: 1;
+}
+
 .cell-one {
   color: #1867b7;
 }
@@ -276,7 +331,11 @@ button {
   }
 
   .game-header {
-    grid-template-columns: 1fr auto 1fr;
+    --counter-width: 76px;
+    --result-width: 62px;
+    grid-template-columns: auto 1fr auto auto auto 1fr auto;
+    gap: 4px;
+    padding: 10px 4px;
   }
 
   .start-button {

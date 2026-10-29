@@ -3,110 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minesweeper </title>
+  <title>Minesweeper</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="game-shell" >
+  <main class="game-shell">
     <section class="game-card">
       <header class="game-header">
         <!-- таймер та кнопка нової гри -->
-        <div class="status-panel" aria-label="Таймер">
-          <span class="status-label">Час</span>
-          <span class="status-value">042</span> 
+        <div class="status-panel status-panel-time" aria-label="Timer: 000">
+          <span class="status-label">Timer</span>
+          <span id="timer" class="status-value">000</span>
         </div>
 
-        <button class="start-button" type="button" aria-label="Нова гра" >
-          <img class="face" src="assets/verity.png" alt="">
+        <!-- індикатори результату гри -->
+        <div id="loss-indicator" class="result-indicator" role="status" aria-label="Loss">LOSS</div>
+
+        <button id="restart-button" class="start-button" type="button" aria-label="Start new game">
+          <img id="game-face" class="face" src="assets/verity.png" alt="">
         </button>
 
+        <div id="win-indicator" class="result-indicator" role="status" aria-label="Win">WIN</div>
+
         <!-- міни  -->
-        <div class="status-panel" >
-          <span class="status-label">Міни</span>
-          <span class="status-value">010</span>
+        <div class="status-panel status-panel-mines" aria-label="Mines: 015">
+          <span class="status-label">Mines</span>
+          <span id="flags-counter" class="status-value">015</span>
         </div>
       </header>
 
-      <h1 id="game-title" class="game-title">Сапер</h1>
+      <h1 id="game-title" class="game-title">Minesweeper</h1>
 
-      <div class="board">
-        <!-- числові клітинки -->
-        <button class="cell cell-open cell-one" type="button">1</button>
-        <button class="cell cell-open cell-two" type="button">2</button>
-        <button class="cell cell-open cell-three" type="button">3</button>
-        <button class="cell cell-open cell-four" type="button">4</button>
-        <button class="cell cell-open cell-five" type="button">5</button>
-        <button class="cell cell-open cell-six" type="button">6</button>
-        <button class="cell cell-open cell-seven" type="button">7</button>
-        <button class="cell cell-open cell-eight" type="button">8</button>
-
-        <!-- стани клітинок -->
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-flag" type="button" aria-label="Позначена клітинка"></button>
-        <button class="cell cell-flag cell-mine" type="button" aria-label="Позначена клітинка з міною"></button>
-        <button class="cell cell-question" type="button">?</button>
-        <button class="cell cell-open cell-mine" type="button" aria-label="Відкрита клітинка з міною"></button>
-        <button class="cell cell-mine cell-exploded" type="button" aria-label="Міна вибухнула"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-
-        <!-- закрите поле до початку гри. 6 рядів по 8 клітинок -->
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        <button class="cell cell-closed" type="button" aria-label="Закрита клітинка"></button>
-        
-      </div>
+      <!-- ігрове поле створюється з даних у script.js -->
+      <div id="board" class="board" role="grid" aria-labelledby="game-title"></div>
     </section>
   </main>
+  <script src="script.js"></script>
 </body>
 </html>
