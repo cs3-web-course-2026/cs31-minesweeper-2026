@@ -17,7 +17,7 @@
 }
 
 @font-face {
-  /* цифровий шрифт для табло сапера  (Sizenko Alexander Style-7)*/
+  /* цифровий шрифт для табло сапера  (Sizenko Alexander Style-7) */
   font-family: "Digital-7";
   src: url("assets/digital-7.ttf") format("truetype");
   font-display: swap;
@@ -325,24 +325,27 @@ button {
   background-image: url("assets/mine-hit.png");
 }
 
-@media (width <= 480px) {
+@media (width <= 423px) {
   .game-shell {
     padding: 14px;
   }
 
   .game-header {
-    --counter-width: 76px;
-    --result-width: 62px;
+    --counter-width: 50px;
+    --result-width: 40px;
+
     grid-template-columns: auto 1fr auto auto auto 1fr auto;
-    gap: 4px;
-    padding: 10px 4px;
+    gap: 2px;
+    padding: 10px 2px;
   }
 
   .start-button {
-    grid-column: auto;
-    grid-row: auto;
-    width: 52px;
-    min-width: 52px;
+    width: 46px;
+    min-width: 46px;
+  }
+
+  .result-indicator {
+    font-size: 1rem;
   }
 
   .board {

@@ -1,16 +1,25 @@
 "use strict";
 
+// можливі стани гри
+const GAME_STATUS = Object.freeze({
+  PROCESS: "process",
+  WIN: "win",
+  LOSE: "lose",
+});
+
 // глобальний стан 
 const gameState = {
   rows: 10,
   cols: 10,
   minesCount: 15,
-  status: "process",
+  status: GAME_STATUS.PROCESS,
   gameTime: 0,
   timerId: null,
-  field: [],
   explodedCell: null,
 };
+
+// двовимірний масив клітинок поточної гри
+let board = [];
 
 const boardElement = document.querySelector("#board");
 const timerElement = document.querySelector("#timer");
@@ -19,6 +28,7 @@ const restartButton = document.querySelector("#restart-button");
 const faceElement = document.querySelector("#game-face");
 const lossIndicatorElement = document.querySelector("#loss-indicator");
 const winIndicatorElement = document.querySelector("#win-indicator");
+const gameStatusElement = document.querySelector("#game-status");
 
 const numberClasses = ["", "cell-one", "cell-two", "cell-three", "cell-four", "cell-five", "cell-six", "cell-seven", "cell-eight"];
 
@@ -99,16 +109,16 @@ function countNeighbourMines(field, rows, cols) {
 
 // рекурсивно відкриває безпечні клітинки та область без сусідніх мін
 function openCell(row, col) {
-  const cell = gameState.field[row][col];
+  const cell = board[row][col];
 
-  if (gameState.status !== "process" || cell.state === "opened" || cell.state === "flagged") {
+  if (gameState.status !== GAME_STATUS.PROCESS || cell.state === "opened" || cell.state === "flagged") {
     return;
   }
 
   cell.state = "opened";
 
   if (cell.type === "mine") {
-    gameState.status = "lose";
+    gameState.status = GAME_STATUS.LOSE;
     gameState.explodedCell = { row, col };
     finishGame();
     return;
@@ -123,9 +133,9 @@ function openCell(row, col) {
 
 // стан прапорця 
 function toggleFlag(row, col) {
-  const cell = gameState.field[row][col];
+  const cell = board[row][col];
 
-  if (gameState.status !== "process" || cell.state === "opened") {
+  if (gameState.status !== GAME_STATUS.PROCESS || cell.state === "opened") {
     return;
   }
 
@@ -134,23 +144,23 @@ function toggleFlag(row, col) {
     return;
   }
 
-  if (getFlagsCount() < gameState.minesCount) {
+  if (getFlagsCount(board) < gameState.minesCount) {
     cell.state = "flagged";
   }
 }
 
 // перевіряє на перемогу (безпечні клітинки відкриті/міни позначені або закриті)
 function checkWin() {
-  if (gameState.status !== "process") {
+  if (gameState.status !== GAME_STATUS.PROCESS) {
     return;
   }
 
-  const isWinner = gameState.field.every((row) => (
+  const isWinner = board.every((row) => (
     row.every((cell) => cell.type === "mine" || cell.state === "opened")
   ));
 
   if (isWinner) {
-    gameState.status = "win";
+    gameState.status = GAME_STATUS.WIN;
     finishGame();
   }
 }
@@ -162,18 +172,23 @@ function finishGame() {
 }
 
 //  кількість встановлених прапорців
-function getFlagsCount() {
-  return gameState.field.flat().filter((cell) => cell.state === "flagged").length;
+function getFlagsCount(field) {
+  return field.flat().filter((cell) => cell.state === "flagged").length;
 }
 
 // оновлення табла, кнопки та індкатора результату гри
 function renderGameInfo() {
   const formatCounter = (value) => String(Math.min(value, 999)).padStart(3, "0");
-  const flagsLeft = gameState.minesCount - getFlagsCount();
+  const flagsLeft = gameState.minesCount - getFlagsCount(board);
   const faceByStatus = {
-    process: "assets/verity.png",
-    win: "assets/winity.png",
-    lose: "assets/loseity.png",
+    [GAME_STATUS.PROCESS]: "assets/verity.png",
+    [GAME_STATUS.WIN]: "assets/winity.png",
+    [GAME_STATUS.LOSE]: "assets/loseity.png",
+  };
+  const statusMessageByStatus = {
+    [GAME_STATUS.PROCESS]: "",
+    [GAME_STATUS.WIN]: "Перемога. Усі безпечні клітинки відкриті.",
+    [GAME_STATUS.LOSE]: "Поразка. Ви натрапили на міну.",
   };
 
   timerElement.textContent = formatCounter(gameState.gameTime);
@@ -181,15 +196,16 @@ function renderGameInfo() {
   flagsCounterElement.textContent = formatCounter(flagsLeft);
   flagsCounterElement.parentElement.setAttribute("aria-label", `Доступні прапорці: ${formatCounter(flagsLeft)}`);
   faceElement.src = faceByStatus[gameState.status];
-  lossIndicatorElement.classList.toggle("is-active", gameState.status === "lose");
-  winIndicatorElement.classList.toggle("is-active", gameState.status === "win");
+  lossIndicatorElement.classList.toggle("is-active", gameState.status === GAME_STATUS.LOSE);
+  winIndicatorElement.classList.toggle("is-active", gameState.status === GAME_STATUS.WIN);
+  gameStatusElement.textContent = statusMessageByStatus[gameState.status];
 }
 
 //  кнопка однієї клітинки відповідно до її стану
 function createCellElement(cell, row, col) {
   const cellElement = document.createElement("button");
   const isExploded = gameState.explodedCell?.row === row && gameState.explodedCell?.col === col;
-  const shouldRevealMine = gameState.status === "lose" && cell.type === "mine";
+  const shouldRevealMine = gameState.status === GAME_STATUS.LOSE && cell.type === "mine";
 
   cellElement.type = "button";
   cellElement.className = "cell";
@@ -220,22 +236,30 @@ function createCellElement(cell, row, col) {
     cellElement.setAttribute("aria-label", "Закрита клітинка");
   }
 
-  cellElement.disabled = gameState.status !== "process";
+  cellElement.disabled = gameState.status !== GAME_STATUS.PROCESS;
   return cellElement;
 }
 
 // оновлення поля після зміни 
 function renderBoard() {
+  const focusedCell = document.activeElement?.closest(".cell");
+  const isFocusedGridCell = focusedCell && boardElement.contains(focusedCell);
+  const focusedRow = isFocusedGridCell ? focusedCell.dataset.row : null;
+  const focusedCol = isFocusedGridCell ? focusedCell.dataset.col : null;
   const cellsFragment = document.createDocumentFragment();
   boardElement.style.setProperty("--board-columns", gameState.cols);
 
-  gameState.field.forEach((row, rowIndex) => {
+  board.forEach((row, rowIndex) => {
     row.forEach((cell, colIndex) => {
       cellsFragment.append(createCellElement(cell, rowIndex, colIndex));
     });
   });
 
   boardElement.replaceChildren(cellsFragment);
+
+  if (focusedRow !== null && focusedCol !== null) {
+    boardElement.querySelector(`[data-row="${focusedRow}"][data-col="${focusedCol}"]`)?.focus();
+  }
 }
 
 // синхрон рендеру та гри
@@ -255,11 +279,11 @@ function startTimer() {
 // запуск гри з новим полем / скидання таймера
 function startGame() {
   clearInterval(gameState.timerId);
-  gameState.status = "process";
+  gameState.status = GAME_STATUS.PROCESS;
   gameState.gameTime = 0;
   gameState.timerId = null;
   gameState.explodedCell = null;
-  gameState.field = generateField(gameState.rows, gameState.cols, gameState.minesCount);
+  board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
   renderGame();
   startTimer();
 }

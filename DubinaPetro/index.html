@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minesweeper</title>
+  <title>Сапер</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,28 +11,31 @@
     <section class="game-card">
       <header class="game-header">
         <!-- таймер та кнопка нової гри -->
-        <div class="status-panel status-panel-time" aria-label="Timer: 000">
-          <span class="status-label">Timer</span>
+        <div class="status-panel status-panel-time" aria-label="Таймер: 000">
+          <span class="status-label">Час</span>
           <span id="timer" class="status-value">000</span>
         </div>
 
         <!-- індикатори результату гри -->
-        <div id="loss-indicator" class="result-indicator" role="status" aria-label="Loss">LOSS</div>
+        <div id="loss-indicator" class="result-indicator" role="status" aria-label="Lose">LOSE</div>
 
-        <button id="restart-button" class="start-button" type="button" aria-label="Start new game">
+        <button id="restart-button" class="start-button" type="button" aria-label="Почати нову гру">
           <img id="game-face" class="face" src="assets/verity.png" alt="">
         </button>
 
         <div id="win-indicator" class="result-indicator" role="status" aria-label="Win">WIN</div>
 
         <!-- міни  -->
-        <div class="status-panel status-panel-mines" aria-label="Mines: 015">
-          <span class="status-label">Mines</span>
+        <div class="status-panel status-panel-mines" aria-label="Доступні прапорці: 015">
+          <span class="status-label">Міни</span>
           <span id="flags-counter" class="status-value">015</span>
         </div>
       </header>
 
-      <h1 id="game-title" class="game-title">Minesweeper</h1>
+      <h1 id="game-title" class="game-title">Сапер</h1>
+
+      <!-- повідомлення про результат для скрінрідера -->
+      <p id="game-status" class="status-label" role="status" aria-live="polite"></p>
 
       <!-- ігрове поле створюється з даних у script.js -->
       <div id="board" class="board" role="grid" aria-labelledby="game-title"></div>
