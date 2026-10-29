@@ -256,7 +256,6 @@ h1 {
     font-weight: 800;
     line-height: 1;
     user-select: none;
-    user-select: none;
     cursor: pointer;
     transition:
         background-color 120ms ease,
