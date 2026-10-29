@@ -1,7 +1,7 @@
 :root {
     --page-bg: #f6f2fc;
     --page-bg-deep: #eae2f8;
-    --surface: #ffffff;
+    --surface: #fff;
     --text: #332b42;
     --muted: #8b819b;
     --primary: #9270d6;
@@ -256,7 +256,7 @@ h1 {
     font-weight: 800;
     line-height: 1;
     user-select: none;
-    -webkit-user-select: none;
+    user-select: none;
     cursor: pointer;
     transition:
         background-color 120ms ease,
@@ -397,7 +397,7 @@ h1 {
     text-align: center;
 }
 
-@media (max-width: 620px) {
+@media (width <= 620px) {
     .page-shell {
         width: calc(100% - 20px);
         margin-top: 15px;
@@ -474,7 +474,7 @@ h1 {
     }
 }
 
-@media (max-width: 390px) {
+@media (width <= 390px) {
     .game-header {
         flex-direction: column;
     }
