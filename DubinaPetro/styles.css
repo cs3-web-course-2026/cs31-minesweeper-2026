@@ -325,7 +325,7 @@ button {
   background-image: url("assets/mine-hit.png");
 }
 
-@media (width <= 423px) {
+@media (width <= 480px) {
   .game-shell {
     padding: 14px;
   }
