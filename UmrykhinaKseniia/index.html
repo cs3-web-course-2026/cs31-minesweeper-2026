@@ -10,7 +10,7 @@
   <main class="game">
     <h1>Minesweeper</h1>
 
-    <section class="panel">
+    <header class="panel">
       <div
         class="counter"
         title="Доступні прапорці"
@@ -25,11 +25,11 @@
       <div class="counter" title="Час гри">
         ⏱ <span id="timer">0</span> c
       </div>
-    </section>
+    </header>
 
     <div id="board" class="board"></div>
 
-    <p id="message" class="message" aria-live="polite"></p>
+    <p id="message" class="message" role="status" aria-live="polite"></p>
   </main>
 
   <script src="script.js"></script>
