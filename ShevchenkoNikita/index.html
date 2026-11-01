@@ -20,7 +20,13 @@
       <div class="inner-border">
         <header>
           <div class="game-menu">
-            <div class="mines-counter-container" role="status" aria-live="polite">010</div>
+            <div
+              class="mines-counter-container"
+              role="status"
+              aria-live="polite"
+            >
+              010
+            </div>
             <div class="start-game-button-container">
               <button type="button" aria-label="Начать игру заново">
                 <img
@@ -34,8 +40,13 @@
         </header>
 
         <main>
-          <div class="game-board">
-          </div>
+          <p
+            id="game-message"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></p>
+          <div class="game-board"></div>
         </main>
       </div>
     </div>
