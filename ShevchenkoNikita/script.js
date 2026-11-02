@@ -361,7 +361,13 @@ function renderCell(cell, gameBoard, minesCount) {
   });
 
   cellEl.addEventListener('keydown', (event) => {
-    if ((event.key === 'f' || event.key === 'F') && !event.repeat) {
+    if (
+      (event.key === 'f' || event.key === 'F') &&
+      !event.ctrlKey &&
+      !event.metaKey &&
+      !event.altKey &&
+      !event.repeat
+    ) {
       event.preventDefault();
       toggleFlag(cell.y, cell.x);
     }
