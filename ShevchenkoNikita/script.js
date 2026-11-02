@@ -361,7 +361,7 @@ function renderCell(cell, gameBoard, minesCount) {
   });
 
   cellEl.addEventListener('keydown', (event) => {
-    if (event.key === 'f' || event.key === 'F') {
+    if ((event.key === 'f' || event.key === 'F') && !event.repeat) {
       event.preventDefault();
       toggleFlag(cell.y, cell.x);
     }
@@ -378,6 +378,7 @@ function showAllMines(currentBoard) {
       const cell = currentBoard[row][col];
 
       if (cell.type === CELL_TYPE.MINE) {
+        const wasFlagged = cell.state === CELL_STATE.FLAGGED;
         cell.state = CELL_STATE.OPENED;
         const cellEl = cell.element;
 
@@ -388,7 +389,9 @@ function showAllMines(currentBoard) {
             addMineImage(cellEl);
           }
 
-          updateCellAccessibility(cellEl, cell);
+          if (!wasFlagged) {
+            updateCellAccessibility(cellEl, cell);
+          }
         }
       }
     }
