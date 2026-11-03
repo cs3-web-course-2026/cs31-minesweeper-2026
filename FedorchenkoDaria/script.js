@@ -1,3 +1,4 @@
+
 const gameState = {
   rows: 8,
   cols: 8,
@@ -35,6 +36,7 @@ function generateField(rows, cols, minesCount) {
 
 function getAdjacentCells(row, col) {
   const adjacent = [];
+
   for (let dRow = -1; dRow <= 1; dRow++) {
     for (let dCol = -1; dCol <= 1; dCol++) {
       const nRow = row + dRow;
@@ -45,16 +47,21 @@ function getAdjacentCells(row, col) {
         nRow < gameState.rows &&
         nCol >= 0 &&
         nCol < gameState.cols;
-      if (!isCenter && isOnBoard) adjacent.push({ row: nRow, col: nCol });
+
+      if (!isCenter && isOnBoard) {
+        adjacent.push({ row: nRow, col: nCol });
+      }
     }
   }
+
   return adjacent;
 }
 
-function countNeighbourMines(grid) {
+function countNeighborMines(grid) {
   grid.forEach((rowCells, row) => {
     rowCells.forEach((cell, col) => {
       if (cell.type !== 'empty') return;
+
       cell.neighborMines = getAdjacentCells(row, col).filter(
         (pos) => grid[pos.row][pos.col].type === 'mine',
       ).length;
@@ -64,12 +71,15 @@ function countNeighbourMines(grid) {
 
 function revealCells(row, col) {
   const cell = board[row][col];
+
   if (cell.state !== 'closed') return;
 
   cell.state = 'opened';
 
   if (cell.neighborMines === 0) {
-    getAdjacentCells(row, col).forEach((pos) => revealCells(pos.row, pos.col));
+    getAdjacentCells(row, col).forEach((pos) =>
+      revealCells(pos.row, pos.col),
+    );
   }
 }
 
@@ -77,6 +87,7 @@ function openCell(row, col) {
   if (gameState.status !== 'process') return;
 
   const cell = board[row][col];
+
   if (cell.state === 'opened' || cell.state === 'flagged') return;
 
   if (cell.type === 'mine') {
@@ -94,6 +105,7 @@ function toggleFlag(row, col) {
   if (gameState.status !== 'process') return;
 
   const cell = board[row][col];
+
   if (cell.state === 'opened') return;
   if (cell.state === 'closed' && getRemainingFlags() === 0) return;
 
@@ -104,6 +116,7 @@ function getRemainingFlags() {
   const flagged = board
     .flat()
     .filter((cell) => cell.state === 'flagged').length;
+
   return gameState.minesCount - flagged;
 }
 
@@ -142,7 +155,8 @@ function resetGame() {
     gameState.cols,
     gameState.minesCount,
   );
-  countNeighbourMines(board);
+
+  countNeighborMines(board);
 }
 
 const boardNode = document.querySelector('.board');
@@ -165,26 +179,36 @@ function padCounter(value) {
 
 function buildCell(cell, row, col) {
   const cellBtn = document.createElement('button');
+
   cellBtn.className = 'cell';
   cellBtn.type = 'button';
   cellBtn.dataset.row = row;
   cellBtn.dataset.col = col;
 
   if (cell.state === 'opened') {
-    cellBtn.dataset.state = 'open';
+    cellBtn.dataset.state = 'opened';
+
     if (cell.neighborMines > 0) {
       cellBtn.dataset.count = cell.neighborMines;
       cellBtn.textContent = cell.neighborMines;
     }
   } else if (cell.state === 'flagged') {
-    cellBtn.dataset.state = 'flag-safe';
+    cellBtn.dataset.state = 'flagged';
   } else if (gameState.status === 'lose' && cell.type === 'mine') {
     const isExploded =
-      explodedCell && explodedCell.row === row && explodedCell.col === col;
+      explodedCell &&
+      explodedCell.row === row &&
+      explodedCell.col === col;
+
     cellBtn.dataset.state = isExploded ? 'mine-exploded' : 'mine';
   } else {
     cellBtn.dataset.state = 'closed';
   }
+
+  cellBtn.setAttribute(
+    'aria-label',
+    `Рядок ${row + 1}, стовпець ${col + 1}, ${cellBtn.dataset.state}`,
+  );
 
   return cellBtn;
 }
@@ -194,7 +218,11 @@ function drawBoard() {
     ...board.map((rowCells, row) => {
       const rowNode = document.createElement('div');
       rowNode.className = 'board-row';
-      rowNode.append(...rowCells.map((cell, col) => buildCell(cell, row, col)));
+
+      rowNode.append(
+        ...rowCells.map((cell, col) => buildCell(cell, row, col)),
+      );
+
       return rowNode;
     }),
   );
@@ -206,8 +234,10 @@ function drawTimer() {
 
 function updateUI() {
   drawBoard();
+
   flagsNode.textContent = padCounter(getRemainingFlags());
   drawTimer();
+
   overlayNode.hidden = gameState.status === 'process';
   overlayNode.dataset.status = gameState.status;
   overlayTextNode.textContent = RESULT_TEXT[gameState.status];
@@ -221,7 +251,9 @@ function startGame() {
 
 function readCellCoords(event) {
   const cellBtn = event.target.closest('.cell');
+
   if (!cellBtn) return null;
+
   return {
     row: Number(cellBtn.dataset.row),
     col: Number(cellBtn.dataset.col),
@@ -230,6 +262,7 @@ function readCellCoords(event) {
 
 boardNode.addEventListener('click', (event) => {
   const coords = readCellCoords(event);
+
   if (!coords) return;
 
   openCell(coords.row, coords.col);
@@ -240,6 +273,7 @@ boardNode.addEventListener('contextmenu', (event) => {
   event.preventDefault();
 
   const coords = readCellCoords(event);
+
   if (!coords) return;
 
   toggleFlag(coords.row, coords.col);
