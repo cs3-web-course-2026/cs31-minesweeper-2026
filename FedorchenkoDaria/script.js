@@ -1,4 +1,3 @@
-
 const gameState = {
   rows: 8,
   cols: 8,
@@ -57,7 +56,7 @@ function getAdjacentCells(row, col) {
   return adjacent;
 }
 
-function countNeighborMines(grid) {
+function countNeighbourMines(grid) {
   grid.forEach((rowCells, row) => {
     rowCells.forEach((cell, col) => {
       if (cell.type !== 'empty') return;
@@ -77,9 +76,7 @@ function revealCells(row, col) {
   cell.state = 'opened';
 
   if (cell.neighborMines === 0) {
-    getAdjacentCells(row, col).forEach((pos) =>
-      revealCells(pos.row, pos.col),
-    );
+    getAdjacentCells(row, col).forEach((pos) => revealCells(pos.row, pos.col));
   }
 }
 
@@ -150,13 +147,9 @@ function resetGame() {
   gameState.gameTime = 0;
   explodedCell = null;
 
-  board = generateField(
-    gameState.rows,
-    gameState.cols,
-    gameState.minesCount,
-  );
+  board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
 
-  countNeighborMines(board);
+  countNeighbourMines(board);
 }
 
 const boardNode = document.querySelector('.board');
@@ -196,18 +189,27 @@ function buildCell(cell, row, col) {
     cellBtn.dataset.state = 'flagged';
   } else if (gameState.status === 'lose' && cell.type === 'mine') {
     const isExploded =
-      explodedCell &&
-      explodedCell.row === row &&
-      explodedCell.col === col;
+      explodedCell && explodedCell.row === row && explodedCell.col === col;
 
     cellBtn.dataset.state = isExploded ? 'mine-exploded' : 'mine';
   } else {
     cellBtn.dataset.state = 'closed';
   }
 
+  const cellDescription =
+    cellBtn.dataset.state === 'opened'
+      ? `відкрито, кількість сусідніх мін: ${cell.neighborMines}`
+      : cellBtn.dataset.state === 'flagged'
+        ? 'позначено прапорцем'
+        : cellBtn.dataset.state === 'closed'
+          ? 'закрита'
+          : cellBtn.dataset.state === 'mine-exploded'
+            ? 'міна, вибух'
+            : 'міна';
+
   cellBtn.setAttribute(
     'aria-label',
-    `Рядок ${row + 1}, стовпець ${col + 1}, ${cellBtn.dataset.state}`,
+    `Рядок ${row + 1}, стовпець ${col + 1}, ${cellDescription}`,
   );
 
   return cellBtn;
@@ -219,9 +221,7 @@ function drawBoard() {
       const rowNode = document.createElement('div');
       rowNode.className = 'board-row';
 
-      rowNode.append(
-        ...rowCells.map((cell, col) => buildCell(cell, row, col)),
-      );
+      rowNode.append(...rowCells.map((cell, col) => buildCell(cell, row, col)));
 
       return rowNode;
     }),
