@@ -442,7 +442,6 @@ function handleBoardContextMenu(event) {
 
 boardElement.addEventListener('click', handleBoardClick);
 boardElement.addEventListener('contextmenu', handleBoardContextMenu);
-startButton.addEventListener('click', resetGame);
 
 function resetGame() {
   stopTimer();
@@ -454,7 +453,7 @@ function resetGame() {
     gameState.minesCount,
   );
   countNeighbourMines(board);
-  updateInterface(); 
+  updateInterface();
 }
 
 function handleButtonClick() {
