@@ -233,7 +233,21 @@ function drawTimer() {
 }
 
 function updateUI() {
+  const activeElement = document.activeElement;
+  const isCellFocused = activeElement?.classList.contains('cell') ?? false;
+  const focusedRow = isCellFocused ? activeElement.dataset.row : null;
+
+  const focusedCol = isCellFocused ? activeElement.dataset.col : null;
+
   drawBoard();
+
+  if (isCellFocused) {
+    const newActiveCell = boardNode.querySelector(
+      `[data-row="${focusedRow}"][data-col="${focusedCol}"]`,
+    );
+
+    newActiveCell?.focus();
+  }
 
   flagsNode.textContent = padCounter(getRemainingFlags());
   drawTimer();
