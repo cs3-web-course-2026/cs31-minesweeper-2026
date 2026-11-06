@@ -1,16 +1,69 @@
 :root {
-  --paper: #eef2f9;
-  --paper-line: rgb(47 94 209 / 8%);
-  --ink: #1c2b4a;
-  --muted: #657493;
-  --accent: #2f5ed1;
-  --closed: #dfe9f7;
-  --closed-hover: #cddcf3;
-  --open: #fff;
-  --border: #b9cbe9;
-  --danger: #cf4139;
-  --danger-soft: #f8dcda;
-  --success: #24895a;
+  --page: #e4eaf6;
+  --page-line: rgb(47 94 209 / 7%);
+  --card: #fff;
+  --card-border: #c9d4ea;
+  --ink: #16203a;
+  --muted: #5f6c8a;
+  --accent: #2757d6;
+  --closed-top: #f7faff;
+  --closed-bottom: #cdd9f0;
+  --closed-edge: #8697bd;
+  --highlight: #fff;
+  --hover-b: 1.04;
+  --open: #e9eef9;
+  --open-shadow: inset 0 2px 5px rgb(22 32 58 / 18%);
+  --border: #a9b9d9;
+  --open-border: #c5d0e8;
+  --board: #b4c2de;
+  --danger: #d03a32;
+  --danger-soft: #fbe3e1;
+  --success: #1f8a58;
+  --success-soft: #dcf2e6;
+  --count-4: #6a35b8;
+  --count-5: #8a4b12;
+  --mine: #16203a;
+  --mine-text: #fff;
+  --badge: #eef2fb;
+  --shadow: 0 2px 4px rgb(22 32 58 / 8%), 0 20px 48px rgb(39 87 214 / 18%);
+  --primary: #2757d6;
+  --primary-text: #fff;
+
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --page: #000;
+  --page-line: rgb(255 255 255 / 4%);
+  --card: #0a0a0c;
+  --card-border: #1c2029;
+  --ink: #e8ecf5;
+  --muted: #8b95ab;
+  --accent: #6f9bff;
+  --closed-top: #1f2535;
+  --closed-bottom: #151a26;
+  --closed-edge: #000;
+  --highlight: rgb(255 255 255 / 7%);
+  --hover-b: 1.3;
+  --open: #000;
+  --open-shadow: none;
+  --border: #272d3d;
+  --open-border: #1d2230;
+  --board: #11141b;
+  --danger: #ff6b61;
+  --danger-soft: #2a1214;
+  --success: #4ccf93;
+  --success-soft: #0f2419;
+  --count-4: #b794f6;
+  --count-5: #f0a35e;
+  --mine: #262e40;
+  --mine-text: #fff;
+  --badge: #000;
+  --shadow: 0 16px 40px rgb(0 0 0 / 60%);
+  --primary: #4a7dff;
+  --primary-text: #fff;
+
+  color-scheme: dark;
 }
 
 * {
@@ -23,37 +76,50 @@ body {
   padding: 2rem 1rem;
   color: var(--ink);
   font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
-  background-color: var(--paper);
+  background-color: var(--page);
   background-image:
-    linear-gradient(var(--paper-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--paper-line) 1px, transparent 1px);
+    linear-gradient(var(--page-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--page-line) 1px, transparent 1px);
   background-size: 24px 24px;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
 }
 
 .sheet {
-  width: min(100%, 760px);
+  width: min(100%, 680px);
   margin: 0 auto;
+  padding: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 1.1rem;
+  box-shadow: var(--shadow);
+  transition:
+    background-color 0.25s,
+    border-color 0.25s;
 }
 
 header {
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1.25rem;
   padding-bottom: 1.25rem;
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--card-border);
 }
 
 h1 {
   margin: 0;
-  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  letter-spacing: -0.02em;
 }
 
 h1 span {
   display: block;
   margin-top: 0.35rem;
   color: var(--muted);
-  font: 0.8rem 'IBM Plex Mono', monospace;
+  font: 0.78rem 'IBM Plex Mono', monospace;
+  letter-spacing: 0;
 }
 
 .controls {
@@ -61,7 +127,7 @@ h1 span {
   flex-wrap: wrap;
   justify-content: end;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.5rem;
 }
 
 .badge {
@@ -69,10 +135,10 @@ h1 span {
   align-items: center;
   gap: 0.4rem;
   min-width: 6.5rem;
-  padding: 0.55rem 0.7rem;
-  background: var(--open);
-  border: 1px solid var(--border);
-  border-radius: 0.35rem;
+  padding: 0.5rem 0.8rem;
+  background: var(--badge);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
   color: var(--ink);
   font: 600 0.78rem 'IBM Plex Mono', monospace;
 }
@@ -85,35 +151,55 @@ h1 span {
   color: var(--danger);
 }
 
-.mode-toggle {
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 0.35rem;
-  background: var(--open);
+.icon-button,
+#restart {
+  cursor: pointer;
+  transition:
+    transform 0.12s,
+    filter 0.12s,
+    border-color 0.12s;
 }
 
-.mode-toggle-option {
+.icon-button {
   display: grid;
   place-items: center;
-  width: 2.35rem;
-  height: 2.35rem;
-  color: var(--muted);
-  font-size: 1rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--badge);
+  color: var(--accent);
+  font-size: 1.05rem;
+  line-height: 1;
 }
 
-.mode-toggle-option + .mode-toggle-option {
-  border-left: 1px solid var(--border);
+.icon-button:hover {
+  border-color: var(--accent);
 }
 
 #restart {
-  padding: 0.75rem 0.9rem;
-  border: 1px solid var(--ink);
-  border-radius: 0.35rem;
-  background: var(--ink);
-  color: #fff;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid var(--primary);
+  border-radius: 999px;
+  background: var(--primary);
+  color: var(--primary-text);
   font: 600 0.8rem 'IBM Plex Sans', sans-serif;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 35%, transparent);
+}
+
+#restart:hover {
+  filter: brightness(1.1);
+}
+
+.icon-button:active,
+#restart:active {
+  transform: scale(0.95);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 main {
@@ -122,13 +208,13 @@ main {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 3px;
+  grid-template-columns: repeat(var(--cols, 9), minmax(0, 1fr));
+  gap: 4px;
   width: min(100%, 520px);
   margin: 0 auto;
-  padding: 4px;
-  background: var(--ink);
-  border-radius: 0.45rem;
+  padding: 6px;
+  background: var(--board);
+  border-radius: 0.8rem;
 }
 
 .cell {
@@ -138,9 +224,10 @@ main {
   aspect-ratio: 1;
   min-width: 0;
   overflow: hidden;
-  border-radius: 0.12rem;
+  border-radius: 0.4rem;
   font: 700 clamp(0.85rem, 2.7vw, 1.2rem) 'IBM Plex Mono', monospace;
   user-select: none;
+  transition: filter 0.12s;
 }
 
 .cover,
@@ -148,14 +235,26 @@ main {
   grid-area: 1 / 1;
 }
 
-.closed {
-  background: var(--closed);
-  border: 1px solid var(--border);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 65%);
+.closed,
+.flagged {
+  cursor: pointer;
 }
 
-.closed:hover {
-  background: var(--closed-hover);
+:is(.closed, .flagged) {
+  background: linear-gradient(180deg, var(--closed-top), var(--closed-bottom));
+  border: 1px solid var(--border);
+  box-shadow:
+    inset 0 1px 0 var(--highlight),
+    0 2px 0 var(--closed-edge);
+}
+
+:is(.closed, .flagged):hover {
+  filter: brightness(var(--hover-b));
+}
+
+:is(.closed, .flagged):active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 var(--highlight);
 }
 
 .closed .content {
@@ -164,7 +263,8 @@ main {
 
 .open {
   background: var(--open);
-  border: 1px solid var(--border);
+  border: 1px solid var(--open-border);
+  box-shadow: var(--open-shadow);
 }
 
 .open .cover {
@@ -187,9 +287,18 @@ main {
   color: var(--danger);
 }
 
+.count-4 .content {
+  color: var(--count-4);
+}
+
+.count-5 .content,
+.count-6 .content,
+.count-7 .content,
+.count-8 .content {
+  color: var(--count-5);
+}
+
 .flagged {
-  background: var(--closed);
-  border: 1px solid var(--border);
   color: var(--danger);
 }
 
@@ -209,9 +318,9 @@ main {
 }
 
 .mine {
-  background: var(--ink);
-  border: 1px solid var(--ink);
-  color: #fff;
+  background: var(--mine);
+  border: 1px solid var(--mine);
+  color: var(--mine-text);
 }
 
 .mine .cover {
@@ -226,7 +335,7 @@ main {
   background: var(--danger);
   border: 1px solid var(--danger);
   color: #fff;
-  box-shadow: 0 0 0 2px rgb(207 65 57 / 18%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--danger) 25%, transparent);
 }
 
 .triggered-mine .cover {
@@ -256,6 +365,58 @@ main {
   font-weight: 700;
 }
 
+#game-message {
+  width: min(100%, 520px);
+  margin: 1rem auto 0;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--danger);
+  border-radius: 0.7rem;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  animation: message-in 0.25s ease-out;
+}
+
+#game-message[hidden] {
+  display: none;
+}
+
+#game-message.win {
+  border-color: var(--success);
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.hint {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.hint span {
+  margin: 0 0.3rem;
+}
+
+kbd {
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--card-border);
+  border-bottom-width: 2px;
+  border-radius: 0.35rem;
+  background: var(--badge);
+  color: var(--ink);
+  font: 600 0.72rem 'IBM Plex Mono', monospace;
+}
+
+@keyframes message-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
 @media (width <= 650px) {
   header {
     align-items: start;
@@ -274,7 +435,11 @@ main {
 
 @media (width <= 430px) {
   body {
-    padding: 1rem 0.65rem;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .sheet {
+    padding: 1rem;
   }
 
   .badge {
@@ -283,20 +448,7 @@ main {
   }
 
   .board {
-    gap: 2px;
-    padding: 3px;
+    gap: 3px;
+    padding: 4px;
   }
-}
-
-#game-message {
-  margin: 16px 0 0;
-  padding: 10px 14px;
-  border: 1px solid var(--danger);
-  border-radius: 6px;
-  background: var(--danger-soft);
-  color: var(--danger);
-  font-size: 14px;
-  font-weight: 600;
-  text-align: center;
-  box-shadow: 0 2px 6px rgb(207 65 57 / 8%);
 }
