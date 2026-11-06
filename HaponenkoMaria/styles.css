@@ -91,56 +91,54 @@ button {
   justify-content: center;
 }
 
+.cell-revealed-num::after {
+  content: attr(data-value);
+}
+
 .cell[data-value='1']::after {
-  content: '1';
   color: blue;
 }
 
 .cell[data-value='2']::after {
-  content: '2';
   color: green;
 }
 
 .cell[data-value='3']::after {
-  content: '3';
   color: red;
 }
 
 .cell[data-value='4']::after {
-  content: '4';
   color: purple;
 }
 
 .cell[data-value='5']::after {
-  content: '5';
   color: maroon;
 }
 
 .cell[data-value='6']::after {
-  content: '6';
-  color: turquoise;
+  color: rgb(7 142 129);
 }
 
 .cell[data-value='7']::after {
-  content: '7';
   color: black;
 }
 
 .cell[data-value='8']::after {
-  content: '8';
   color: brown;
+}
+
+.cell-flagged,
+.cell-flagged-wrong {
+  background-size: cover;
+  background-position: center;
 }
 
 .cell-flagged {
   background-image: url('pictures/flagged_cell.png');
-  background-size: cover;
-  background-position: center;
 }
 
 .cell-flagged-wrong {
   background-image: url('pictures/flagged_wrong_cell.png');
-  background-size: cover;
-  background-position: center;
   background-color: #f6b7db;
   box-shadow: -1px -1px 4px rgb(2 54 32 / 50%);
 }
@@ -210,14 +208,15 @@ button {
 }
 
 /* Ефект натискання виключно для початкової закритої клітинки */
-.cell:not([class*='-']):active {
+.cell-closed:active {
   transform: translateY(2px);
   box-shadow: 1px 2px 0 rgb(2 54 32 / 50%);
 }
 
-/* Відкриті клітинки та міни не реагують на курсор як кнопки */
-.cell[class*='-revealed'],
-.cell[class*='-mine'],
-.cell[class*='-flagged-wrong'] {
+.cell-revealed,
+.cell-revealed-num,
+.cell-mine,
+.cell-mine-exploded,
+.cell-flagged-wrong {
   cursor: default;
 }
