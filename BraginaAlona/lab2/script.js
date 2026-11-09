@@ -18,6 +18,13 @@ const flags = document.getElementById('flags');
 const message = document.getElementById('message');
 const newGameButton = document.getElementById('new-game');
 
+/**
+ * Створює ігрове поле та випадково розміщує на ньому міни.
+ * @param {number} rows - Кількість рядків поля.
+ * @param {number} cols - Кількість стовпців поля.
+ * @param {number} minesCount - Загальна кількість мін.
+ * @returns {Array<Array<Object>>} Створене ігрове поле.
+ */
 function generateField(rows, cols, minesCount) {
     const field = [];
 
@@ -52,7 +59,9 @@ function generateField(rows, cols, minesCount) {
     return field;
 }
 
-// Підрахeyjr мін навколо кожної безпечної клітинки
+/**
+ * Підраховує кількість мін навколо кожної безпечної клітинки.
+ */
 function countNeighbourMines() {
     const field = gameState.field;
 
@@ -92,27 +101,35 @@ function countNeighbourMines() {
     }
 }
 
-// Запуск таймеру
+/**
+ * Оновлює відображення часу на ігровій панелі.
+ */
+function updateTimer() {
+    gameState.gameTime++;
+
+    const minutes = Math.floor(gameState.gameTime / 60);
+    const seconds = gameState.gameTime % 60;
+
+    timer.textContent =
+        String(minutes).padStart(2, '0') + ':' +
+        String(seconds).padStart(2, '0');
+}
+
+/**
+ * Запускає ігровий таймер, якщо гра ще не розпочалася.
+ */
 function startTimer() {
     if (gameState.started || gameState.status !== 'process') {
         return;
     }
 
     gameState.started = true;
-
-    gameState.timerId = setInterval(function () {
-        gameState.gameTime++;
-
-        const minutes = Math.floor(gameState.gameTime / 60);
-        const seconds = gameState.gameTime % 60;
-
-        timer.textContent =
-            String(minutes).padStart(2, '0') + ':' +
-            String(seconds).padStart(2, '0');
-    }, 1000);
+    gameState.timerId = setInterval(updateTimer, 1000);
 }
 
-// Зупинка таймеру
+/**
+ * Зупиняє ігровий таймер і очищує його інтервал.
+ */
 function stopTimer() {
     if (gameState.timerId !== null) {
         clearInterval(gameState.timerId);
@@ -120,12 +137,19 @@ function stopTimer() {
     }
 }
 
-// Оновлює кількість прапорців, які ще можна поставити
+/**
+ * Оновлює кількість прапорців, які ще можна встановити.
+ */
 function updateFlags() {
     flags.textContent = gameState.minesCount - gameState.flagsCount;
 }
 
-// Створення HTML-клітинки відповідно до її стану
+/**
+ * Створює HTML-елемент клітинки відповідно до її поточного стану.
+ * @param {number} row - Номер рядка клітинки.
+ * @param {number} col - Номер стовпця клітинки.
+ * @returns {HTMLButtonElement} Створена кнопка клітинки.
+ */
 function createCell(row, col) {
     const cell = gameState.field[row][col];
     const button = document.createElement('button');
@@ -188,7 +212,9 @@ function createCell(row, col) {
     return button;
 }
 
-// Оновлює ігрове поле на сторінці
+/**
+ * Відображає всі клітинки ігрового поля та оновлює лічильник прапорців.
+ */
 function renderField() {
     const fragment = document.createDocumentFragment();
 
@@ -202,7 +228,11 @@ function renderField() {
     updateFlags();
 }
 
-// Відкриває клітинку та, за потреби, її сусідів
+/**
+ * Відкриває вибрану клітинку та перевіряє результат ходу.
+ * @param {number} row - Номер рядка клітинки.
+ * @param {number} col - Номер стовпця клітинки.
+ */
 function openCell(row, col) {
     if (gameState.status !== 'process') {
         return;
@@ -234,7 +264,11 @@ function openCell(row, col) {
     renderField();
 }
 
-// Рекурсивно відкриває безпечні сусідні клітинки
+/**
+ * Відкриває безпечну клітинку та рекурсивно розкриває порожніх сусідів.
+ * @param {number} row - Номер рядка клітинки.
+ * @param {number} col - Номер стовпця клітинки.
+ */
 function revealCell(row, col) {
     if (
         row < 0 ||
@@ -253,7 +287,6 @@ function revealCell(row, col) {
 
     cell.state = 'opened';
 
-    // Якщо навколо немає мін, відкриваємо сусідів
     if (cell.neighborMines === 0) {
         for (let dr = -1; dr <= 1; dr++) {
             for (let dc = -1; dc <= 1; dc++) {
@@ -267,7 +300,11 @@ function revealCell(row, col) {
     }
 }
 
-// Ставить або знімає прапорець.
+/**
+ * Встановлює прапорець на закритій клітинці або знімає його.
+ * @param {number} row - Номер рядка клітинки.
+ * @param {number} col - Номер стовпця клітинки.
+ */
 function toggleFlag(row, col) {
     if (gameState.status !== 'process') {
         return;
@@ -294,6 +331,10 @@ function toggleFlag(row, col) {
     renderField();
 }
 
+/**
+ * Перевіряє, чи відкриті всі безпечні клітинки.
+ * @returns {boolean} Результат перевірки перемоги.
+ */
 function checkWin() {
     for (let row = 0; row < gameState.rows; row++) {
         for (let col = 0; col < gameState.cols; col++) {
@@ -308,6 +349,10 @@ function checkWin() {
     return true;
 }
 
+/**
+ * Завершує гру, зупиняє таймер і відображає результат.
+ * @param {string} result - Результат гри: win або lose.
+ */
 function finishGame(result) {
     gameState.status = result;
     stopTimer();
@@ -331,16 +376,17 @@ function finishGame(result) {
             } else if (cell.state === 'flagged') {
                 cell.wrongFlag = true;
                 cell.state = 'closed';
-
                 gameState.flagsCount--;
             }
-            
         }
     }
 
     renderField();
 }
 
+/**
+ * Створює нову гру та скидає попередній ігровий стан.
+ */
 function newGame() {
     stopTimer();
 
@@ -363,7 +409,11 @@ function newGame() {
     renderField();
 }
 
-board.addEventListener('click', function (event) {
+/**
+ * Обробляє натискання лівої кнопки миші на ігровому полі.
+ * @param {MouseEvent} event - Подія натискання.
+ */
+function handleBoardClick(event) {
     const button = event.target.closest('button.cell');
 
     if (!button || !board.contains(button)) {
@@ -374,9 +424,13 @@ board.addEventListener('click', function (event) {
     const col = Number(button.dataset.col);
 
     openCell(row, col);
-});
+}
 
-board.addEventListener('contextmenu', function (event) {
+/**
+ * Обробляє натискання правої кнопки миші на ігровому полі.
+ * @param {MouseEvent} event - Подія натискання.
+ */
+function handleBoardContextMenu(event) {
     const button = event.target.closest('button.cell');
 
     if (!button || !board.contains(button)) {
@@ -389,8 +443,10 @@ board.addEventListener('contextmenu', function (event) {
     const col = Number(button.dataset.col);
 
     toggleFlag(row, col);
-});
+}
 
+board.addEventListener('click', handleBoardClick);
+board.addEventListener('contextmenu', handleBoardContextMenu);
 newGameButton.addEventListener('click', newGame);
 
 newGame();
