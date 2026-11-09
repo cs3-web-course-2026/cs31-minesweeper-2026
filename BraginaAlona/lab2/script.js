@@ -158,7 +158,6 @@ function createCell(row, col) {
     button.classList.add('cell');
     button.dataset.row = row;
     button.dataset.col = col;
-    button.setAttribute('role', 'gridcell');
 
     if (cell.state === 'opened') {
         button.classList.add('cell-open');
