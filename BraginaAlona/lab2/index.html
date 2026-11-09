@@ -3,76 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Гра Minesweeper — лабораторна робота №2">
+    <meta name="description" content="Гра Сапер — лабораторна робота №2">
     <title>Minesweeper — Лабораторна робота №2</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <main class="page-shell">
-        <section class="game" aria-labelledby="game-title">
+    <main class="game-container">
+        <header class="game-header">
+            <p class="game-subtitle">Класична гра</p>
+            <h1 class="game-title">Сапер</h1>
+            <p class="game-description">
+                Знайди всі безпечні клітинки та не натрап на міни!
+            </p>
+        </header>
 
-            <header class="game-header">
-                <div class="brand">
-                    <div class="brand-icon" aria-hidden="true">✦</div>
-                    <div>
-                        <p class="eyebrow">LAB 02 · JAVASCRIPT</p>
-                        <h1 id="game-title">Minesweeper</h1>
-                    </div>
+        <section class="game-panel" aria-label="Ігрова панель">
+            <div class="game-stats">
+                <div class="stat">
+                    <span class="stat-label">Час</span>
+                    <strong class="stat-value" id="timer">00:00</strong>
                 </div>
 
-                <button class="new-game" id="new-game" type="button">
-                    <span class="new-game-icon" aria-hidden="true">↻</span>
-                    Нова гра
-                </button>
-            </header>
-
-            <section class="game-panel" aria-label="Інформація про гру">
-                <div class="stat-card">
-                    <span class="stat-icon" aria-hidden="true">⚑</span>
-                    <div>
-                        <span class="stat-label">Міни</span>
-                        <strong class="stat-value" id="flags" aria-live="polite">15</strong>
-                    </div>
+                <div class="stat">
+                    <span class="stat-label">Прапорці</span>
+                    <strong
+                        class="stat-value"
+                        id="flags"
+                        aria-live="polite"
+                    >15</strong>
                 </div>
-
-                <div class="stat-card">
-                    <span class="stat-icon" aria-hidden="true">◷</span>
-                    <div>
-                        <span class="stat-label">Час</span>
-                        <strong class="stat-value" id="timer">00:00</strong>
-                    </div>
-                </div>
-            </section>
-
-            <div class="game-message" id="message" role="status" aria-live="polite">
-                <span class="message-dot" aria-hidden="true"></span>
-                Зроби перший хід.
             </div>
 
-            <section class="board-card" aria-label="Ігрове поле">
-                <div
-                    class="board"
-                    id="board"
-                    role="grid"
-                    aria-label="Ігрове поле 10 на 10"
-                ></div>
-            </section>
+            <p class="game-message" id="message" role="status" aria-live="polite">
+                Зроби перший хід.
+            </p>
 
-            <footer class="game-footer">
-                <div class="legend">
-                    <span><i class="legend-box legend-closed"></i> Закрита</span>
-                    <span><i class="legend-box legend-open"></i> Відкрита</span>
-                    <span><span class="legend-symbol">⚑</span> Прапорець</span>
-                    <span><span class="legend-symbol">✹</span> Міна</span>
-                </div>
-                <p class="game-hint">
-                    Ліва кнопка — відкрити · Права кнопка — прапорець
-                </p>
-            </footer>
+            <div
+                class="board"
+                id="board"
+                role="grid"
+                aria-label="Ігрове поле Сапер, 10 рядків і 10 стовпців"
+            ></div>
 
+            <button class="new-game-button" id="new-game" type="button">
+                Нова гра
+            </button>
         </section>
 
+        <footer class="game-footer">
+            <p>Ліва кнопка миші — відкрити клітинку</p>
+            <p>Права кнопка миші — встановити або зняти прапорець</p>
+        </footer>
     </main>
 </body>
 </html>
