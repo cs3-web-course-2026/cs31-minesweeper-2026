@@ -226,7 +226,7 @@ function renderCell(element, cell, row, col) {
 
   element.className = classNames.join(' ');
   element.textContent = text;
-  element.disabled = isGameOver || cell.state === 'opened';
+  element.setAttribute('aria-disabled', String(isGameOver || cell.state === 'opened'));
   element.setAttribute('aria-label', label);
 }
 
@@ -258,7 +258,7 @@ function renderStatus() {
   };
   const message = messages[gameState.status];
 
-  messageElement.hidden = !message;
+  messageElement.textContent = message ?? '';
   messageElement.textContent = message ?? '';
   messageElement.dataset.status = gameState.status;
 }

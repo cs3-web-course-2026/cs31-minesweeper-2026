@@ -232,3 +232,8 @@ body {
     font-size: 1.4rem;
   }
 }
+
+.game-message:empty {
+  margin: 0;
+  padding: 0;
+}
