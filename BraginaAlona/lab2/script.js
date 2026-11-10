@@ -150,76 +150,81 @@
      * @param {number} col - Номер стовпця клітинки.
      * @returns {HTMLButtonElement} Створена кнопка клітинки.
      */
-    function createCell(row, col) {
+     function createCell(row, col) {
         const cell = gameState.field[row][col];
         const button = document.createElement('button');
-
+        const cellPosition = `Рядок ${row + 1}, стовпець ${col + 1}`;
+    
         button.type = 'button';
         button.classList.add('cell');
         button.dataset.row = row;
         button.dataset.col = col;
-
+    
         if (cell.state === 'opened') {
             button.classList.add('cell-open');
-
+    
             if (cell.type === 'mine') {
                 button.textContent = '✹';
-
+    
                 if (cell.exploded) {
                     button.classList.add('cell-exploded');
-                    button.setAttribute('aria-label', 'Натиснута міна');
+                    button.setAttribute(
+                        'aria-label',
+                        `${cellPosition}, натиснута міна`
+                    );
                 } else {
                     button.classList.add('cell-mine');
-                    button.setAttribute('aria-label', 'Міна');
+                    button.setAttribute(
+                        'aria-label',
+                        `${cellPosition}, міна`
+                    );
                 }
             } else if (cell.neighborMines > 0) {
                 button.textContent = cell.neighborMines;
                 button.classList.add(
                     'cell-number-' + cell.neighborMines
                 );
-
                 button.setAttribute(
                     'aria-label',
-                    'Відкрита клітинка, число ' + cell.neighborMines
+                    `${cellPosition}, відкрита клітинка, число ${cell.neighborMines}`
                 );
             } else {
                 button.setAttribute(
                     'aria-label',
-                    'Відкрита порожня клітинка'
+                    `${cellPosition}, відкрита порожня клітинка`
                 );
             }
         } else if (cell.state === 'flagged') {
             button.classList.add('cell-flagged');
             button.textContent = '⚑';
-            button.setAttribute('aria-label', 'Прапорець');
+            button.setAttribute(
+                'aria-label',
+                `${cellPosition}, прапорець`
+            );
         } else {
             button.classList.add('cell-closed');
-            button.setAttribute('aria-label', 'Закрита клітинка');
+            button.setAttribute(
+                'aria-label',
+                `${cellPosition}, закрита клітинка`
+            );
         }
-
+    
         if (cell.wrongFlag) {
             button.classList.add('cell-wrong');
             button.textContent = '✕';
-            button.setAttribute('aria-label', 'Неправильний прапорець');
+            button.setAttribute(
+                'aria-label',
+                `${cellPosition}, неправильний прапорець`
+            );
         }
-
-        const stateLabel = button.getAttribute('aria-label');
-
-        button.setAttribute(
-            'aria-label',
-            'Рядок ' + (row + 1) +
-            ', стовпець ' + (col + 1) +
-            '. ' + stateLabel
-        );
-
+    
         button.setAttribute(
             'aria-pressed',
             cell.state === 'opened' ? 'true' : 'false'
         );
-
+    
         return button;
     }
-    
     /**
      * Відображає всі клітинки ігрового поля та оновлює лічильник прапорців.
      */
