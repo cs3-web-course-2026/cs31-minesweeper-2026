@@ -485,7 +485,22 @@ h1 {
     .board {
         gap: 2px;
     }
-
+        .game-header {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+    }
+    
+    .game-panel {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+    }
+    
+    .new-game {
+        width: 100%;
+    }
     .cell {
         border-radius: 4px;
         font-size: 11px;
