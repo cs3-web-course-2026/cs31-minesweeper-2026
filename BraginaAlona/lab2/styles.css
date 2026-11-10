@@ -9,7 +9,7 @@
     --primary-dark: #7654b0;
     --primary-light: #eee7f8;
     --border: #e8e0f1;
-    --shadow: 0 14px 40px rgba(76, 54, 110, 0.10);
+    --shadow: 0 14px 40px rgb(76 54 110 / 10%);
     --cell-size: 42px;
     --cell-gap: 5px;
 }
@@ -74,7 +74,7 @@ button {
 
 .game-panel {
     padding: 26px;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1px solid rgb(255 255 255 / 80%);
     border-radius: 24px;
     background: var(--surface);
     box-shadow: var(--shadow);
@@ -167,10 +167,33 @@ button {
         transform 0.15s ease;
 }
 
+.cell-flagged {
+    background: #ded2ef;
+    color: var(--primary-dark);
+    font-size: 19px;
+}
+
 .cell-closed:hover,
 .cell-flagged:hover {
     border-color: var(--primary);
     background: #d9cbea;
+}
+
+.new-game-button {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 13px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .cell:focus-visible,
@@ -187,12 +210,6 @@ button {
 
 .cell-open:hover {
     background: #fff;
-}
-
-.cell-flagged {
-    background: #ded2ef;
-    color: var(--primary-dark);
-    font-size: 19px;
 }
 
 .cell-mine {
@@ -237,28 +254,11 @@ button {
 }
 
 .cell-number-7 {
-    color: #333333;
+    color: #333;
 }
 
 .cell-number-8 {
-    color: #777777;
-}
-
-.new-game-button {
-    display: block;
-    width: 100%;
-    min-height: 46px;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 13px;
-    background: var(--primary);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
+    color: #777;
 }
 
 .new-game-button:hover {
@@ -282,7 +282,7 @@ button {
     margin: 4px 0;
 }
 
-@media (max-width: 620px) {
+@media (width <= 620px) {
     body {
         padding: 24px 12px;
     }
@@ -292,6 +292,9 @@ button {
     }
 
     .game-panel {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
         padding: 18px 12px;
     }
 
@@ -299,7 +302,7 @@ button {
         gap: 4px;
         padding: 7px;
     }
-    
+
     .game-header {
         display: flex;
         flex-direction: column;
@@ -307,23 +310,17 @@ button {
         gap: 16px;
     }
 
-    .game-panel {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        width: 100%;
-    }
-
     .new-game {
         width: 100%;
     }
-    
+
     .cell {
         border-radius: 5px;
         font-size: 14px;
     }
 }
 
-@media (max-width: 390px) {
+@media (width <= 390px) {
     .game-panel {
         padding: 14px 8px;
     }
