@@ -1,230 +1,217 @@
-:root {
-  --bg-color: #e0e5ec;
-  --panel-bg: #c0c0c0;
-  --border-light: #ffffff;
-  --border-dark: #808080;
-  --cell-size: 36px;
-  --grid-cols: 9;
-
-  --val-1: #0000ff;
-  --val-2: #008000;
-  --val-3: #ff0000;
-  --val-4: #000080;
-  --val-5: #800000;
-  --val-6: #008080;
-  --val-7: #000000;
-  --val-8: #808080;
-}
-
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+}
+
+:root {
+  --cols: 9;
+  --tile-size: 34px;
+  --surface: #c6c6c6;
+  --bevel-light: #fff;
+  --bevel-dark: #7b7b7b;
+  --bevel-deep: #3a3a3a;
+  --desktop-bg: #2b6777;
 }
 
 body {
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
-  background-color: var(--bg-color);
+  margin: 0;
   min-height: 100vh;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 20px;
+  justify-content: center;
+  background-color: var(--desktop-bg);
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.game-container {
-  background-color: var(--panel-bg);
-  padding: 12px;
+.minesweeper-app {
+  background-color: var(--surface);
   border: 3px solid;
-  border-color: var(--border-light) var(--border-dark) var(--border-dark)
-    var(--border-light);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  border-color: var(--bevel-light) var(--bevel-deep) var(--bevel-deep)
+    var(--bevel-light);
+  padding: 8px;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 35%);
 }
 
-.game-header {
+.frame-inset {
+  border: 2px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light)
+    var(--bevel-dark);
+  padding: 8px;
+}
+
+.status-bar {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background-color: var(--panel-bg);
   border: 2px solid;
-  border-color: var(--border-dark) var(--border-light) var(--border-light)
-    var(--border-dark);
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light)
+    var(--bevel-dark);
+  padding: 6px 8px;
+  margin-bottom: 8px;
 }
 
-.counter,
-.timer {
-  background-color: #000000;
-  color: #ff0000;
-  font-family: monospace;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 2px 6px;
+.lcd-display {
   display: flex;
   align-items: center;
-  gap: 4px;
-  border: 1px solid var(--border-dark);
-}
-
-.counter .icon,
-.timer .icon {
-  font-size: 16px;
-}
-
-.reset-button {
-  width: 40px;
-  height: 40px;
-  font-size: 22px;
-  background-color: var(--panel-bg);
-  border: 2px solid;
-  border-color: var(--border-light) var(--border-dark) var(--border-dark)
-    var(--border-light);
-  cursor: pointer;
-  display: flex;
   justify-content: center;
-  align-items: center;
-}
-
-.reset-button:active {
-  border-color: var(--border-dark) var(--border-light) var(--border-light)
-    var(--border-dark);
-}
-
-.game-board {
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
-  grid-template-rows: repeat(var(--grid-cols), var(--cell-size));
-  border: 3px solid;
-  border-color: var(--border-dark) var(--border-light) var(--border-light)
-    var(--border-dark);
-}
-
-.cell {
-  width: var(--cell-size);
-  height: var(--cell-size);
+  gap: 5px;
+  min-width: 68px;
+  padding: 3px 6px;
+  background-color: #111;
+  color: #ff2a2a;
+  font-size: 20px;
   font-weight: bold;
+  letter-spacing: 1px;
+  border: 2px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light)
+    var(--bevel-dark);
+}
+
+.lcd-icon {
+  font-size: 15px;
+}
+
+.face-btn {
+  width: 34px;
+  height: 34px;
+  padding: 0;
   font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-  border: none;
-  background-color: var(--panel-bg);
-}
-
-.cell--closed {
+  line-height: 1;
+  background-color: var(--surface);
   border: 2px solid;
-  border-color: var(--border-light) var(--border-dark) var(--border-dark)
-    var(--border-light);
+  border-color: var(--bevel-light) var(--bevel-dark) var(--bevel-dark)
+    var(--bevel-light);
   cursor: pointer;
 }
 
-.cell--closed:hover {
-  background-color: #d4d4d4;
+.face-btn:hover {
+  background-color: #d2d2d2;
 }
 
-.cell--opened {
-  border: 1px solid #999999;
-  background-color: #bdbdbd;
+.face-btn:active {
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light)
+    var(--bevel-dark);
 }
 
-.cell--flagged {
-  border: 2px solid;
-  border-color: var(--border-light) var(--border-dark) var(--border-dark)
-    var(--border-light);
-  cursor: pointer;
+.grid-field {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--tile-size));
+  grid-template-rows: repeat(var(--cols), var(--tile-size));
+  border: 3px solid;
+  border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light)
+    var(--bevel-dark);
 }
 
-.cell--flagged::before {
-  content: '🚩';
-  font-size: 16px;
-}
-
-.cell--mine {
-  border: 1px solid #999999;
-  background-color: #bdbdbd;
-}
-
-.cell--mine::before {
-  content: '💣';
-  font-size: 16px;
-}
-
-.cell--mine-exploded {
-  border: 1px solid #999999;
-  background-color: #ff4d4d;
-}
-
-.cell--mine-exploded::before {
-  content: '💥';
-  font-size: 16px;
-}
-
-.cell--mine-wrong {
-  border: 1px solid #999999;
-  background-color: #bdbdbd;
+.tile {
   position: relative;
+  width: var(--tile-size);
+  height: var(--tile-size);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: bold;
+  user-select: none;
 }
 
-.cell--mine-wrong::before {
+.tile.is-closed,
+.tile.has-flag {
+  background-color: var(--surface);
+  border: 2px solid;
+  border-color: var(--bevel-light) var(--bevel-dark) var(--bevel-dark)
+    var(--bevel-light);
+  cursor: pointer;
+}
+
+.tile.is-closed:hover {
+  background-color: #d3d3d3;
+}
+
+.tile.is-open,
+.tile.is-mine {
+  background-color: #bcbcbc;
+  border: 1px solid var(--bevel-dark);
+  cursor: default;
+}
+
+.tile.num-1 {
+  color: #0000e6;
+}
+
+.tile.num-2 {
+  color: #005c00;
+}
+
+.tile.num-3 {
+  color: #a80000;
+}
+
+.tile.num-4 {
+  color: #00007a;
+}
+
+.tile.num-5 {
+  color: #7a0000;
+}
+
+.tile.num-6 {
+  color: #004f4f;
+}
+
+.tile.num-7 {
+  color: #111;
+}
+
+.tile.num-8 {
+  color: #4a4a4a;
+}
+
+.tile.has-flag::before {
   content: '🚩';
-  font-size: 16px;
-  opacity: 0.6;
+  font-size: 15px;
 }
 
-.cell--mine-wrong::after {
+.tile.has-flag.is-mine {
+  background-color: #c8e6c9;
+  border-color: #388e3c #1b5e20 #1b5e20 #388e3c;
+}
+
+.tile.has-flag.is-wrong::after {
   content: '❌';
   position: absolute;
-  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
 }
 
-.cell--val-1 {
-  color: var(--val-1);
-}
-.cell--val-2 {
-  color: var(--val-2);
-}
-.cell--val-3 {
-  color: var(--val-3);
-}
-.cell--val-4 {
-  color: var(--val-4);
-}
-.cell--val-5 {
-  color: var(--val-5);
-}
-.cell--val-6 {
-  color: var(--val-6);
-}
-.cell--val-7 {
-  color: var(--val-7);
-}
-.cell--val-8 {
-  color: var(--val-8);
+.tile.is-mine::before {
+  content: '💣';
+  font-size: 15px;
 }
 
-@media (max-width: 480px) {
+.tile.is-mine.is-boom {
+  background-color: #e53935;
+}
+
+@media (width <= 420px) {
   :root {
-    --cell-size: 30px;
+    --tile-size: 27px;
   }
 
-  .counter,
-  .timer {
-    font-size: 18px;
+  .lcd-display {
+    font-size: 16px;
+    min-width: 54px;
   }
 
-  .reset-button {
-    width: 34px;
-    height: 34px;
-    font-size: 18px;
+  .face-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+  }
+
+  .tile {
+    font-size: 14px;
   }
 }
