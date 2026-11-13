@@ -10,6 +10,11 @@ const CELL_STATE = {
   FLAGGED: 'flagged',
 };
 
+const CELL_TYPE = {
+  EMPTY: 'empty',
+  MINE: 'mine',
+};
+
 const gameState = {
   rows: 10,
   cols: 10,
@@ -40,7 +45,7 @@ function createEmptyBoard(rows, cols) {
       row.push({
         row: r,
         col: c,
-        type: 'empty',
+        type: CELL_TYPE.EMPTY,
         state: CELL_STATE.CLOSED,
         neighborMines: 0,
         isExploded: false,
@@ -51,14 +56,14 @@ function createEmptyBoard(rows, cols) {
   return newBoard;
 }
 
-function getNeighbors(r, c) {
+function getNeighbors(r, c, maxRows, maxCols) {
   const neighbors = [];
   for (let dr = -1; dr <= 1; dr += 1) {
     for (let dc = -1; dc <= 1; dc += 1) {
       if (dr === 0 && dc === 0) continue;
       const nr = r + dr;
       const nc = c + dc;
-      if (nr >= 0 && nr < gameState.rows && nc >= 0 && nc < gameState.cols) {
+      if (nr >= 0 && nr < maxRows && nc >= 0 && nc < maxCols) {
         neighbors.push([nr, nc]);
       }
     }
@@ -66,19 +71,19 @@ function getNeighbors(r, c) {
   return neighbors;
 }
 
-function countNeighbourMines() {
-  for (let r = 0; r < gameState.rows; r += 1) {
-    for (let c = 0; c < gameState.cols; c += 1) {
-      if (board[r][c].type === 'mine') continue;
+function countNeighbourMines(targetBoard, rows, cols) {
+  for (let r = 0; r < rows; r += 1) {
+    for (let c = 0; c < cols; c += 1) {
+      if (targetBoard[r][c].type === CELL_TYPE.MINE) continue;
 
       let count = 0;
-      const neighbors = getNeighbors(r, c);
+      const neighbors = getNeighbors(r, c, rows, cols);
       neighbors.forEach(([neighbourRow, neighbourCol]) => {
-        if (board[neighbourRow][neighbourCol].type === 'mine') {
+        if (targetBoard[neighbourRow][neighbourCol].type === CELL_TYPE.MINE) {
           count += 1;
         }
       });
-      board[r][c].neighborMines = count;
+      targetBoard[r][c].neighborMines = count;
     }
   }
 }
@@ -87,16 +92,15 @@ function generateField(rows, cols, minesCount) {
   const newBoard = createEmptyBoard(rows, cols);
   let placed = 0;
   while (placed < minesCount) {
-    const r = Math.floor(Math.random() * rows);
-    const c = Math.floor(Math.random() * cols);
-    if (newBoard[r][c].type !== 'mine') {
-      newBoard[r][c].type = 'mine';
+    const row = Math.floor(Math.random() * rows);
+    const col = Math.floor(Math.random() * cols);
+    if (newBoard[row][col].type !== CELL_TYPE.MINE) {
+      newBoard[row][col].type = CELL_TYPE.MINE;
       placed += 1;
     }
   }
-  board = newBoard;
-  countNeighbourMines();
-  return board;
+  countNeighbourMines(newBoard, rows, cols);
+  return newBoard;
 }
 
 function startTimer() {
@@ -133,7 +137,7 @@ function checkWinCondition() {
   for (let r = 0; r < gameState.rows; r += 1) {
     for (let c = 0; c < gameState.cols; c += 1) {
       const cell = board[r][c];
-      if (cell.type === 'empty' && cell.state === CELL_STATE.OPENED) {
+      if (cell.type === CELL_TYPE.EMPTY && cell.state === CELL_STATE.OPENED) {
         openedSafeCount += 1;
       }
     }
@@ -156,7 +160,7 @@ function handleGameOver(explodedRow, explodedCol) {
   for (let r = 0; r < gameState.rows; r += 1) {
     for (let c = 0; c < gameState.cols; c += 1) {
       const cell = board[r][c];
-      if (cell.type === 'mine') {
+      if (cell.type === CELL_TYPE.MINE) {
         cell.state = CELL_STATE.OPENED;
         if (r === explodedRow && c === explodedCol) {
           cell.isExploded = true;
@@ -171,23 +175,26 @@ function openCell(r, c) {
 
   if (r < 0 || r >= gameState.rows || c < 0 || c >= gameState.cols) return;
 
-  const cell = board[r][c];
+  let cell = board[r][c];
   if (cell.state === CELL_STATE.OPENED || cell.state === CELL_STATE.FLAGGED) return;
 
   if (gameState.isFirstClick) {
     gameState.isFirstClick = false;
     startTimer();
-    while (board[r][c].type === 'mine' || board[r][c].neighborMines > 0) {
+    while (board[r][c].type === CELL_TYPE.MINE || board[r][c].neighborMines > 0) {
       board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
+      gameState.flagsPlaced = 0;
+      updateMinesDisplay();
     }
+    cell = board[r][c];
   }
 
-  if (cell.type === 'mine') {
+  if (cell.type === CELL_TYPE.MINE) {
     handleGameOver(r, c);
   } else {
     cell.state = CELL_STATE.OPENED;
     if (cell.neighborMines === 0) {
-      const neighbors = getNeighbors(r, c);
+      const neighbors = getNeighbors(r, c, gameState.rows, gameState.cols);
       neighbors.forEach(([neighbourRow, neighbourCol]) => {
         if (board[neighbourRow][neighbourCol].state === CELL_STATE.CLOSED) {
           openCell(neighbourRow, neighbourCol);
@@ -254,7 +261,7 @@ function renderBoard() {
         cellNode.setAttribute('aria-label', `Прапорець на клітинці ${r + 1}, ${c + 1}`);
       } else if (cellData.state === CELL_STATE.OPENED) {
         cellNode.classList.add('open');
-        if (cellData.type === 'mine') {
+        if (cellData.type === CELL_TYPE.MINE) {
           cellNode.classList.add('mine');
           if (cellData.isExploded) {
             cellNode.classList.add('exploded');
