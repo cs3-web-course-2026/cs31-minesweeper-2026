@@ -1,22 +1,20 @@
+const GAME_STATUS = Object.freeze({
+  PROCESS: 'process',
+  WIN: 'win',
+  LOSE: 'lose',
+});
+
 const gameState = {
   rows: 8,
   cols: 8,
   minesCount: 10,
-  status: 'process',
+  status: GAME_STATUS.PROCESS,
   gameTime: 0,
   timerId: null,
 };
 
 let board = [];
 let explodedCell = null;
-
-/**
- * Generates a game board and randomly places mines.
- * @param {number} rows - Number of rows.
- * @param {number} cols - Number of columns.
- * @param {number} minesCount - Number of mines.
- * @returns {Array<Array<Object>>} Generated game board.
- */
 function generateField(rows, cols, minesCount) {
   const grid = Array.from({ length: rows }, () =>
     Array.from({ length: cols }, () => ({
@@ -27,7 +25,6 @@ function generateField(rows, cols, minesCount) {
   );
 
   let minesPlaced = 0;
-
   while (minesPlaced < minesCount) {
     const row = Math.floor(Math.random() * rows);
     const col = Math.floor(Math.random() * cols);
@@ -41,12 +38,6 @@ function generateField(rows, cols, minesCount) {
   return grid;
 }
 
-/**
- * Gets all valid neighboring cell coordinates.
- * @param {number} row - Cell row index.
- * @param {number} col - Cell column index.
- * @returns {Array<{row: number, col: number}>} Adjacent cells.
- */
 function getAdjacentCells(row, col) {
   const adjacent = [];
 
@@ -70,11 +61,6 @@ function getAdjacentCells(row, col) {
   return adjacent;
 }
 
-/**
- * Counts neighboring mines for every empty cell.
- * @param {Array<Array<Object>>} grid - Game board.
- * @returns {void}
- */
 function countNeighbourMines(grid) {
   grid.forEach((rowCells, row) => {
     rowCells.forEach((cell, col) => {
@@ -87,12 +73,6 @@ function countNeighbourMines(grid) {
   });
 }
 
-/**
- * Reveals a cell and recursively reveals empty neighboring cells.
- * @param {number} row - Cell row index.
- * @param {number} col - Cell column index.
- * @returns {void}
- */
 function revealCells(row, col) {
   const cell = board[row][col];
 
@@ -105,14 +85,8 @@ function revealCells(row, col) {
   }
 }
 
-/**
- * Opens a cell and checks for mines or victory.
- * @param {number} row - Cell row index.
- * @param {number} col - Cell column index.
- * @returns {void}
- */
 function openCell(row, col) {
-  if (gameState.status !== 'process') return;
+  if (gameState.status !== GAME_STATUS.PROCESS) return;
 
   const cell = board[row][col];
 
@@ -120,23 +94,17 @@ function openCell(row, col) {
 
   if (cell.type === 'mine') {
     explodedCell = { row, col };
-    endGame('lose');
+    endGame(GAME_STATUS.LOSE);
     return;
   }
 
   revealCells(row, col);
 
-  if (isVictory()) endGame('win');
+  if (isVictory()) endGame(GAME_STATUS.WIN);
 }
 
-/**
- * Toggles a flag on a closed cell.
- * @param {number} row - Cell row index.
- * @param {number} col - Cell column index.
- * @returns {void}
- */
 function toggleFlag(row, col) {
-  if (gameState.status !== 'process') return;
+  if (gameState.status !== GAME_STATUS.PROCESS) return;
 
   const cell = board[row][col];
 
@@ -146,10 +114,6 @@ function toggleFlag(row, col) {
   cell.state = cell.state === 'flagged' ? 'closed' : 'flagged';
 }
 
-/**
- * Calculates the number of remaining flags.
- * @returns {number} Remaining flags.
- */
 function getRemainingFlags() {
   const flagged = board
     .flat()
@@ -158,11 +122,6 @@ function getRemainingFlags() {
   return gameState.minesCount - flagged;
 }
 
-/**
- * Starts the game timer.
- * @param {Function} onTick - Callback executed every second.
- * @returns {void}
- */
 function runTimer(onTick) {
   gameState.timerId = setInterval(() => {
     gameState.gameTime++;
@@ -170,43 +129,26 @@ function runTimer(onTick) {
   }, 1000);
 }
 
-/**
- * Stops the game timer.
- * @returns {void}
- */
 function haltTimer() {
   clearInterval(gameState.timerId);
   gameState.timerId = null;
 }
 
-/**
- * Checks whether all non-mine cells have been opened.
- * @returns {boolean} True if the player has won.
- */
 function isVictory() {
   return board
     .flat()
     .every((cell) => cell.type === 'mine' || cell.state === 'opened');
 }
 
-/**
- * Ends the game and stops the timer.
- * @param {'win' | 'lose'} result - Game result.
- * @returns {void}
- */
 function endGame(result) {
   gameState.status = result;
   haltTimer();
 }
 
-/**
- * Resets the game state and generates a new board.
- * @returns {void}
- */
 function resetGame() {
   haltTimer();
 
-  gameState.status = 'process';
+  gameState.status = GAME_STATUS.PROCESS;
   gameState.gameTime = 0;
   explodedCell = null;
 
@@ -224,27 +166,15 @@ const playAgainBtn = document.getElementById('overlay-restart');
 const restartBtn = document.querySelector('.restart-btn');
 
 const RESULT_TEXT = {
-  process: '',
-  win: 'Перемога!',
-  lose: 'Ви підірвалися на міні!',
+  [GAME_STATUS.PROCESS]: '',
+  [GAME_STATUS.WIN]: 'Перемога!',
+  [GAME_STATUS.LOSE]: 'Ви підірвалися на міні!',
 };
 
-/**
- * Formats a counter as a three-digit string.
- * @param {number} value - Counter value.
- * @returns {string} Formatted counter.
- */
 function padCounter(value) {
   return String(value).padStart(3, '0');
 }
 
-/**
- * Creates a button representing a game cell.
- * @param {Object} cell - Cell data.
- * @param {number} row - Cell row index.
- * @param {number} col - Cell column index.
- * @returns {HTMLButtonElement} Created cell button.
- */
 function buildCell(cell, row, col) {
   const cellBtn = document.createElement('button');
 
@@ -262,7 +192,7 @@ function buildCell(cell, row, col) {
     }
   } else if (cell.state === 'flagged') {
     cellBtn.dataset.state = 'flagged';
-  } else if (gameState.status === 'lose' && cell.type === 'mine') {
+  } else if (gameState.status === GAME_STATUS.LOSE && cell.type === 'mine') {
     const isExploded =
       explodedCell && explodedCell.row === row && explodedCell.col === col;
 
@@ -289,11 +219,6 @@ function buildCell(cell, row, col) {
 
   return cellBtn;
 }
-
-/**
- * Draws the game board using the current board state.
- * @returns {void}
- */
 function drawBoard() {
   boardNode.replaceChildren(
     ...board.map((rowCells, row) => {
@@ -306,26 +231,15 @@ function drawBoard() {
     }),
   );
 }
-
-/**
- * Updates the displayed game timer.
- * @returns {void}
- */
 function drawTimer() {
   timerNode.textContent = padCounter(gameState.gameTime);
 }
-
-/**
- * Updates the interface and restores keyboard focus.
- * Focus moves to the replay button when the game ends.
- * Otherwise, focus remains on the previously active cell.
- * @returns {void}
- */
 function updateUI() {
   const activeElement = document.activeElement;
   const isCellFocused = activeElement?.classList.contains('cell') ?? false;
 
   const focusedRow = isCellFocused ? activeElement.dataset.row : null;
+
   const focusedCol = isCellFocused ? activeElement.dataset.col : null;
 
   drawBoard();
@@ -333,11 +247,11 @@ function updateUI() {
   flagsNode.textContent = padCounter(getRemainingFlags());
   drawTimer();
 
-  overlayNode.hidden = gameState.status === 'process';
+  overlayNode.hidden = gameState.status === GAME_STATUS.PROCESS;
   overlayNode.dataset.status = gameState.status;
   overlayTextNode.textContent = RESULT_TEXT[gameState.status];
 
-  if (gameState.status !== 'process') {
+  if (gameState.status !== GAME_STATUS.PROCESS) {
     playAgainBtn.focus();
   } else if (isCellFocused) {
     const newActiveCell = boardNode.querySelector(
@@ -348,21 +262,11 @@ function updateUI() {
   }
 }
 
-/**
- * Starts a new game and initializes the interface and timer.
- * @returns {void}
- */
 function startGame() {
   resetGame();
   runTimer(drawTimer);
   updateUI();
 }
-
-/**
- * Reads row and column coordinates from a cell click event.
- * @param {MouseEvent} event - Click event.
- * @returns {{row: number, col: number} | null} Cell coordinates or null.
- */
 function readCellCoords(event) {
   const cellBtn = event.target.closest('.cell');
 
