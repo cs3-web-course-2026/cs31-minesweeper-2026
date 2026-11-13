@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Гра Сапер — лабораторна робота №2">
+    <title>Minesweeper — Лабораторна робота №2</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <main class="page-shell">
+        <div class="game">
+            <header class="game-header">
+                <div class="brand">
+                    <div class="brand-icon" aria-hidden="true">💣</div>
+                    <div>
+                        <p class="eyebrow">Класична гра</p>
+                        <h1>Сапер</h1>
+                        <p class="brand-subtitle">
+                            Знайди всі безпечні клітинки та не натрап на міни!
+                        </p>
+                    </div>
+                </div>
+
+                <section class="game-panel" aria-label="Ігрова статистика">
+                    <div class="stat-card">
+                        <span class="stat-icon" aria-hidden="true">⏱</span>
+                        <div>
+                            <span class="stat-label">Час</span>
+                            <strong class="stat-value" id="timer">00:00</strong>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <span class="stat-icon" aria-hidden="true">⚑</span>
+                        <div>
+                            <span class="stat-label">Прапорці</span>
+                            <strong
+                                class="stat-value"
+                                id="flags"
+                                aria-live="polite"
+                            >15</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <button class="new-game" id="new-game" type="button">
+                    <span class="new-game-icon" aria-hidden="true">↻</span>
+                    Нова гра
+                </button>
+            </header>
+
+            <p class="game-message" id="message" role="status" aria-live="polite">
+                Зроби перший хід.
+            </p>
+
+            <div class="board-card">
+                <div
+                    class="board"
+                    id="board"
+                    aria-label="Ігрове поле Сапер, 10 рядків і 10 стовпців"
+                ></div>
+            </div>
+
+            <footer class="game-footer">
+                <p class="game-hint">
+                    Ліва кнопка миші — відкрити клітинку.
+                    Права кнопка миші — встановити або зняти прапорець.
+                </p>
+                <p class="page-caption">ЛАБОРАТОРНА РОБОТА №2</p>
+            </footer>
+        </div>
+    </main>
+</body>
+</html>
