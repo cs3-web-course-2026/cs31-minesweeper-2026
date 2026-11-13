@@ -83,33 +83,18 @@ function countNeighbourMines() {
   }
 }
 
-function placeMines(initialRow, initialCol, customMinesCount) {
-  let placed = 0;
-  while (placed < customMinesCount) {
-    const r = Math.floor(Math.random() * gameState.rows);
-    const c = Math.floor(Math.random() * gameState.cols);
-
-    const isInitial = Math.abs(r - initialRow) <= 1 && Math.abs(c - initialCol) <= 1;
-    if (!isInitial && board[r][c].type !== 'mine') {
-      board[r][c].type = 'mine';
-      placed += 1;
-    }
-  }
-  countNeighbourMines();
-}
-
 function generateField(rows, cols, minesCount) {
   const newBoard = createEmptyBoard(rows, cols);
-  board = newBoard;
   let placed = 0;
   while (placed < minesCount) {
     const r = Math.floor(Math.random() * rows);
     const c = Math.floor(Math.random() * cols);
-    if (board[r][c].type !== 'mine') {
-      board[r][c].type = 'mine';
+    if (newBoard[r][c].type !== 'mine') {
+      newBoard[r][c].type = 'mine';
       placed += 1;
     }
   }
+  board = newBoard;
   countNeighbourMines();
   return board;
 }
@@ -191,9 +176,10 @@ function openCell(r, c) {
 
   if (gameState.isFirstClick) {
     gameState.isFirstClick = false;
-    board = createEmptyBoard(gameState.rows, gameState.cols);
-    placeMines(r, c, gameState.minesCount);
     startTimer();
+    while (board[r][c].type === 'mine' || board[r][c].neighborMines > 0) {
+      board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
+    }
   }
 
   if (cell.type === 'mine') {
