@@ -1,0 +1,230 @@
+:root {
+  --bg-color: #e0e5ec;
+  --panel-bg: #c0c0c0;
+  --border-light: #ffffff;
+  --border-dark: #808080;
+  --cell-size: 36px;
+  --grid-cols: 9;
+
+  --val-1: #0000ff;
+  --val-2: #008000;
+  --val-3: #ff0000;
+  --val-4: #000080;
+  --val-5: #800000;
+  --val-6: #008080;
+  --val-7: #000000;
+  --val-8: #808080;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.game-container {
+  background-color: var(--panel-bg);
+  padding: 12px;
+  border: 3px solid;
+  border-color: var(--border-light) var(--border-dark) var(--border-dark)
+    var(--border-light);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: var(--panel-bg);
+  border: 2px solid;
+  border-color: var(--border-dark) var(--border-light) var(--border-light)
+    var(--border-dark);
+}
+
+.counter,
+.timer {
+  background-color: #000000;
+  color: #ff0000;
+  font-family: monospace;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 2px 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--border-dark);
+}
+
+.counter .icon,
+.timer .icon {
+  font-size: 16px;
+}
+
+.reset-button {
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  background-color: var(--panel-bg);
+  border: 2px solid;
+  border-color: var(--border-light) var(--border-dark) var(--border-dark)
+    var(--border-light);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reset-button:active {
+  border-color: var(--border-dark) var(--border-light) var(--border-light)
+    var(--border-dark);
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+  grid-template-rows: repeat(var(--grid-cols), var(--cell-size));
+  border: 3px solid;
+  border-color: var(--border-dark) var(--border-light) var(--border-light)
+    var(--border-dark);
+}
+
+.cell {
+  width: var(--cell-size);
+  height: var(--cell-size);
+  font-weight: bold;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  border: none;
+  background-color: var(--panel-bg);
+}
+
+.cell--closed {
+  border: 2px solid;
+  border-color: var(--border-light) var(--border-dark) var(--border-dark)
+    var(--border-light);
+  cursor: pointer;
+}
+
+.cell--closed:hover {
+  background-color: #d4d4d4;
+}
+
+.cell--opened {
+  border: 1px solid #999999;
+  background-color: #bdbdbd;
+}
+
+.cell--flagged {
+  border: 2px solid;
+  border-color: var(--border-light) var(--border-dark) var(--border-dark)
+    var(--border-light);
+  cursor: pointer;
+}
+
+.cell--flagged::before {
+  content: '🚩';
+  font-size: 16px;
+}
+
+.cell--mine {
+  border: 1px solid #999999;
+  background-color: #bdbdbd;
+}
+
+.cell--mine::before {
+  content: '💣';
+  font-size: 16px;
+}
+
+.cell--mine-exploded {
+  border: 1px solid #999999;
+  background-color: #ff4d4d;
+}
+
+.cell--mine-exploded::before {
+  content: '💥';
+  font-size: 16px;
+}
+
+.cell--mine-wrong {
+  border: 1px solid #999999;
+  background-color: #bdbdbd;
+  position: relative;
+}
+
+.cell--mine-wrong::before {
+  content: '🚩';
+  font-size: 16px;
+  opacity: 0.6;
+}
+
+.cell--mine-wrong::after {
+  content: '❌';
+  position: absolute;
+  font-size: 14px;
+}
+
+.cell--val-1 {
+  color: var(--val-1);
+}
+.cell--val-2 {
+  color: var(--val-2);
+}
+.cell--val-3 {
+  color: var(--val-3);
+}
+.cell--val-4 {
+  color: var(--val-4);
+}
+.cell--val-5 {
+  color: var(--val-5);
+}
+.cell--val-6 {
+  color: var(--val-6);
+}
+.cell--val-7 {
+  color: var(--val-7);
+}
+.cell--val-8 {
+  color: var(--val-8);
+}
+
+@media (max-width: 480px) {
+  :root {
+    --cell-size: 30px;
+  }
+
+  .counter,
+  .timer {
+    font-size: 18px;
+  }
+
+  .reset-button {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+}
