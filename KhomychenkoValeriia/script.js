@@ -39,32 +39,32 @@ const elements = {
 
 function createEmptyBoard(rows, cols) {
   const newBoard = [];
-  for (let r = 0; r < rows; r += 1) {
-    const row = [];
-    for (let c = 0; c < cols; c += 1) {
-      row.push({
-        row: r,
-        col: c,
+  for (let row = 0; row < rows; row += 1) {
+    const rowCells = [];
+    for (let col = 0; col < cols; col += 1) {
+      rowCells.push({
+        row,
+        col,
         type: CELL_TYPE.EMPTY,
         state: CELL_STATE.CLOSED,
         neighborMines: 0,
         isExploded: false,
       });
     }
-    newBoard.push(row);
+    newBoard.push(rowCells);
   }
   return newBoard;
 }
 
-function getNeighbors(r, c, maxRows, maxCols) {
+function getNeighbors(row, col, maxRows, maxCols) {
   const neighbors = [];
   for (let dr = -1; dr <= 1; dr += 1) {
     for (let dc = -1; dc <= 1; dc += 1) {
       if (dr === 0 && dc === 0) continue;
-      const nr = r + dr;
-      const nc = c + dc;
-      if (nr >= 0 && nr < maxRows && nc >= 0 && nc < maxCols) {
-        neighbors.push([nr, nc]);
+      const neighbourRow = row + dr;
+      const neighbourCol = col + dc;
+      if (neighbourRow >= 0 && neighbourRow < maxRows && neighbourCol >= 0 && neighbourCol < maxCols) {
+        neighbors.push([neighbourRow, neighbourCol]);
       }
     }
   }
@@ -72,18 +72,18 @@ function getNeighbors(r, c, maxRows, maxCols) {
 }
 
 function countNeighbourMines(targetBoard, rows, cols) {
-  for (let r = 0; r < rows; r += 1) {
-    for (let c = 0; c < cols; c += 1) {
-      if (targetBoard[r][c].type === CELL_TYPE.MINE) continue;
+  for (let row = 0; row < rows; row += 1) {
+    for (let col = 0; col < cols; col += 1) {
+      if (targetBoard[row][col].type === CELL_TYPE.MINE) continue;
 
       let count = 0;
-      const neighbors = getNeighbors(r, c, rows, cols);
+      const neighbors = getNeighbors(row, col, rows, cols);
       neighbors.forEach(([neighbourRow, neighbourCol]) => {
         if (targetBoard[neighbourRow][neighbourCol].type === CELL_TYPE.MINE) {
           count += 1;
         }
       });
-      targetBoard[r][c].neighborMines = count;
+      targetBoard[row][col].neighborMines = count;
     }
   }
 }
@@ -134,9 +134,9 @@ function checkWinCondition() {
   let openedSafeCount = 0;
   const totalSafeCells = gameState.rows * gameState.cols - gameState.minesCount;
 
-  for (let r = 0; r < gameState.rows; r += 1) {
-    for (let c = 0; c < gameState.cols; c += 1) {
-      const cell = board[r][c];
+  for (let row = 0; row < gameState.rows; row += 1) {
+    for (let col = 0; col < gameState.cols; col += 1) {
+      const cell = board[row][col];
       if (cell.type === CELL_TYPE.EMPTY && cell.state === CELL_STATE.OPENED) {
         openedSafeCount += 1;
       }
@@ -157,12 +157,12 @@ function handleGameOver(explodedRow, explodedCol) {
   elements.faceIcon.textContent = '😵';
   elements.statusTip.textContent = 'Гру закінчено! Ви натрапили на міну.';
 
-  for (let r = 0; r < gameState.rows; r += 1) {
-    for (let c = 0; c < gameState.cols; c += 1) {
-      const cell = board[r][c];
+  for (let row = 0; row < gameState.rows; row += 1) {
+    for (let col = 0; col < gameState.cols; col += 1) {
+      const cell = board[row][col];
       if (cell.type === CELL_TYPE.MINE) {
         cell.state = CELL_STATE.OPENED;
-        if (r === explodedRow && c === explodedCol) {
+        if (row === explodedRow && col === explodedCol) {
           cell.isExploded = true;
         }
       }
@@ -170,31 +170,31 @@ function handleGameOver(explodedRow, explodedCol) {
   }
 }
 
-function openCell(r, c) {
+function openCell(row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS) return;
 
-  if (r < 0 || r >= gameState.rows || c < 0 || c >= gameState.cols) return;
+  if (row < 0 || row >= gameState.rows || col < 0 || col >= gameState.cols) return;
 
-  let cell = board[r][c];
+  let cell = board[row][col];
   if (cell.state === CELL_STATE.OPENED || cell.state === CELL_STATE.FLAGGED) return;
 
   if (gameState.isFirstClick) {
     gameState.isFirstClick = false;
     startTimer();
-    while (board[r][c].type === CELL_TYPE.MINE || board[r][c].neighborMines > 0) {
+    while (board[row][col].type === CELL_TYPE.MINE || board[row][col].neighborMines > 0) {
       board = generateField(gameState.rows, gameState.cols, gameState.minesCount);
       gameState.flagsPlaced = 0;
       updateMinesDisplay();
     }
-    cell = board[r][c];
+    cell = board[row][col];
   }
 
   if (cell.type === CELL_TYPE.MINE) {
-    handleGameOver(r, c);
+    handleGameOver(row, col);
   } else {
     cell.state = CELL_STATE.OPENED;
     if (cell.neighborMines === 0) {
-      const neighbors = getNeighbors(r, c, gameState.rows, gameState.cols);
+      const neighbors = getNeighbors(row, col, gameState.rows, gameState.cols);
       neighbors.forEach(([neighbourRow, neighbourCol]) => {
         if (board[neighbourRow][neighbourCol].state === CELL_STATE.CLOSED) {
           openCell(neighbourRow, neighbourCol);
@@ -207,10 +207,10 @@ function openCell(r, c) {
   renderBoard();
 }
 
-function toggleFlag(r, c) {
+function toggleFlag(row, col) {
   if (gameState.status !== GAME_STATUS.PROCESS) return;
 
-  const cell = board[r][c];
+  const cell = board[row][col];
   if (cell.state === CELL_STATE.OPENED) return;
 
   if (cell.state === CELL_STATE.CLOSED) {
@@ -243,22 +243,22 @@ function renderBoard() {
   const fragment = document.createDocumentFragment();
   let focusedButtonRef = null;
 
-  for (let r = 0; r < gameState.rows; r += 1) {
-    for (let c = 0; c < gameState.cols; c += 1) {
-      const cellData = board[r][c];
+  for (let row = 0; row < gameState.rows; row += 1) {
+    for (let col = 0; col < gameState.cols; col += 1) {
+      const cellData = board[row][col];
       const cellNode = document.createElement('button');
       cellNode.type = 'button';
       cellNode.classList.add('cell');
-      cellNode.dataset.row = String(r);
-      cellNode.dataset.col = String(c);
+      cellNode.dataset.row = String(row);
+      cellNode.dataset.col = String(col);
 
       if (cellData.state === CELL_STATE.CLOSED) {
         cellNode.classList.add('closed');
-        cellNode.setAttribute('aria-label', `Клітинка ${r + 1}, ${c + 1} закрита`);
+        cellNode.setAttribute('aria-label', `Клітинка ${row + 1}, ${col + 1} закрита`);
       } else if (cellData.state === CELL_STATE.FLAGGED) {
         cellNode.classList.add('closed', 'flagged');
         cellNode.textContent = '🚩';
-        cellNode.setAttribute('aria-label', `Прапорець на клітинці ${r + 1}, ${c + 1}`);
+        cellNode.setAttribute('aria-label', `Прапорець на клітинці ${row + 1}, ${col + 1}`);
       } else if (cellData.state === CELL_STATE.OPENED) {
         cellNode.classList.add('open');
         if (cellData.type === CELL_TYPE.MINE) {
@@ -279,7 +279,7 @@ function renderBoard() {
         }
       }
 
-      if (focusedCoords && focusedCoords.row === String(r) && focusedCoords.col === String(c)) {
+      if (focusedCoords && focusedCoords.row === String(row) && focusedCoords.col === String(col)) {
         focusedButtonRef = cellNode;
       }
 
@@ -315,18 +315,18 @@ function initGame() {
 elements.board.addEventListener('click', (event) => {
   const target = event.target.closest('.cell');
   if (!target) return;
-  const r = parseInt(target.dataset.row, 10);
-  const c = parseInt(target.dataset.col, 10);
-  openCell(r, c);
+  const row = parseInt(target.dataset.row, 10);
+  const col = parseInt(target.dataset.col, 10);
+  openCell(row, col);
 });
 
 elements.board.addEventListener('contextmenu', (event) => {
   event.preventDefault();
   const target = event.target.closest('.cell');
   if (!target) return;
-  const r = parseInt(target.dataset.row, 10);
-  const c = parseInt(target.dataset.col, 10);
-  toggleFlag(r, c);
+  const row = parseInt(target.dataset.row, 10);
+  const col = parseInt(target.dataset.col, 10);
+  toggleFlag(row, col);
 });
 
 elements.resetBtn.addEventListener('click', () => {
