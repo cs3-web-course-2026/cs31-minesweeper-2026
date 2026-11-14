@@ -110,7 +110,7 @@ function isAllSafeCellsOpened() {
     .every((cell) => cell.type === CELL_TYPE.MINE || cell.state === CELL_STATE.OPENED);
 }
 
-function loseGame(row, col) {
+function loseGame() {
   gameState.status = GAME_STATUS.LOSE;
   stopTimer();
 
@@ -120,7 +120,6 @@ function loseGame(row, col) {
       cell.state = CELL_STATE.OPENED;
     }
   });
-  board[row][col].state = CELL_STATE.OPENED;
 }
 
 function winGame() {
@@ -140,7 +139,7 @@ function openCell(row, col) {
   if (cell.state !== CELL_STATE.CLOSED) return; // 'opened' або 'flagged'
 
   if (cell.type === CELL_TYPE.MINE) {
-    loseGame(row, col);
+    loseGame();
     return;
   }
 
@@ -216,6 +215,7 @@ function createBoardElements() {
 // Оновлює вигляд однієї клітинки згідно з її даними
 function renderCell(element, cell, row, col) {
   const isGameOver = gameState.status !== GAME_STATUS.PROCESS;
+  const isOpened = cell.state === CELL_STATE.OPENED;
   const classNames = ['cell', cell.state];
   let text = '';
   let label = 'Закрита клітинка';
@@ -226,7 +226,7 @@ function renderCell(element, cell, row, col) {
     if (gameState.status === GAME_STATUS.LOSE && cell.type === CELL_TYPE.EMPTY) {
       classNames.push('wrong-flag');
     }
-  } else if (cell.state === CELL_STATE.OPENED) {
+  } else if (isOpened) {
     if (cell.type === CELL_TYPE.MINE) {
       label = 'Міна';
       classNames.push('mine');
@@ -243,10 +243,14 @@ function renderCell(element, cell, row, col) {
     }
   }
 
+  const isInteractive = !isGameOver && !isOpened;
+
   element.className = classNames.join(' ');
   element.textContent = text;
-  element.setAttribute('aria-disabled', String(isGameOver || cell.state === CELL_STATE.OPENED));
+  element.setAttribute('aria-disabled', String(!isInteractive));
   element.setAttribute('aria-label', label);
+  // Неактивні клітинки (відкриті або після завершення гри) не беруть участі в Tab-навігації
+  element.tabIndex = isInteractive ? 0 : -1;
 }
 
 function renderBoard() {
@@ -275,9 +279,8 @@ function renderStatus() {
     [GAME_STATUS.WIN]: `Перемога! Час: ${gameState.gameTime} с`,
     [GAME_STATUS.LOSE]: 'Поразка: ви підірвалися на міні',
   };
-  const message = messages[gameState.status];
 
-  messageElement.textContent = message ?? '';
+  messageElement.textContent = messages[gameState.status] ?? '';
   messageElement.dataset.status = gameState.status;
 }
 
