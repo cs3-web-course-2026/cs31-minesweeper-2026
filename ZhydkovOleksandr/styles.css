@@ -1,6 +1,13 @@
 :root {
   --bevel: 3px;
   --gap: 2px;
+  --game-max-width: 480px;
+  --restart-button-size: 48px;
+  --restart-font-size: 1.7rem;
+  --title-font-size: clamp(1.2rem, 5vw, 1.6rem);
+  --counter-font-size: clamp(1.1rem, 5vw, 1.8rem);
+  --cell-font-size: clamp(0.9rem, 4.6vw, 1.7rem);
+
   --color-page: #2b2f3a;
   --color-panel: #c0c0c0;
   --color-light: #fff;
@@ -13,6 +20,19 @@
   --color-focus: #1e88e5;
   --color-display-bg: #1a0000;
   --color-display-text: #ff3b30;
+  --color-title: #222;
+  --color-cell-text: #000;
+  --color-message-text: #fff;
+
+  /* Цифри: кольори підібрані з достатнім контрастом на сірому фоні */
+  --color-n1: #1a2fd0;
+  --color-n2: #0e6a0e;
+  --color-n3: #b01010;
+  --color-n4: #0b1f8a;
+  --color-n5: #7a0f0f;
+  --color-n6: #0a6262;
+  --color-n7: #000;
+  --color-n8: #555;
 }
 
 * {
@@ -30,7 +50,7 @@ body {
 
 /* Контейнер гри */
 .game {
-  width: min(100%, 480px);
+  width: min(100%, var(--game-max-width));
   padding: 12px;
   background-color: var(--color-panel);
   border: 4px solid;
@@ -40,8 +60,8 @@ body {
 
 .game-title {
   margin: 0 0 12px;
-  color: #222;
-  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  color: var(--color-title);
+  font-size: var(--title-font-size);
   text-align: center;
 }
 
@@ -65,7 +85,7 @@ body {
   background-color: var(--color-display-bg);
   color: var(--color-display-text);
   font-family: "Courier New", monospace;
-  font-size: clamp(1.1rem, 5vw, 1.8rem);
+  font-size: var(--counter-font-size);
   font-weight: 700;
   letter-spacing: 2px;
   border: 2px solid;
@@ -80,11 +100,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: var(--restart-button-size);
+  height: var(--restart-button-size);
   padding: 0;
   background-color: var(--color-closed);
-  font-size: 1.7rem;
+  font-size: var(--restart-font-size);
   line-height: 1;
   cursor: pointer;
   border: var(--bevel) solid;
@@ -104,9 +124,14 @@ body {
 .game-message {
   margin: 0 0 12px;
   padding: 8px;
-  color: #fff;
+  color: var(--color-message-text);
   font-weight: 700;
   text-align: center;
+}
+
+.game-message:empty {
+  margin: 0;
+  padding: 0;
 }
 
 .game-message[data-status="win"] {
@@ -120,7 +145,7 @@ body {
 /* Ігрове поле: кількість колонок задає script.js через --cols */
 .board {
   display: grid;
-  grid-template-columns: repeat(var(--cols, 9), minmax(0, 1fr));
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   gap: var(--gap);
 }
 
@@ -133,9 +158,9 @@ body {
   min-width: 0;
   padding: 0;
   background-color: var(--color-closed);
-  color: #000;
+  color: var(--color-cell-text);
   font-family: inherit;
-  font-size: clamp(0.9rem, 4.6vw, 1.7rem);
+  font-size: var(--cell-font-size);
   font-weight: 700;
   line-height: 1;
   cursor: pointer;
@@ -191,21 +216,23 @@ body {
   background-color: var(--color-danger);
 }
 
-/* Цифри: кольори підібрані з достатнім контрастом на сірому фоні */
-.n1 { color: #1a2fd0; }
-.n2 { color: #0e6a0e; }
-.n3 { color: #b01010; }
-.n4 { color: #0b1f8a; }
-.n5 { color: #7a0f0f; }
-.n6 { color: #0a6262; }
-.n7 { color: #000; }
-.n8 { color: #555; }
+/* Цифри */
+.n1 { color: var(--color-n1); }
+.n2 { color: var(--color-n2); }
+.n3 { color: var(--color-n3); }
+.n4 { color: var(--color-n4); }
+.n5 { color: var(--color-n5); }
+.n6 { color: var(--color-n6); }
+.n7 { color: var(--color-n7); }
+.n8 { color: var(--color-n8); }
 
 /* Вузькі екрани */
 @media (width <= 400px) {
   :root {
     --bevel: 2px;
     --gap: 1px;
+    --restart-button-size: 40px;
+    --restart-font-size: 1.4rem;
   }
 
   body {
@@ -225,15 +252,4 @@ body {
     padding: 2px 6px;
     letter-spacing: 1px;
   }
-
-  .restart-button {
-    width: 40px;
-    height: 40px;
-    font-size: 1.4rem;
-  }
-}
-
-.game-message:empty {
-  margin: 0;
-  padding: 0;
 }
