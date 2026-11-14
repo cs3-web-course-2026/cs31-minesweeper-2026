@@ -224,9 +224,9 @@ function renderCell(element, cell, row, col) {
     }
   }
 
-  element.className = classNames.join(' ');
-  element.textContent = text;
-  element.setAttribute('aria-disabled', String(isGameOver || cell.state === 'opened'));
+  element.className = classNames.join(' ');  
+  element.textContent = text;  
+  element.setAttribute('aria-disabled', String(isGameOver || cell.state === 'opened')); 
   element.setAttribute('aria-label', label);
 }
 
