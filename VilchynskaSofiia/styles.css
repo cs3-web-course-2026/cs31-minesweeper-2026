@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Share+Tech+Mono&display=swap');
-
 * {
   box-sizing: border-box;
 }
@@ -54,7 +52,9 @@
 body {
   position: relative;
   margin: 0;
+  padding: 72px 16px 24px;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -121,8 +121,10 @@ body::after {
 .game::before {
   content: 'PEW PEW';
   position: absolute;
-  top: -26px;
+  bottom: calc(100% - 4px);
   left: 22px;
+  width: max-content;
+  max-width: calc(100% - 22px);
   z-index: 3;
   transform: rotate(-6deg);
   font-family: var(--font-paint);
@@ -171,7 +173,7 @@ body::after {
   min-width: 104px;
   padding: 3px 8px;
   background-color: #06040b;
-  border: 1px solid color-mix(in srgb, currentColor 45%, #000);
+  border: 1px solid color-mix(in srgb, currentcolor 45%, #000);
   border-radius: 2px 10px;
   color: var(--pink);
   font-family: var(--font-digits);
@@ -197,10 +199,6 @@ body::after {
   display: inline-block;
   width: 22px;
   height: 22px;
-  font-size: 0;
-  line-height: 0;
-  color: transparent;
-  text-shadow: none;
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -219,8 +217,6 @@ body::after {
   width: 36px;
   height: 36px;
   padding: 0;
-  font-size: 0;
-  color: transparent;
   cursor: pointer;
   background: radial-gradient(
     circle at 35% 28%,
@@ -268,7 +264,6 @@ body::after {
 }
 
 .restart-btn:active::after {
-  bottom: 6px;
   width: 7px;
   height: 7px;
   border: 2.5px solid var(--ink);
@@ -305,6 +300,7 @@ body::after {
   font-size: 20px;
   line-height: 1;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .cell:focus-visible {
@@ -473,6 +469,37 @@ body::after {
     inset 0 0 12px rgb(255 255 255 / 50%);
 }
 
+.game:not([data-status='process']) .cell {
+  pointer-events: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.game[data-status='win']::before {
+  content: 'Here comes a rising star';
+}
+
+.game[data-status='lose']::before {
+  content: 'Awww…';
+}
+
+@keyframes stamp {
+  0% {
+    transform: rotate(-6deg) scale(1.6);
+  }
+
+  100% {
+    transform: rotate(-6deg) scale(1);
+  }
+}
+
 @keyframes neon-flicker {
   0%,
   19%,
@@ -515,6 +542,13 @@ body::after {
 
   .cell.mine.exploded {
     animation: boom 0.6s ease-out;
+  }
+
+  .game[data-status='win']::before,
+  .game[data-status='lose']::before {
+    animation:
+      stamp 0.45s ease-out,
+      neon-flicker 6s infinite;
   }
 }
 
