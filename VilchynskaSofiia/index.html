@@ -17,7 +17,12 @@
     <main class="game">
       <div class="inner-border">
         <header class="panel">
-          <div class="counter" id="mines-counter">
+          <div
+            class="counter"
+            id="mines-counter"
+            role="status"
+            aria-live="polite"
+          >
             <span class="visually-hidden">Залишилось прапорців:</span>
             <span class="counter-icon" aria-hidden="true"></span>
             <span class="counter-value">010</span>
@@ -43,7 +48,12 @@
           aria-label="Ігрове поле"
         ></div>
       </div>
-      <p class="visually-hidden" id="game-message" role="status"></p>
+      <p
+        class="visually-hidden"
+        id="game-message"
+        role="status"
+        aria-live="polite"
+      ></p>
     </main>
   </body>
 </html>

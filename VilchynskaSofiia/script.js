@@ -53,7 +53,7 @@ let board = [];
 function createCell() {
   return {
     type: CELL_TYPE.EMPTY,
-    neighbourMines: 0,
+    neighborMines: 0,
     state: CELL_STATE.CLOSED,
   };
 }
@@ -104,7 +104,7 @@ function countNeighbourMines(field) {
         return;
       }
 
-      cell.neighbourMines = getNeighbours(field, row, col).filter(
+      cell.neighborMines = getNeighbours(field, row, col).filter(
         ([neighbourRow, neighbourCol]) =>
           field[neighbourRow][neighbourCol].type === CELL_TYPE.MINE,
       ).length;
@@ -121,7 +121,7 @@ function revealCell(row, col) {
 
   cell.state = CELL_STATE.OPENED;
 
-  if (cell.neighbourMines === 0) {
+  if (cell.neighborMines === 0) {
     getNeighbours(board, row, col).forEach(([neighbourRow, neighbourCol]) =>
       revealCell(neighbourRow, neighbourCol),
     );
@@ -292,7 +292,7 @@ function getCellView(cell) {
       };
     }
 
-    if (cell.neighbourMines === 0) {
+    if (cell.neighborMines === 0) {
       return {
         className: 'opened',
         text: '',
@@ -301,9 +301,9 @@ function getCellView(cell) {
     }
 
     return {
-      className: `opened n${cell.neighbourMines}`,
-      text: String(cell.neighbourMines),
-      description: `відкрита, мін поруч: ${cell.neighbourMines}`,
+      className: `opened n${cell.neighborMines}`,
+      text: String(cell.neighborMines),
+      description: `відкрита, мін поруч: ${cell.neighborMines}`,
     };
   }
 

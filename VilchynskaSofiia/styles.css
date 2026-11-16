@@ -39,7 +39,7 @@
 
   --svg-clock: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' fill='none' stroke='rgb(25,227,255)' stroke-width='3' stroke-linecap='round'><circle cx='16' cy='17' r='10'/><path d='M16 17 V11 M16 17 L21 20 M12 4 H20'/></svg>");
 
-  --svg-scribbles: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='xMidYMid slice' fill='none' stroke-linecap='round' stroke-linejoin='round'><g stroke='rgb(255,46,151)' stroke-width='5'><path d='M170 150 C120 90 50 150 95 215 C150 290 250 210 205 120 C160 40 30 80 40 200'/><circle cx='190' cy='640' r='70'/><path d='M160 615 l22 22 M182 615 l-22 22 M200 615 l22 22 M222 615 l-22 22'/><path d='M150 665 Q190 715 232 662'/><path d='M180 690 Q196 722 212 692'/><path d='M620 90 v50 M640 90 v50 M660 90 v50 M610 115 l62 -4'/></g><g stroke='rgb(25,227,255)' stroke-width='5'><path d='M960 110 L988 178 L1062 184 L1006 232 L1024 305 L960 266 L896 305 L914 232 L858 184 L932 178 Z'/><path d='M1010 520 L1070 600 L1028 618 L1100 720'/><circle cx='1040' cy='420' r='46'/><path d='M1040 356 V484 M976 420 H1104'/></g></svg>");
+  --svg-scribbles: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800' preserveAspectRatio='xMidYMid slice' fill='none' stroke-linecap='round' stroke-linejoin='round'><g stroke='rgb(255,46,151)' stroke-width='5'><path d='M170 150 C120 90 50 150 95 215 C150 290 250 210 205 120 C160 40 30 80 40 200'/><circle cx='190' cy='640' r='70'/><path d='M160 615 l22 22 M182 615 l-22 22 M200 615 l22 22 M222 615 l-22 22'/><path d='M150 665 Q190 715 232 662'/><path d='M620 90 v50 M640 90 v50 M660 90 v50 M610 115 l62 -4'/></g><g stroke='rgb(25,227,255)' stroke-width='5'><path d='M960 110 L988 178 L1062 184 L1006 232 L1024 305 L960 266 L896 305 L914 232 L858 184 L932 178 Z'/><path d='M1010 520 L1070 600 L1028 618 L1100 720'/><circle cx='1040' cy='420' r='46'/><path d='M1040 356 V484 M976 420 H1104'/></g></svg>");
 
   --svg-noise: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
@@ -53,7 +53,6 @@ body {
   position: relative;
   margin: 0;
   padding: 72px 16px 24px;
-  min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   align-items: center;
