@@ -3,7 +3,8 @@
 }
 
 :root {
-  --cols: 9;
+  --rows: 10;
+  --cols: 10;
   --tile-size: 34px;
   --surface: #c6c6c6;
   --bevel-light: #fff;
@@ -92,10 +93,27 @@ body {
     var(--bevel-dark);
 }
 
+.game-message {
+  min-height: 22px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #111;
+}
+
+.game-message.is-win {
+  color: #005c00;
+}
+
+.game-message.is-lose {
+  color: #a80000;
+}
+
 .grid-field {
   display: grid;
   grid-template-columns: repeat(var(--cols), var(--tile-size));
-  grid-template-rows: repeat(var(--cols), var(--tile-size));
+  grid-template-rows: repeat(var(--rows), var(--tile-size));
   border: 3px solid;
   border-color: var(--bevel-dark) var(--bevel-light) var(--bevel-light)
     var(--bevel-dark);
@@ -197,7 +215,7 @@ body {
 
 @media (width <= 420px) {
   :root {
-    --tile-size: 27px;
+    --tile-size: 26px;
   }
 
   .lcd-display {
