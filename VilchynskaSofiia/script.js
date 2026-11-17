@@ -97,7 +97,7 @@ function getNeighbors(field, row, col) {
   );
 }
 
-function countNeighborMines(field) {
+function countNeighbourMines(field) {
   field.forEach((line, row) => {
     line.forEach((cell, col) => {
       if (cell.type === CELL_TYPE.MINE) {
@@ -115,7 +115,7 @@ function countNeighborMines(field) {
 function createBoard(rows, cols, minesCount) {
   const field = generateField(rows, cols, minesCount);
 
-  countNeighborMines(field);
+  countNeighbourMines(field);
 
   return field;
 }
