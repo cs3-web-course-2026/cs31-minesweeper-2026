@@ -11,7 +11,9 @@ const context = vm.createContext({
   setInterval: (callback) => { activeTimers.set(++timerSequence, callback); return timerSequence; },
   clearInterval: (identifier) => activeTimers.delete(identifier),
 });
-vm.runInContext(source.split("elements.board.addEventListener('click'")[0], context);
+const startupBoundary = source.indexOf('// Підключення подій та запуск інтерфейсу.');
+assert.notEqual(startupBoundary, -1, 'Не знайдено межу запуску інтерфейсу.');
+vm.runInContext(source.slice(0, startupBoundary), context);
 const evaluate = (code) => vm.runInContext(code, context);
 const results = [];
 function test(name, callback) {
@@ -57,6 +59,7 @@ test('Recursive reveal opens 99 safe cells but preserves a flagged cell', () => 
   assert.equal(evaluate('gameState.status'), 'process');
 });
 test('Unflag then open the last safe cell wins without needing flags', () => {
+  evaluate('resetGame(); board = generateField(10,10,0); toggleFlag(5,5); openCell(0,0);');
   evaluate('toggleFlag(5,5); openCell(5,5);');
   assert.equal(evaluate('gameState.status'), 'win');
 });
@@ -87,6 +90,8 @@ test('Timer starts once, ticks and stops on loss', () => {
   assert.equal(activeTimers.size, 0);
 });
 test('Finished game rejects opening, flagging and starting the timer', () => {
+  evaluate('resetGame(); board = generateField(10,10,0); board[0][0].type = CELL_TYPE.MINE; openCell(0,0);');
+  assert.equal(evaluate('gameState.status'), 'lose');
   assert.equal(evaluate('toggleFlag(9,9)'), false);
   assert.equal(evaluate('openCell(9,9)'), false);
   evaluate('startTimer();');
@@ -104,5 +109,18 @@ test('Restart clears flags, time, status and an old timer', () => {
   assert.equal(evaluate('countFlags(board)'), 0);
   assert.equal(activeTimers.size, 0);
   assert.equal(evaluate('board.flat().length'), 100);
+});
+test('Restart from either finished outcome restores play', () => {
+  for (const finishAction of [
+    'board = generateField(10,10,0); openCell(0,0);',
+    'board[0][0].type = CELL_TYPE.MINE; openCell(0,0);',
+  ]) {
+    evaluate('resetGame();');
+    evaluate(finishAction);
+    assert.notEqual(evaluate('gameState.status'), 'process');
+    evaluate('resetGame();');
+    assert.equal(evaluate('gameState.status'), 'process');
+    assert.equal(evaluate('toggleFlag(0,0)'), true);
+  }
 });
 console.log(JSON.stringify({ passed: results.length, tests: results }, null, 2));

@@ -390,6 +390,7 @@ function restartGame() {
   renderStatus();
 }
 
+// Підключення подій та запуск інтерфейсу.
 elements.board.addEventListener('click', (event) => handleCellAction(event, openCell));
 elements.board.addEventListener('contextmenu', (event) => {
   event.preventDefault();
