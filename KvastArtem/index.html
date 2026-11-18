@@ -23,7 +23,7 @@
           <span class="restart-label">Рестарт</span>
         </button>
 
-        <div class="status-panel" aria-live="polite" aria-atomic="true">
+        <div class="status-panel" role="status" aria-live="polite" aria-atomic="true">
           <span class="status-label">Прапорці</span>
           <span class="flag-counter">15</span>
         </div>
@@ -32,10 +32,13 @@
       <section class="board" aria-label="Ігрове поле" aria-describedby="controls-help"></section>
 
       <p class="game-message" role="status" aria-live="polite"></p>
-      <p id="controls-help" class="controls-help">
-        Лівий клік — відкрити. Правий клік — прапорець.<br />
-        Клавіатура: ↑ ↓ ← → — вибір клітинки, Enter або пробіл — відкрити, F — прапорець.
-      </p>
+      <details class="controls-help">
+        <summary>Керування</summary>
+        <p id="controls-help">
+          Лівий клац — відкрити. Правий клац — прапорець.<br />
+          Клавіатура: ↑ ↓ ← → — вибір клітинки, Enter або пробіл — відкрити, F — прапорець.
+        </p>
+      </details>
       <noscript>Для гри потрібно увімкнути JavaScript у браузері.</noscript>
     </main>
   </body>

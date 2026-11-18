@@ -348,14 +348,18 @@ function setActiveCell(button) {
 function handleBoardKeydown(event) {
   const button = event.target.closest('.cell');
 
-  if (!button || gameState.status !== GAME_STATUS.PROCESS) {
+  if (!button || gameState.status !== GAME_STATUS.PROCESS ||
+      event.ctrlKey || event.metaKey || event.altKey) {
 
     return;
   }
 
   if (event.code === 'KeyF') {
     event.preventDefault();
-    handleCellAction(event, toggleFlag);
+
+    if (!event.repeat) {
+      handleCellAction(event, toggleFlag);
+    }
 
     return;
   }
@@ -394,6 +398,10 @@ elements.board.addEventListener('contextmenu', (event) => {
 elements.board.addEventListener('keydown', handleBoardKeydown);
 elements.board.addEventListener('focusin', (event) => setActiveCell(event.target));
 elements.restart.addEventListener('click', restartGame);
-window.addEventListener('pagehide', stopTimer);
+window.addEventListener('pagehide', (event) => {
+  if (!event.persisted) {
+    stopTimer();
+  }
+});
 
 restartGame();

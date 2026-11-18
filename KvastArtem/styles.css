@@ -191,7 +191,7 @@ button:focus-visible {
   background: var(--danger-color);
 }
 
-.cell.number-one { color: #2d72b0; }
+.cell.number-one { color: #236498; }
 .cell.number-two { color: #28713e; }
 .cell.number-three { color: #a83f35; }
 .cell.number-four { color: #6b48a0; }
@@ -234,10 +234,10 @@ button:focus-visible {
   text-align: center;
 }
 
-@media (width <= 600px), (hover: none) and (pointer: coarse) {
-  .controls-help {
-    display: none;
-  }
+.controls-help summary {
+  width: fit-content;
+  margin-inline: auto;
+  cursor: pointer;
 }
 
 @media (width <= 420px) {
