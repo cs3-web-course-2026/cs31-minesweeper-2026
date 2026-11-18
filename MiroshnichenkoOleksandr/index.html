@@ -9,13 +9,13 @@
   <body>
     <div class="game-container">
       <header class="status-bar">
-        <span id="mine-counter" class="counter" aria-label="Remaining mines">010</span>
+        <span id="mine-counter" class="counter">Mines remaining: 010</span>
         <button type="button" class="restart-button" aria-label="Restart game">🙂</button>
-        <span id="timer" class="counter" aria-label="Elapsed time">000</span>
+        <span id="timer" class="counter">Elapsed time: 000</span>
       </header>
 
       <main class="board-wrapper">
-        <div id="board" class="board" role="grid" aria-label="Minesweeper board">
+        <div id="board" class="board">
           <!-- Row 1 -->
           <button type="button" class="cell cell-opened" aria-label="Row 1, column 1, opened, empty"></button>
           <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 1, column 2, opened, 1 adjacent mine">1</button>
@@ -43,7 +43,7 @@
           <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 3, column 2, opened, 1 adjacent mine">1</button>
           <button type="button" class="cell cell-mine" aria-label="Row 3, column 3, mine">💣</button>
           <button type="button" class="cell cell-opened cell-number-2" aria-label="Row 3, column 4, opened, 2 adjacent mines">2</button>
-          <button type="button" class="cell cell-flagged" aria-label="Row 3, column 5, flagged">🚩</button>
+          <button type="button" class="cell cell-flagged-incorrect" aria-label="Row 3, column 5, incorrectly flagged safe cell">🚩❌</button>
           <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 3, column 6, opened, 1 adjacent mine">1</button>
           <button type="button" class="cell cell-opened" aria-label="Row 3, column 7, opened, empty"></button>
           <button type="button" class="cell cell-opened" aria-label="Row 3, column 8, opened, empty"></button>
@@ -113,7 +113,7 @@
           <button type="button" class="cell cell-closed" aria-label="Row 9, column 6, closed"></button>
           <button type="button" class="cell cell-closed" aria-label="Row 9, column 7, closed"></button>
           <button type="button" class="cell cell-closed" aria-label="Row 9, column 8, closed"></button>
-          <button type="button" class="cell cell-closed" aria-label="Row 9, column 9, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 19, closed"></button>
         </div>
         <p id="game-message" class="game-message" role="status" aria-live="polite">Static Board Preview (Lab 1)</p>
       </main>

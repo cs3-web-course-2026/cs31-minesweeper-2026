@@ -1,8 +1,8 @@
 :root {
   --board-columns: 9;
-  --cell-size: 2.5rem;
-  --cell-font-size: 1.25rem;
-  --counter-font-size: 1.5rem;
+  --cell-size: clamp(1.75rem, 8vw, 2.5rem);
+  --cell-font-size: clamp(0.9rem, 4vw, 1.25rem);
+  --counter-font-size: clamp(0.9rem, 3.5vw, 1.2rem);
   --border-width: 0.1875rem;
   --bg-page: #2b2b2b;
   --bg-panel: #c0c0c0;
@@ -36,6 +36,7 @@ body {
   min-height: 100vh;
   background-color: var(--bg-page);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0.5rem;
 }
 
 .game-container {
@@ -48,12 +49,14 @@ body {
   border-left: var(--border-width) solid var(--border-light);
   border-right: var(--border-width) solid var(--border-dark);
   border-bottom: var(--border-width) solid var(--border-dark);
+  max-width: 100%;
 }
 
 .status-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
   padding: 0.5rem 0.75rem;
   background-color: var(--bg-panel);
   border-top: var(--border-width) solid var(--border-dark);
@@ -63,27 +66,27 @@ body {
 }
 
 .counter {
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.4rem;
   background-color: var(--bg-counter);
   color: var(--color-counter);
   font-family: 'Courier New', Courier, monospace;
   font-size: var(--counter-font-size);
   font-weight: 700;
-  letter-spacing: 0.1rem;
+  white-space: nowrap;
 }
 
 .restart-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   background-color: var(--bg-cell-closed);
   border-top: var(--border-width) solid var(--border-light);
   border-left: var(--border-width) solid var(--border-light);
   border-right: var(--border-width) solid var(--border-dark);
   border-bottom: var(--border-width) solid var(--border-dark);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
 }
 
@@ -122,7 +125,8 @@ body {
 }
 
 .cell-closed,
-.cell-flagged {
+.cell-flagged,
+.cell-flagged-incorrect {
   background-color: var(--bg-cell-closed);
   border-top: var(--border-width) solid var(--border-light);
   border-left: var(--border-width) solid var(--border-light);
@@ -184,4 +188,5 @@ body {
   font-size: 0.95rem;
   font-weight: 600;
   min-height: 1.25rem;
+  text-align: center;
 }
