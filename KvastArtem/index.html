@@ -1,104 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="uk">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Minesweeper</title>
+    <title>Сапер — Minesweeper</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <main class="game" aria-label="Minesweeper game">
+    <main class="game" aria-labelledby="game-title">
+      <h1 id="game-title">Сапер</h1>
+      <p class="game-description">10 × 10 клітинок · 15 мін</p>
+
       <header class="game-header">
         <div class="status-panel">
-          <span class="status-label">Time</span>
-          <time class="timer" datetime="PT0M">00:00</time>
+          <span class="status-label">Час</span>
+          <time class="timer" datetime="PT0S">0 с</time>
         </div>
 
-        <button class="restart-button" type="button" aria-label="Start or restart game">
-          😃
+        <button class="restart-button" type="button" aria-label="Старт або рестарт гри">
+          <span aria-hidden="true">😃</span>
+          <span class="restart-label">Рестарт</span>
         </button>
 
-        <div class="status-panel">
-          <span class="status-label">Flags</span>
-          <span class="flag-counter">02</span>
+        <div class="status-panel" aria-live="polite" aria-atomic="true">
+          <span class="status-label">Прапорці</span>
+          <span class="flag-counter">15</span>
         </div>
       </header>
 
-      <section class="board" aria-label="Minesweeper board">
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
+      <section class="board" aria-label="Ігрове поле" aria-describedby="controls-help"></section>
 
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell flag flagged-mine" aria-label="Flagged cell with a mine"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell mine" aria-label="Mine"></div>
-        <div class="cell opened number-three" aria-label="Opened cell, three neighbouring mines">3</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell flag" aria-label="Flagged cell"></div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell exploded" aria-label="Exploded mine"></div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell opened number-three" aria-label="Opened cell, three neighbouring mines">3</div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened number-two" aria-label="Opened cell, two neighbouring mines">2</div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell mine" aria-label="Mine"></div>
-        <div class="cell opened number-one" aria-label="Opened cell, one neighbouring mine">1</div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell closed" aria-label="Closed cell"></div>
-        <div class="cell opened" aria-label="Opened empty cell"></div>
-      </section>
-
-      <p class="game-message" role="status" aria-live="polite">Find all the mines!</p>
+      <p class="game-message" role="status" aria-live="polite"></p>
+      <p id="controls-help" class="controls-help">
+        Лівий клік — відкрити. Правий клік — прапорець.<br />
+        Клавіатура: ↑ ↓ ← → — вибір клітинки, Enter або пробіл — відкрити, F — прапорець.
+      </p>
+      <noscript>Для гри потрібно увімкнути JavaScript у браузері.</noscript>
     </main>
   </body>
 </html>

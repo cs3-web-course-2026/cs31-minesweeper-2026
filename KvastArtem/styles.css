@@ -3,11 +3,9 @@
   --surface-color: #f7fbff;
   --surface-shadow: rgb(61 86 111 / 22%);
   --text-color: #213547;
-  --muted-color: #6b7c8d;
-  --cell-size: min(10vw, 4.1rem);
-  --cell-gap: 0.3rem;
-  --board-columns: 8;
-  --board-size: calc((var(--cell-size) * var(--board-columns)) + (var(--cell-gap) * 7));
+  --muted-color: #526779;
+  --cell-gap: 0.25rem;
+  --board-columns: 10;
   --transition-duration: 140ms;
   --control-transition-duration: 160ms;
   --closed-color: #b9cde0;
@@ -18,7 +16,6 @@
   --cell-border-color: #d5e1eb;
   --closed-border-color: #d9e6f1;
   --closed-shadow-color: #88a4bb;
-  --hover-color: #c9dff0;
   --closed-hover-color: #a5c2d9;
   --active-color: #91aec5;
 }
@@ -46,6 +43,18 @@ body {
   border-radius: 1.25rem;
   background: var(--surface-color);
   box-shadow: 0 1rem 2.5rem var(--surface-shadow);
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.game-description {
+  margin: 0.4rem 0 1.25rem;
+  color: var(--muted-color);
+  text-align: center;
 }
 
 .game-header {
@@ -84,11 +93,15 @@ body {
 }
 
 .restart-button {
-  width: 3.5rem;
-  height: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.9rem;
   border: 0;
-  border-radius: 50%;
+  border-radius: 0.9rem;
   background: #fff;
+  color: var(--text-color);
   box-shadow: 0 0.35rem 0.75rem rgb(61 86 111 / 18%);
   cursor: pointer;
   font-size: 1.7rem;
@@ -96,33 +109,39 @@ body {
     box-shadow var(--control-transition-duration) ease;
 }
 
-.restart-button:hover,
-.restart-button:focus-visible {
+.restart-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.restart-button:hover {
   transform: translateY(-0.15rem);
   box-shadow: 0 0.55rem 1rem rgb(61 86 111 / 25%);
 }
 
-.restart-button:focus-visible {
+button:focus-visible {
   outline: 0.2rem solid var(--accent-color);
-  outline-offset: 0.2rem;
+  outline-offset: 0.15rem;
 }
 
 .board {
-  width: var(--board-size);
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(var(--board-columns), 1fr);
+  grid-template-columns: repeat(var(--board-columns), minmax(0, 1fr));
   gap: var(--cell-gap);
 }
 
 .cell {
+  min-width: 0;
+  padding: 0;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
   border-radius: 0.35rem;
   color: var(--text-color);
-  font-size: clamp(0.85rem, 3vw, 1.35rem);
+  font-family: inherit;
+  font-size: clamp(0.8rem, 3vw, 1.35rem);
   font-weight: 800;
   cursor: pointer;
   user-select: none;
@@ -151,20 +170,20 @@ body {
   background: var(--flagged-mine-color);
 }
 
-.cell:hover {
-  background: var(--hover-color);
-  box-shadow: 0 0 0 0.12rem rgb(53 109 156 / 24%);
-}
-
-.cell.closed:hover,
-.cell.flag:hover {
+.cell.closed:enabled:hover,
+.cell.flag:enabled:hover {
   background: var(--closed-hover-color);
 }
 
-.cell:active {
+.cell:enabled:active {
   background: var(--active-color);
   box-shadow: inset 0 0.18rem 0.3rem rgb(33 53 71 / 30%);
   transform: translateY(0.12rem);
+}
+
+.cell:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .cell.exploded {
@@ -172,62 +191,67 @@ body {
   background: var(--danger-color);
 }
 
-.cell.opened:active,
-.cell.mine:active,
-.cell.exploded:active {
-  background: #c5d5e2;
-}
-
-.cell.number-one {
-  color: #2d72b0;
-}
-
-.cell.number-two {
-  color: #35854d;
-}
-
-.cell.number-three {
-  color: #b64c41;
-}
+.cell.number-one { color: #2d72b0; }
+.cell.number-two { color: #28713e; }
+.cell.number-three { color: #a83f35; }
+.cell.number-four { color: #6b48a0; }
+.cell.number-five { color: #8b382d; }
+.cell.number-six { color: #176e75; }
+.cell.number-seven { color: #303030; }
+.cell.number-eight { color: #626262; }
 
 .cell.flag::after {
   content: "🚩";
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(0.85rem, 3vw, 1.5rem);
 }
 
 .cell.mine::after,
 .cell.exploded::after {
   content: "💣";
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(0.85rem, 3vw, 1.5rem);
+}
+
+.cell.wrong-flag::after {
+  content: "×";
+  color: #9e2222;
 }
 
 .game-message {
+  min-height: 2.5em;
   margin: 1.25rem 0 0;
   color: var(--muted-color);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   text-align: center;
 }
 
+.game-message[data-status="win"] { color: #28713e; }
+.game-message[data-status="lose"] { color: #9e2222; }
+
+.controls-help {
+  color: var(--muted-color);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (width <= 600px), (hover: none) and (pointer: coarse) {
+  .controls-help {
+    display: none;
+  }
+}
+
 @media (width <= 420px) {
-  body {
-    padding: 0.75rem;
-  }
-
-  .game {
-    padding: 0.85rem;
-  }
-
-  .game-header {
-    gap: 0.5rem;
-  }
+  body { padding: 0.75rem; }
+  .game { padding: 0.85rem; }
+  .game-header { gap: 0.5rem; }
 
   .status-panel {
     min-width: 4.7rem;
     padding-inline: 0.5rem;
   }
+}
 
-  .restart-button {
-    width: 3rem;
-    height: 3rem;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .cell,
+  .restart-button { transition: none; }
 }
