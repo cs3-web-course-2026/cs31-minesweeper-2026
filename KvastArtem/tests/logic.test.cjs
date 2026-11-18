@@ -1,8 +1,10 @@
+/* global require: readonly, __dirname: readonly */
+
 const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
 const source = fs.readFileSync(require('node:path').join(__dirname, '../script.js'), 'utf8');
-let activeTimers = new Map();
+const activeTimers = new Map();
 let timerSequence = 0;
 const context = vm.createContext({
   document: { querySelector: () => ({}) },
@@ -104,4 +106,3 @@ test('Restart clears flags, time, status and an old timer', () => {
   assert.equal(evaluate('board.flat().length'), 100);
 });
 console.log(JSON.stringify({ passed: results.length, tests: results }, null, 2));
-
