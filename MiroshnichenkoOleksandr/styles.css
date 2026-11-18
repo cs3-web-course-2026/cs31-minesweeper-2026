@@ -9,17 +9,17 @@
   --bg-cell-closed: #c0c0c0;
   --bg-cell-opened: #d8d8d8;
   --bg-cell-exploded: #e53935;
-  --bg-counter: #111111;
+  --bg-counter: #111;
   --color-counter: #ff1744;
-  --border-light: #ffffff;
+  --border-light: #fff;
   --border-dark: #7b7b7b;
-  --color-number-1: #0000ff;
+  --color-number-1: #00f;
   --color-number-2: #008000;
-  --color-number-3: #ff0000;
+  --color-number-3: #f00;
   --color-number-4: #000080;
   --color-number-5: #800000;
   --color-number-6: #008080;
-  --color-number-7: #000000;
+  --color-number-7: #000;
   --color-number-8: #808080;
 }
 
@@ -180,7 +180,7 @@ body {
 }
 
 .game-message {
-  color: #111111;
+  color: #111;
   font-size: 0.95rem;
   font-weight: 600;
   min-height: 1.25rem;
