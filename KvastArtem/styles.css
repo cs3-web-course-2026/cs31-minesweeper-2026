@@ -170,6 +170,11 @@ button:focus-visible {
   background: var(--flagged-mine-color);
 }
 
+.cell:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
 .cell.closed:enabled:hover,
 .cell.flag:enabled:hover {
   background: var(--closed-hover-color);
@@ -179,11 +184,6 @@ button:focus-visible {
   background: var(--active-color);
   box-shadow: inset 0 0.18rem 0.3rem rgb(33 53 71 / 30%);
   transform: translateY(0.12rem);
-}
-
-.cell:disabled {
-  cursor: default;
-  opacity: 1;
 }
 
 .cell.exploded {
