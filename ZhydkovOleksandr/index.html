@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+  <main class="game">
+    <h1 class="game-title">Minesweeper</h1>
+
+    <header class="game-header">
+      <div class="counter" role="status" aria-label="Залишилось прапорців">
+        <span class="counter-icon" aria-hidden="true">🚩</span>
+        <span class="counter-value" id="flags-counter">010</span>
+      </div>
+
+      <button type="button" class="restart-button" aria-label="Почати нову гру">🙂</button>
+
+      <div class="counter" role="timer" aria-label="Час гри, секунд">
+        <span class="counter-icon" aria-hidden="true">⏱</span>
+        <time class="counter-value" id="timer" datetime="PT0S">000</time>
+      </div>
+    </header>
+
+    <p class="game-message" role="status" aria-live="polite"></p>
+
+    <section class="board" aria-label="Ігрове поле"></section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
