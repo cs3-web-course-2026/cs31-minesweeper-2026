@@ -8,10 +8,9 @@
     --border-shadow: #7b7b7b;
     --border-dark: #404040;
 
-    --cell-size: 38px;
-    --board-columns: 8;
+    --cell-size: 34px;
+    --board-columns: 10;
 
-    /* Класичні кольори числових позначок Сапера */
     --num-1: #00f;
     --num-2: #017e00;
     --num-3: #f00;
@@ -132,7 +131,6 @@ body {
 .board {
     display: grid;
     grid-template-columns: repeat(var(--board-columns), var(--cell-size));
-    grid-template-rows: repeat(6, var(--cell-size));
     gap: 1px;
     background-color: var(--border-shadow);
     border-top: 3px solid var(--border-shadow);
@@ -246,7 +244,6 @@ body {
     color: var(--num-8);
 }
 
-/* Підвал картки */
 .game-footer {
     margin-top: 10px;
     text-align: center;
