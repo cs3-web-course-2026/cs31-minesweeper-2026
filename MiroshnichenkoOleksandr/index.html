@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <header class="status-bar">
+        <span id="mine-counter" class="counter">Mines remaining: 010</span>
+        <button type="button" class="restart-button" aria-label="Restart game">🙂</button>
+        <span id="timer" class="counter">Elapsed time: 000</span>
+      </header>
+
+      <main class="board-wrapper">
+        <div id="board" class="board">
+          <!-- Row 1 -->
+          <button type="button" class="cell cell-opened" aria-label="Row 1, column 1, opened, empty"></button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 1, column 2, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-flagged" aria-label="Row 1, column 3, flagged">🚩</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 1, column 4, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened" aria-label="Row 1, column 5, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 1, column 6, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 1, column 7, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 1, column 8, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 1, column 9, opened, empty"></button>
+
+          <!-- Row 2 -->
+          <button type="button" class="cell cell-opened" aria-label="Row 2, column 1, opened, empty"></button>
+          <button type="button" class="cell cell-opened cell-number-2" aria-label="Row 2, column 2, opened, 2 adjacent mines">2</button>
+          <button type="button" class="cell cell-opened cell-number-2" aria-label="Row 2, column 3, opened, 2 adjacent mines">2</button>
+          <button type="button" class="cell cell-opened cell-number-2" aria-label="Row 2, column 4, opened, 2 adjacent mines">2</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 2, column 5, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened" aria-label="Row 2, column 6, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 2, column 7, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 2, column 8, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 2, column 9, opened, empty"></button>
+
+          <!-- Row 3 -->
+          <button type="button" class="cell cell-opened" aria-label="Row 3, column 1, opened, empty"></button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 3, column 2, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-mine" aria-label="Row 3, column 3, mine">💣</button>
+          <button type="button" class="cell cell-opened cell-number-2" aria-label="Row 3, column 4, opened, 2 adjacent mines">2</button>
+          <button type="button" class="cell cell-flagged-incorrect" aria-label="Row 3, column 5, incorrectly flagged safe cell">🚩❌</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 3, column 6, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened" aria-label="Row 3, column 7, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 3, column 8, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 3, column 9, opened, empty"></button>
+
+          <!-- Row 4 -->
+          <button type="button" class="cell cell-opened" aria-label="Row 4, column 1, opened, empty"></button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 4, column 2, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened cell-number-2" aria-label="Row 4, column 3, opened, 2 adjacent mines">2</button>
+          <button type="button" class="cell cell-opened cell-number-3" aria-label="Row 4, column 4, opened, 3 adjacent mines">3</button>
+          <button type="button" class="cell cell-opened cell-number-2" aria-label="Row 4, column 5, opened, 2 adjacent mines">2</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 4, column 6, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened" aria-label="Row 4, column 7, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 4, column 8, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 4, column 9, opened, empty"></button>
+
+          <!-- Row 5 -->
+          <button type="button" class="cell cell-opened" aria-label="Row 5, column 1, opened, empty"></button>
+          <button type="button" class="cell cell-opened" aria-label="Row 5, column 2, opened, empty"></button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 5, column 3, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-mine-exploded" aria-label="Row 5, column 4, exploded mine">💥</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 5, column 5, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened" aria-label="Row 5, column 6, opened, empty"></button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 5, column 7, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 5, column 8, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened" aria-label="Row 5, column 9, opened, empty"></button>
+
+          <!-- Row 6 -->
+          <button type="button" class="cell cell-closed" aria-label="Row 6, column 1, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 6, column 2, closed"></button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 6, column 3, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 6, column 4, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 6, column 5, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-opened" aria-label="Row 6, column 6, opened, empty"></button>
+          <button type="button" class="cell cell-opened cell-number-1" aria-label="Row 6, column 7, opened, 1 adjacent mine">1</button>
+          <button type="button" class="cell cell-closed" aria-label="Row 6, column 8, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 6, column 9, closed"></button>
+
+          <!-- Row 7 -->
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 1, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 2, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 3, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 4, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 5, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 6, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 7, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 8, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 7, column 9, closed"></button>
+
+          <!-- Row 8 -->
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 1, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 2, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 3, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 4, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 5, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 6, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 7, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 8, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 8, column 9, closed"></button>
+
+          <!-- Row 9 -->
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 1, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 2, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 3, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 4, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 5, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 6, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 7, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 8, closed"></button>
+          <button type="button" class="cell cell-closed" aria-label="Row 9, column 19, closed"></button>
+        </div>
+        <p id="game-message" class="game-message" role="status" aria-live="polite">Static Board Preview (Lab 1)</p>
+      </main>
+    </div>
+  </body>
+</html>
